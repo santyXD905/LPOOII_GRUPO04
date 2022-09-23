@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:AllDictionary">
+    
+    <!-- Buttons Options -->
+    
+    <ControlTemplate TargetType="{x:Type Button}" x:Key="PlantillaBtnDanger">
+        <Border CornerRadius="12.5" Background="{TemplateBinding Background}" Padding="5,0">
+            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTemplate TargetType="{x:Type Button}" x:Key="PlantillaBtnPrimary">
+        <Border CornerRadius="12.5" Background="{TemplateBinding Background}" Padding="5,0">
+            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTemplate TargetType="{x:Type Button}" x:Key="PlantillaBtnSuccess">
+        <Border CornerRadius="12.5" Background="{TemplateBinding Background}" Padding="5,0">
+            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+    </ControlTemplate>
+
+    
+    <!-- Buttons Header -->
+    
+    <ControlTemplate TargetType="{x:Type Button}" x:Key="PlantillaHeaderButton">
+        <Border Width="25" Height="25" CornerRadius="12" Background="{TemplateBinding Background}">
+            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTemplate TargetType="Button" x:Key="PlantillaButtonSalir">
+        <Border CornerRadius="8" Background="{TemplateBinding Background}">
+            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+    </ControlTemplate>
+    
+    
+    <!-- Button Login -->
+
+    <ControlTemplate TargetType="Button" x:Key="PlantillaButtonSubmitLogin">
+        <Border Width="150" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
+            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+    </ControlTemplate>
+
+</ResourceDictionary>

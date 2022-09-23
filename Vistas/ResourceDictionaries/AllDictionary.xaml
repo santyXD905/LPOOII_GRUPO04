@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:Vistas">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Plantillas.xaml"/>
+        <ResourceDictionary Source="Desencadenadores.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    
+    <!-- Buttons Options -->
+    <Style TargetType="{x:Type Button}" x:Key="DangerButton" BasedOn="{StaticResource TriggerDangerButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaBtnDanger}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="PrimaryButton" BasedOn="{StaticResource TriggerPrimaryButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaBtnPrimary}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="SuccessButton" BasedOn="{StaticResource TriggerSuccessButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaBtnSuccess}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="ButtonSalir" BasedOn="{StaticResource TriggerButtonSalir}">
+        <Setter Property="Template" Value="{StaticResource PlantillaButtonSalir}"/>
+    </Style>
+    
+    
+    <!-- Buttons Header -->
+
+    <Style TargetType="{x:Type Button}" x:Key="MinimizeButton" BasedOn="{StaticResource TriggerMinimizeButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaHeaderButton}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="CloseButton" BasedOn="{StaticResource TriggerCloseButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaHeaderButton}"/>
+    </Style>
+    
+    <!-- Input Form -->
+
+    <Style TargetType="{x:Type TextBox}" x:Key="InputForm" BasedOn="{StaticResource EstiloInputForm}"/>
+    
+    <Style TargetType="{x:Type Label}" x:Key="LabelForm" BasedOn="{StaticResource EstiloLabelForm}"/>
+
+    
+    <!-- Login Form -->
+
+    <Style TargetType="{x:Type PasswordBox}" x:Key="PasswordLogin" BasedOn="{StaticResource EstiloPasswordLogin}"/>
+    
+    <Style TargetType="{x:Type TextBox}" x:Key="InputLogin" BasedOn="{StaticResource EstiloInputLogin}"/>
+
+    <Style TargetType="{x:Type Label}" x:Key="LabelLogin" BasedOn="{StaticResource EstiloLabelLogin}"/>
+
+    <Style TargetType="{x:Type Button}" x:Key="ButtonSubmit" BasedOn="{StaticResource TriggerButtonSubmitLogin}">
+        <Setter Property="Template" Value="{StaticResource PlantillaButtonSubmitLogin}"/>
+    </Style>
+
+</ResourceDictionary>

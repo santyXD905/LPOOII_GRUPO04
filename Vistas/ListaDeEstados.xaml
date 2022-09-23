@@ -1,0 +1,25 @@
+﻿<Window x:Class="Vistas.ListaDeEstados"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svc="clr-namespace:ClasesBase;assembly=ClasesBase"
+        
+        Title="ListaDeEstados" Height="329" Width="472" xmlns:my="clr-namespace:ClasesBase;assembly=ClasesBase">
+
+    <Grid>
+        <Grid.Resources>
+            <XmlDataProvider x:Key="tipo_estado" Source="Estados.xml" XPath="/estados" />
+            <svc:ConversorEstados x:Key="textToBrush" />
+        </Grid.Resources>
+        <ListBox Height="135" HorizontalAlignment="Left" Margin="104,32,0,0" x:Name="listBox1" 
+                 VerticalAlignment="Top" Width="174" ItemsSource="{Binding Source={StaticResource tipo_estado}, 
+            XPath=tipo/@name}" FontWeight="Normal" />
+        <Rectangle  Height="74" HorizontalAlignment="Left" Margin="110,183,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Width="168" 
+                Fill="{Binding
+                    Path=SelectedValue,
+                    ElementName=listBox1,  
+                    Converter={StaticResource textToBrush}}"                   >
+
+        </Rectangle>
+
+    </Grid>
+</Window>

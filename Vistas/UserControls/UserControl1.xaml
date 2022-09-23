@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Vistas.UserControls.UserControl1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="463" d:DesignWidth="330">
+     
+                <StackPanel x:Name="stackPanel"
+                            Width="250"
+                            Grid.Row="1"
+                            Orientation="Vertical"
+                            Margin="0,35,0,43">
+
+                    <TextBlock Text="Iniciar Sesion"
+                               Foreground="White"
+                               FontSize="30"
+                               FontWeight="Medium"
+                               FontFamily="Montserrat"
+                               HorizontalAlignment="Center"
+                               />
+
+                    <TextBlock Text="*Usuario y/o Contraseña incorrectos"
+                               x:Name="txtError"
+                               Foreground="Red"
+                               FontSize="12"
+                               FontWeight="Medium"
+                               FontFamily="Montserrat"
+                               HorizontalAlignment="Center"
+                               Opacity="0"
+                               />
+
+                    <!--<Login:Label Content="Nombre de Usuario:"></Login:Label>-->
+                    <Label Content="Nombre de Usuario:" Name="lblUsuario" Style="{StaticResource LabelLogin}"/>
+
+                    <!--<Login:TextBox></Login:TextBox>-->
+                    <TextBox x:Name="txtUser" Style="{StaticResource InputLogin}"/>
+
+                    <!--<Login:Label Content="Contraseña:"></Login:Label>-->
+                    <Label Content="Contraseña:" Name="lblContrasenia" Style="{StaticResource LabelLogin}"/>
+
+                    <PasswordBox x:Name="txtPass" Style="{StaticResource PasswordLogin}"/>
+                    <!--<Login:PasswordBox></Login:PasswordBox>-->
+
+                    <Button x:Name="btnLogin" Content="Iniciar Sesion" Style="{StaticResource ButtonSubmit}" Click="btnLoguin"/>
+                    <!--<Login:Button Content="Iniciar Sesion"></Login:Button>-->
+
+                </StackPanel>
+               
+</UserControl>

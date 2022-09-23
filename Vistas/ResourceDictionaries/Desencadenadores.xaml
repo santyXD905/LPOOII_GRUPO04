@@ -1,0 +1,82 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Estilos.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <!-- Buttons Options -->
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerDangerButton" BasedOn="{StaticResource EstiloDangerButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Red"/>
+                <Setter Property="Height" Value="28"/>
+                <Setter Property="Padding" Value="5,0,5,0"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerPrimaryButton" BasedOn="{StaticResource EstiloPrimaryButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#278BEF"/>
+                <Setter Property="Height" Value="28"/>
+                <Setter Property="Padding" Value="5,0,5,0"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerSuccessButton" BasedOn="{StaticResource EstiloSuccessButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#4AA00D"/>
+                <Setter Property="Height" Value="28"/>
+                <Setter Property="Padding" Value="5,0,5,0"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerButtonSalir" BasedOn="{StaticResource EstiloButtonSalir}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#850000"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    
+    <!-- Buttons Header -->
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerMinimizeButton" BasedOn="{StaticResource EstiloMinimizeButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#278BEF"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerCloseButton" BasedOn="{StaticResource EstiloCloseButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#C62DAE"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    
+    <!-- Button Login -->
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerButtonSubmitLogin" BasedOn="{StaticResource EstiloButtonSubmitLogin}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#1B4C79"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+</ResourceDictionary>
