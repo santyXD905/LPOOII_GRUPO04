@@ -53,5 +53,17 @@
     <Style TargetType="{x:Type Button}" x:Key="ButtonSubmit" BasedOn="{StaticResource TriggerButtonSubmitLogin}">
         <Setter Property="Template" Value="{StaticResource PlantillaButtonSubmitLogin}"/>
     </Style>
-
+    
+    <!-- Menu -->
+    
+    <Style TargetType="{x:Type MenuItem}" x:Key="MenuItem" BasedOn="{StaticResource TriggerMenuItem}">
+        <Setter Property="Template" Value="{StaticResource PlantillaMenuItem}"/>
+    </Style>    
+    
+    <!-- Errors -->
+    
+    <Style TargetType="{x:Type TextBox}" x:Key="TextBoxError" BasedOn="{StaticResource TriggerTextBoxError}">
+        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource PlantillaTextBoxError}"/>
+    </Style>    
+    
 </ResourceDictionary>

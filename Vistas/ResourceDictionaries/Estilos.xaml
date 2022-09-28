@@ -167,5 +167,17 @@
         <Setter Property="FontFamily" Value="Montserrat"/>
         <Setter Property="Cursor" Value="Hand"/>
     </Style>
-
+    
+    <!-- Menu -->
+    <Style TargetType="{x:Type MenuItem}" x:Key="EstiloMenuItem">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="Black"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        
+    </Style>
+    <!-- Error -->
+    <Style TargetType="{x:Type TextBox}" x:Key="EstiloTextBoxError" BasedOn="{StaticResource EstiloInputForm}">
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+    
 </ResourceDictionary>

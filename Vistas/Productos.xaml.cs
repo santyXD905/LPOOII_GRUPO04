@@ -22,6 +22,36 @@ namespace Vistas
         public Productos()
         {
             InitializeComponent();
+            habilitarText(false);
+            habilitarGuarCanc(false);
+        }
+
+        private int cont = 1;
+        private bool bandera = false;
+
+
+        public static bool IsValid(DependencyObject parent)
+        {
+            if (Validation.GetHasError(parent))
+                return false;
+
+            // Validate all the bindings on the children
+            for (int i = 0; i != VisualTreeHelper.GetChildrenCount(parent); ++i)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+                if (!IsValid(child)) { return false; }
+            }
+
+            return true;
+        }
+
+        public void establecerProducto(Producto p1) 
+        {
+            txtCodigo.Text = p1.CodProducto;
+            txtCategoria.Text = p1.Categoria;
+            txtColor.Text = p1.Color;
+            txtDescripcion.Text = p1.Descripcion;
+            txtPrecio.Text = p1.Precio.ToString();
         }
 
         public void limpiar()
@@ -65,29 +95,64 @@ namespace Vistas
             habilitarText(true);
             habilitarGuarCanc(true);
             habilitarABM(false);
+            bandera = false;
         }
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Guardar el producto?", "Alta Producto", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
+            if (IsValid(this))
             {
-                Producto oProducto = new Producto();
-                oProducto.CodProducto = txtCodigo.Text;
-                oProducto.Categoria = txtCategoria.Text;
-                oProducto.Color = txtColor.Text;
-                oProducto.Descripcion = txtDescripcion.Text;
-                decimal number;
-                if (Decimal.TryParse(txtPrecio.Text, out number))
-                    oProducto.Precio = decimal.Parse(txtPrecio.Text);
-                else
-                    oProducto.Precio = 0.0M;
-                MessageBox.Show("Codigo: " + oProducto.CodProducto + "\nCategoria: " + oProducto.Categoria + "\nColor: " + oProducto.Color + "\nDescripcion: " + oProducto.Descripcion + "\nPrecio: " + oProducto.Precio);
-                habilitarText(false);
-                habilitarGuarCanc(false);
-                habilitarABM(true);
+                if (!bandera)
+                {
+                    bandera = false;
 
+                    MessageBoxResult result = MessageBox.Show("Guardar el producto?", "Alta Producto", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        if (TrabajarProducto.DeterminarProductoExistente(txtCodigo.Text))
+                        {
+                            MessageBox.Show("El codigo del producto ya existe, por favor ingrese otro");
+                        }
+                        else
+                        {
+                            Producto oProducto = new Producto();
+                            oProducto.CodProducto = txtCodigo.Text;
+                            oProducto.Categoria = txtCategoria.Text;
+                            oProducto.Color = txtColor.Text;
+                            oProducto.Descripcion = txtDescripcion.Text;
+                            oProducto.Precio = decimal.Parse(txtPrecio.Text);
+                            MessageBox.Show("Codigo: " + oProducto.CodProducto + "\nCategoria: " + oProducto.Categoria + "\nColor: " + oProducto.Color + "\nDescripcion: " + oProducto.Descripcion + "\nPrecio: " + oProducto.Precio);
+                            TrabajarProducto.AgregarProducto(oProducto);
+                            habilitarText(false);
+                            habilitarGuarCanc(false);
+                            habilitarABM(true);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBoxResult result = MessageBox.Show("Modificar el producto?", "Actualizacion de Producto", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        Producto oProducto = new Producto();
+                        oProducto.CodProducto = txtCodigo.Text;
+                        oProducto.Categoria = txtCategoria.Text;
+                        oProducto.Color = txtColor.Text;
+                        oProducto.Descripcion = txtDescripcion.Text;
+                        oProducto.Precio = decimal.Parse(txtPrecio.Text);
+                        MessageBox.Show("Codigo: " + oProducto.CodProducto + "\nCategoria: " + oProducto.Categoria + "\nColor: " + oProducto.Color + "\nDescripcion: " + oProducto.Descripcion + "\nPrecio: " + oProducto.Precio);
+                        TrabajarProducto.ModificarProducto(oProducto);
+                        habilitarText(false);
+                        habilitarGuarCanc(false);
+                        habilitarABM(true);
+                    }
+                }   
+            }
+            else
+            {
+                MessageBox.Show("Hay campos incorrectos");
             }
         }
 
@@ -107,6 +172,85 @@ namespace Vistas
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
+        }
+
+        private void btnSiguiente_Click(object sender, RoutedEventArgs e)
+        {
+            if (cont < TrabajarProducto.DeterminarCantidadProductos())
+            {
+                cont++;
+                Producto p1 = new Producto();
+                p1 = TrabajarProducto.TraerActual(cont);
+                establecerProducto(p1);
+            }
+            else
+            {
+                MessageBox.Show("No hay otro producto adelante");
+            }
+        }
+
+        private void btnAnterior_Click(object sender, RoutedEventArgs e)
+        {
+            if (cont > 1)
+            {
+                cont--;
+                Producto p1 = new Producto();
+                p1 = TrabajarProducto.TraerActual(cont);
+                establecerProducto(p1);
+            }
+            else
+            {
+                MessageBox.Show("No hay otro producto atras");
+            }
+        }
+
+        private void btnModificar_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtCodigo.Text))
+            {
+                habilitarText(true);
+                habilitarABM(false);
+                habilitarGuarCanc(true);
+                txtCodigo.IsEnabled = false;
+                bandera = true;
+            }
+            else
+            {
+                MessageBox.Show("No hay elemento seleccionado");
+            }
+        }
+
+        private void btnEliminar_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtCodigo.Text))
+            {
+                MessageBoxResult result = MessageBox.Show("Eliminar el producto?", "Borrado Producto", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    TrabajarProducto.BorrarProducto(txtCodigo.Text);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay elemento seleccionado");
+            }
+        }
+
+        private void btnPrimero_Click(object sender, RoutedEventArgs e)
+        {
+            Producto p1 = new Producto();
+            p1 = TrabajarProducto.TraerActual(1);
+            establecerProducto(p1);
+            cont = 1;
+        }
+
+        private void btnUltimo_Click(object sender, RoutedEventArgs e)
+        {
+            Producto p1 = new Producto();
+            p1 = TrabajarProducto.TraerActual(TrabajarProducto.DeterminarCantidadProductos());
+            establecerProducto(p1);
+            cont = TrabajarProducto.DeterminarCantidadProductos();
         }
     }
 }

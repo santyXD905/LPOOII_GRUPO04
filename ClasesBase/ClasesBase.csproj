@@ -56,7 +56,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Proveedor.cs" />
+    <Compile Include="ReglaPrecio.cs" />
     <Compile Include="TrabajarProducto.cs" />
+    <Compile Include="TrabajarVendedor.cs" />
     <Compile Include="Vendedor.cs" />
     <Compile Include="Venta.cs" />
   </ItemGroup>
