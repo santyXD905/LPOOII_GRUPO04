@@ -79,4 +79,30 @@
         </Style.Triggers>
     </Style>
     
+    <!-- MenuItem -->
+    
+    <Style TargetType="{x:Type MenuItem}" x:Key="TriggerMenuItem" BasedOn="{StaticResource EstiloMenuItem}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="Black" />
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!-- TextBox Error -->
+    
+    <Style TargetType="{x:Type TextBox}" x:Key="TriggerTextBoxError" BasedOn="{StaticResource EstiloTextBoxError}">
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="ToolTip">
+                    <Setter.Value>
+                        <Binding Path="(Validation.Errors)[0].ErrorContent"
+                                 RelativeSource="{x:Static RelativeSource.Self}"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
 </ResourceDictionary>

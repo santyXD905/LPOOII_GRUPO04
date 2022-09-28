@@ -153,8 +153,12 @@
                           FontWeight="Normal" 
                           FontStyle="Normal"
                           >
-                    <MenuItem Header="ABM" Click="ProductosAmb_Click" />
-                    <MenuItem Header="Grilla" Click="ProductosGrilla_Click" />
+                    <MenuItem Header="ABM"
+                              Style="{StaticResource MenuItem}"
+                              Click="ProductosAmb_Click" />
+                    <MenuItem Header="Grilla"
+                              Style="{StaticResource MenuItem}"
+                              Click="ProductosGrilla_Click" />
                 </MenuItem>
                 <MenuItem Name="VendedorItem" 
                           Header="Vendedores"

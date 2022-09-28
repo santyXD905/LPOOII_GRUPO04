@@ -45,5 +45,21 @@
             <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Border>
     </ControlTemplate>
+    
+    <!-- MenuItem -->
+    <ControlTemplate TargetType="MenuItem" x:Key="PlantillaMenuItem">
+        <Grid Background="{TemplateBinding Background}">
+            <MenuItem Header="{TemplateBinding Header}" />
+        </Grid>
+    </ControlTemplate>
+    
+    <!-- TextBox Error -->
 
+    <ControlTemplate x:Key="PlantillaTextBoxError">
+        <DockPanel>
+            <Ellipse DockPanel.Dock="Right" Fill="Red" Margin="2,0" Width="10" Height="10"/>
+            <AdornedElementPlaceholder/>
+        </DockPanel>
+    </ControlTemplate>
+    
 </ResourceDictionary>
