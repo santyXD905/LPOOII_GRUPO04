@@ -64,6 +64,7 @@ namespace ClasesBase
             p1.Precio = decimal.Parse(dt.Rows[0]["precio"].ToString());
             return p1;
         }
+
         //Obtener actual
         public static Producto TraerActual(int index) {
 

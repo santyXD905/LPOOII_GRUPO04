@@ -69,9 +69,6 @@
     <Compile Include="Productos.xaml.cs">
       <DependentUpon>Productos.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProductosGrilla.xaml.cs">
-      <DependentUpon>ProductosGrilla.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Proveedores.xaml.cs">
       <DependentUpon>Proveedores.xaml</DependentUpon>
     </Compile>
@@ -81,6 +78,7 @@
     <Compile Include="Vendedores.xaml.cs">
       <DependentUpon>Vendedores.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Venta.cs" />
     <Page Include="Clientes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -113,10 +111,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Productos.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ProductosGrilla.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

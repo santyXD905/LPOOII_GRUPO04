@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ClasesBase;
+using System.Data;
 
 namespace Vistas
 {
@@ -44,19 +45,7 @@ namespace Vistas
             return true;
         }
 
-        public void establecerVendedor(Vendedor v1)
-        {
-            txtLegajo.Text = v1.Legajo;
-            txtNombre.Text = v1.Nombre;
-            txtApellido.Text = v1.Apellido;
-        }
-
-        public void limpiar()
-        {
-            txtLegajo.Text = string.Empty;
-            txtNombre.Text = string.Empty;
-            txtApellido.Text = string.Empty;
-        }
+        #region manejo de botones
 
         public void habilitarText(bool estado)
         {
@@ -90,6 +79,69 @@ namespace Vistas
             habilitarABM(false);
             bandera = false;
         }
+
+        private void btnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            limpiar();
+            habilitarText(false);
+            habilitarGuarCanc(false);
+            habilitarABM(true);
+        }
+
+        private void btnModificar_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtLegajo.Text))
+            {
+                habilitarText(true);
+                habilitarABM(false);
+                habilitarGuarCanc(true);
+                txtLegajo.IsEnabled = false;
+                bandera = true;
+            }
+            else
+            {
+                MessageBox.Show("No hay elemento seleccionado");
+            }
+        }
+
+        #endregion
+
+        #region manejo de ventana
+
+        private void btnSalir_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+
+        #endregion
+
+        #region manejo de formulario
+
+        public void establecerVendedor(Vendedor v1)
+        {
+            txtLegajo.Text = v1.Legajo;
+            txtNombre.Text = v1.Nombre;
+            txtApellido.Text = v1.Apellido;
+        }
+
+        public void limpiar()
+        {
+            txtLegajo.Text = string.Empty;
+            txtNombre.Text = string.Empty;
+            txtApellido.Text = string.Empty;
+        }
+
+
+
+        #endregion
+
+        #region alta baja modificacion
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
@@ -143,25 +195,41 @@ namespace Vistas
             {
                 MessageBox.Show("Hay campos incorrectos");
             }
+
+            this.actualizarListVendedores();
         }
 
-        private void btnCancelar_Click(object sender, RoutedEventArgs e)
+        private void btnEliminar_Click(object sender, RoutedEventArgs e)
         {
-            limpiar();
-            habilitarText(false);
-            habilitarGuarCanc(false);
-            habilitarABM(true);
+            if (!string.IsNullOrEmpty(txtLegajo.Text))
+            {
+                MessageBoxResult result = MessageBox.Show("Eliminar el vendedor?", "Borrado Vendedor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    TrabajarVendedor.BorrarVendedor(txtLegajo.Text);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay elemento seleccionado");
+            }
+
+            this.actualizarListVendedores();
         }
 
-        private void btnSalir_Click(object sender, RoutedEventArgs e)
+        public void actualizarListVendedores()
         {
-            this.Close();
+            Binding actualizador = new Binding();
+            actualizador.Source = TrabajarVendedor.TraerVendedores();
+
+            listView1.SetBinding(ListView.ItemsSourceProperty, actualizador);
         }
 
-        private void btnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
+
+        #endregion
+
+        #region botones de direcciones
 
         private void btnSiguiente_Click(object sender, RoutedEventArgs e)
         {
@@ -193,39 +261,6 @@ namespace Vistas
             }
         }
 
-        private void btnModificar_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(txtLegajo.Text))
-            {
-                habilitarText(true);
-                habilitarABM(false);
-                habilitarGuarCanc(true);
-                txtLegajo.IsEnabled = false;
-                bandera = true;
-            }
-            else
-            {
-                MessageBox.Show("No hay elemento seleccionado");
-            }
-        }
-
-        private void btnEliminar_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(txtLegajo.Text))
-            {
-                MessageBoxResult result = MessageBox.Show("Eliminar el vendedor?", "Borrado Vendedor", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    TrabajarVendedor.BorrarVendedor(txtLegajo.Text);
-                }
-            }
-            else
-            {
-                MessageBox.Show("No hay elemento seleccionado");
-            }
-        }
-
         private void btnPrimero_Click(object sender, RoutedEventArgs e)
         {
             Vendedor v1 = new Vendedor();
@@ -241,5 +276,31 @@ namespace Vistas
             establecerVendedor(v1);
             cont = TrabajarVendedor.DeterminarCantidadVendedores();
         }
+
+        #endregion
+
+        private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+           
+            DataRowView dt = listView1.SelectedValue as DataRowView;
+            Vendedor seleccionado = new Vendedor();
+            MessageBox.Show(listView1.SelectedIndex.ToString());
+            if (listView1.SelectedIndex != -1)
+            {
+                cont = listView1.SelectedIndex + 1;
+                seleccionado = TrabajarVendedor.TraerActual(cont);
+                this.establecerVendedor(seleccionado);
+            }
+            else
+            {
+                cont = 1;
+                seleccionado = TrabajarVendedor.TraerActual(cont);
+                this.establecerVendedor(seleccionado);
+            }
+            
+        }
+
+
+
     }
 }

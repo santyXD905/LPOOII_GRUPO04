@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ClasesBase;
+using System.Data;
 
 namespace Vistas
 {
@@ -29,40 +30,8 @@ namespace Vistas
         private int cont = 1;
         private bool bandera = false;
 
-
-        public static bool IsValid(DependencyObject parent)
-        {
-            if (Validation.GetHasError(parent))
-                return false;
-
-            // Validate all the bindings on the children
-            for (int i = 0; i != VisualTreeHelper.GetChildrenCount(parent); ++i)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
-                if (!IsValid(child)) { return false; }
-            }
-
-            return true;
-        }
-
-        public void establecerProducto(Producto p1) 
-        {
-            txtCodigo.Text = p1.CodProducto;
-            txtCategoria.Text = p1.Categoria;
-            txtColor.Text = p1.Color;
-            txtDescripcion.Text = p1.Descripcion;
-            txtPrecio.Text = p1.Precio.ToString();
-        }
-
-        public void limpiar()
-        {
-            txtCodigo.Text = string.Empty;
-            txtCategoria.Text = string.Empty;
-            txtColor.Text = string.Empty;
-            txtDescripcion.Text = string.Empty;
-            txtPrecio.Text = string.Empty;
-        }
-
+        #region manejo de bontones
+        
         public void habilitarText(bool estado)
         {
             txtCodigo.IsEnabled = estado;
@@ -97,6 +66,70 @@ namespace Vistas
             habilitarABM(false);
             bandera = false;
         }
+
+        private void btnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            limpiar();
+            habilitarText(false);
+            habilitarGuarCanc(false);
+            habilitarABM(true);
+        }
+
+
+        
+        #endregion
+
+        #region botones de direcciones
+
+        private void btnSiguiente_Click(object sender, RoutedEventArgs e)
+        {
+            if (cont < TrabajarProducto.DeterminarCantidadProductos())
+            {
+                cont++;
+                Producto p1 = new Producto();
+                p1 = TrabajarProducto.TraerActual(cont);
+                establecerProducto(p1);
+            }
+            else
+            {
+                MessageBox.Show("No hay otro producto adelante");
+            }
+        }
+
+        private void btnAnterior_Click(object sender, RoutedEventArgs e)
+        {
+            if (cont > 1)
+            {
+                cont--;
+                Producto p1 = new Producto();
+                p1 = TrabajarProducto.TraerActual(cont);
+                establecerProducto(p1);
+            }
+            else
+            {
+                MessageBox.Show("No hay otro producto atras");
+            }
+        }
+
+        private void btnPrimero_Click(object sender, RoutedEventArgs e)
+        {
+            Producto p1 = new Producto();
+            p1 = TrabajarProducto.TraerActual(1);
+            establecerProducto(p1);
+            cont = 1;
+        }
+
+        private void btnUltimo_Click(object sender, RoutedEventArgs e)
+        {
+            Producto p1 = new Producto();
+            p1 = TrabajarProducto.TraerActual(TrabajarProducto.DeterminarCantidadProductos());
+            establecerProducto(p1);
+            cont = TrabajarProducto.DeterminarCantidadProductos();
+        }
+
+        #endregion
+
+        #region alta baja modificacion
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
@@ -148,60 +181,14 @@ namespace Vistas
                         habilitarGuarCanc(false);
                         habilitarABM(true);
                     }
-                }   
+                }
             }
             else
             {
                 MessageBox.Show("Hay campos incorrectos");
             }
-        }
 
-        private void btnCancelar_Click(object sender, RoutedEventArgs e)
-        {
-            limpiar();
-            habilitarText(false);
-            habilitarGuarCanc(false);
-            habilitarABM(true);
-        }
-
-        private void btnSalir_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void btnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
-        private void btnSiguiente_Click(object sender, RoutedEventArgs e)
-        {
-            if (cont < TrabajarProducto.DeterminarCantidadProductos())
-            {
-                cont++;
-                Producto p1 = new Producto();
-                p1 = TrabajarProducto.TraerActual(cont);
-                establecerProducto(p1);
-            }
-            else
-            {
-                MessageBox.Show("No hay otro producto adelante");
-            }
-        }
-
-        private void btnAnterior_Click(object sender, RoutedEventArgs e)
-        {
-            if (cont > 1)
-            {
-                cont--;
-                Producto p1 = new Producto();
-                p1 = TrabajarProducto.TraerActual(cont);
-                establecerProducto(p1);
-            }
-            else
-            {
-                MessageBox.Show("No hay otro producto atras");
-            }
+            this.actualizarListProductos();
         }
 
         private void btnModificar_Click(object sender, RoutedEventArgs e)
@@ -217,7 +204,8 @@ namespace Vistas
             else
             {
                 MessageBox.Show("No hay elemento seleccionado");
-            }
+            }     
+
         }
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
@@ -235,22 +223,93 @@ namespace Vistas
             {
                 MessageBox.Show("No hay elemento seleccionado");
             }
+
+            this.actualizarListProductos();
+
         }
 
-        private void btnPrimero_Click(object sender, RoutedEventArgs e)
+        /*creamos un nuevo binding porque el objetDataProvider no se actualizaba y
+         no podiamos enlazar los datos con la propiedad DataContext del lisview*/
+        public void actualizarListProductos()
         {
-            Producto p1 = new Producto();
-            p1 = TrabajarProducto.TraerActual(1);
-            establecerProducto(p1);
-            cont = 1;
+            Binding actualizador = new Binding();
+            actualizador.Source = TrabajarProducto.TraerProductos();
+
+            listView1.SetBinding(ListView.ItemsSourceProperty, actualizador);
         }
 
-        private void btnUltimo_Click(object sender, RoutedEventArgs e)
+
+        #endregion
+
+        #region manejo de ventana
+
+        private void btnSalir_Click(object sender, RoutedEventArgs e)
         {
-            Producto p1 = new Producto();
-            p1 = TrabajarProducto.TraerActual(TrabajarProducto.DeterminarCantidadProductos());
-            establecerProducto(p1);
-            cont = TrabajarProducto.DeterminarCantidadProductos();
+            this.Close();
         }
+
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        #endregion
+
+        #region manejo de formulario
+
+        public void establecerProducto(Producto p1)
+        {
+            txtCodigo.Text = p1.CodProducto;
+            txtCategoria.Text = p1.Categoria;
+            txtColor.Text = p1.Color;
+            txtDescripcion.Text = p1.Descripcion;
+            txtPrecio.Text = p1.Precio.ToString();
+        }
+
+        public void limpiar()
+        {
+            txtCodigo.Text = string.Empty;
+            txtCategoria.Text = string.Empty;
+            txtColor.Text = string.Empty;
+            txtDescripcion.Text = string.Empty;
+            txtPrecio.Text = string.Empty;
+        }
+
+        private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataRowView dt = listView1.SelectedValue as DataRowView;
+            Producto seleccionado = new Producto();
+            if (listView1.SelectedIndex != -1)
+            {
+                cont = listView1.SelectedIndex + 1;
+                seleccionado = TrabajarProducto.TraerActual(cont);
+                this.establecerProducto(seleccionado);
+            }
+            else
+            {
+                cont = 1;
+                seleccionado = TrabajarProducto.TraerActual(cont);
+                this.establecerProducto(seleccionado);
+            }
+            
+            
+        }
+        #endregion
+
+        public static bool IsValid(DependencyObject parent)
+        {
+            if (Validation.GetHasError(parent))
+                return false;
+
+            // Validate all the bindings on the children
+            for (int i = 0; i != VisualTreeHelper.GetChildrenCount(parent); ++i)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+                if (!IsValid(child)) { return false; }
+            }
+
+            return true;
+        }
+       
     }
 }

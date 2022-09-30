@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:svc="clr-namespace:ClasesBase;assembly=ClasesBase"
-        Title="Vendedores" Height="300" Width="800"
+        Title="Vendedores" Height="528" Width="808"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
@@ -14,6 +14,11 @@
             MethodName="TraerPrimerVendedor"
             x:Key="primero"
             />
+        <ObjectDataProvider
+            ObjectType="{x:Type svc:TrabajarVendedor}"
+            MethodName="TraerVendedores"
+            x:Key="list_vendedores"
+            />
     </Window.Resources>
     <Border CornerRadius="10" BorderThickness="0">
         <Border.Background>
@@ -22,12 +27,13 @@
                 <GradientStop Color="#171531" Offset="0.55"></GradientStop>
             </LinearGradientBrush>
         </Border.Background>
-        <Grid>
+        <Grid Height="480" Width="760">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="40"/>
-                <RowDefinition Height="200"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="165"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="257*" />
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -121,44 +127,6 @@
                     <ColumnDefinition Width="400"/>
                     <ColumnDefinition Width="400"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0"
-                            VerticalAlignment="Stretch"
-                            HorizontalAlignment="Right">
-                    <Label x:Name="lblLegajo"
-                           Content="Legajo:"
-                           Style="{StaticResource LabelForm}"/>
-                    <Label x:Name="lblNombre"
-                           Content="Nombre:"
-                           Style="{StaticResource LabelForm}"/>
-                    <Label x:Name="lblApellido"
-                           Content="Apellido:"
-                           Style="{StaticResource LabelForm}"/>
-                </StackPanel>
-                <StackPanel Grid.Column="1"
-                            VerticalAlignment="Stretch"
-                            HorizontalAlignment="Left">
-                    <TextBox x:Name="txtLegajo"
-                             Style="{StaticResource TextBoxError}"
-                             DataContext="{StaticResource primero}">
-                        <TextBox.Text>
-                            <Binding Path="Legajo" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True"/>
-                        </TextBox.Text>
-                    </TextBox>    
-                    <TextBox x:Name="txtNombre"
-                             Style="{StaticResource TextBoxError}"
-                             DataContext="{StaticResource primero}">
-                        <TextBox.Text>
-                            <Binding Path="Nombre" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True"/>
-                        </TextBox.Text>
-                    </TextBox>    
-                    <TextBox x:Name="txtApellido"
-                             Style="{StaticResource TextBoxError}"
-                             DataContext="{StaticResource primero}">
-                        <TextBox.Text>
-                            <Binding Path="Apellido" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True"/>
-                        </TextBox.Text>
-                    </TextBox>    
-                </StackPanel>
             </Grid>
             <Button Grid.Row="3"
                     Content="Salir"
@@ -166,6 +134,41 @@
                     Style="{StaticResource ButtonSalir}"
                     Click="btnSalir_Click">
             </Button>
+            <ListView Height="156" HorizontalAlignment="Left" Margin="258,15,0,0" x:Name="listView1" 
+                  VerticalAlignment="Top" Width="247" ItemsSource="{Binding Source={StaticResource list_vendedores}, Mode=OneWay}" Grid.Row="4" SelectionChanged="listView1_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+
+                        <GridViewColumn Header="Legajo" DisplayMemberBinding="{Binding Path=legajo}"/>
+                        <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Path=nombre}"/>
+                        <GridViewColumn Header="Apellido" DisplayMemberBinding="{Binding Path=apellido}"/>
+
+                    </GridView>
+
+                </ListView.View>
+            </ListView>
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0,38,396,38" Grid.Row="2">
+                <Label x:Name="lblLegajo" Content="Legajo:" Style="{StaticResource LabelForm}" />
+                <Label x:Name="lblNombre" Content="Nombre:" Style="{StaticResource LabelForm}" />
+                <Label x:Name="lblApellido" Content="Apellido:" Style="{StaticResource LabelForm}" />
+            </StackPanel>
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="385,37,0,38" Grid.Row="2">
+                <TextBox x:Name="txtLegajo" Style="{StaticResource TextBoxError}" DataContext="{StaticResource primero}">
+                    <TextBox.Text>
+                        <Binding Path="Legajo" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="txtNombre" Style="{StaticResource TextBoxError}" DataContext="{StaticResource primero}">
+                    <TextBox.Text>
+                        <Binding Path="Nombre" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="txtApellido" Style="{StaticResource TextBoxError}" DataContext="{StaticResource primero}">
+                    <TextBox.Text>
+                        <Binding Path="Apellido" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
         </Grid>
     </Border>
     

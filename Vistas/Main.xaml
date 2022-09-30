@@ -151,14 +151,8 @@
                           Margin="5" 
                           FontStretch="SemiExpanded" 
                           FontWeight="Normal" 
-                          FontStyle="Normal"
-                          >
-                    <MenuItem Header="ABM"
-                              Style="{StaticResource MenuItem}"
-                              Click="ProductosAmb_Click" />
-                    <MenuItem Header="Grilla"
-                              Style="{StaticResource MenuItem}"
-                              Click="ProductosGrilla_Click" />
+                          FontStyle="Normal" Click="ProductosItem_Click">
+                   
                 </MenuItem>
                 <MenuItem Name="VendedorItem" 
                           Header="Vendedores"

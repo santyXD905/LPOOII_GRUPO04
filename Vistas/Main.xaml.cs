@@ -62,22 +62,6 @@ namespace Vistas
             actual.Show();
         }
 
-        private void ProductosAmb_Click(object sender, RoutedEventArgs e)
-        {
-            if (actual != null) actual.Close();
-            productos = new Productos();
-            actual = productos;
-            actual.Show();
-        }
-
-        private void ProductosGrilla_Click(object sender, RoutedEventArgs e)
-        {
-            if (actual != null) actual.Close();
-            productosGR = new ProductosGrilla();
-            actual = productosGR;
-            actual.Show();
-        }
-
         private void VendedorItem_Click(object sender, RoutedEventArgs e)
         {
             if (actual != null) actual.Close();
@@ -102,6 +86,14 @@ namespace Vistas
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
+        }
+
+        private void ProductosItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (actual != null) actual.Close();
+            productos = new Productos();
+            actual = productos;
+            actual.Show();
         }
 
 
