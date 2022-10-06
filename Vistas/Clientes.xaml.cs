@@ -270,13 +270,6 @@ namespace Vistas
 
 
         #region Filtros y ordenamiento
-        private void btnFiltro_Click(object sender, RoutedEventArgs e)
-        {
-            if (vistaFiltro != null)
-            {
-                vistaFiltro.Filter += filtroEventHandler;
-            }
-        }
 
         private void filtroEventHandler(object sender, FilterEventArgs e)
         {
@@ -300,6 +293,14 @@ namespace Vistas
         }
 
         #endregion 
+
+        private void txtFiltro_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (vistaFiltro != null)
+            {
+                vistaFiltro.Filter += filtroEventHandler;
+            }
+        }
 
         
 
