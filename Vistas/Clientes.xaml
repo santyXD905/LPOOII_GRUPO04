@@ -1,12 +1,32 @@
 ﻿<Window x:Class="Vistas.Clientes"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Clientes" Height="350" Width="800"
+        Title="Clientes" Height="545" Width="859"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        xmlns:svc="clr-namespace:ClasesBase;assembly=ClasesBase" Loaded="Window_Loaded"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        >
+    <Window.Resources>
+        <ObjectDataProvider
+            x:Key="LISTA_CLIENTES"
+            ObjectType="{x:Type svc:TrabajarCliente}"
+            MethodName="TraerClientes"
+        ></ObjectDataProvider>
+        <CollectionViewSource
+            x:Key="VISTA_CLIENTES"
+            Source="{StaticResource ResourceKey=LISTA_CLIENTES}"
+            Filter="filtroEventHandler"
+        >
+             
+            
+        </CollectionViewSource>
+        
+    </Window.Resources>
+
     <Border CornerRadius="10" BorderThickness="0">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
@@ -19,7 +39,8 @@
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="200"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="234"/>
+                <RowDefinition Height="0*" />
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -73,11 +94,11 @@
                 <Button Grid.Column="1"
                         Style="{StaticResource DangerButton}"
                         Name="btnModificar"
-                        Content="Modificar"/>
+                        Content="Modificar" Click="btnModificar_Click" />
                 <Button Grid.Column="2" 
                         Style="{StaticResource DangerButton}"
                         Name="btnEliminar" 
-                        Content="Eliminar"/>
+                        Content="Eliminar" Click="btnEliminar_Click" />
 
                 <Button Grid.Column="4" 
                         Style="{StaticResource PrimaryButton}"
@@ -93,21 +114,21 @@
                 <Button Grid.Column="7"
                         Style="{StaticResource SuccessButton}"
                         Content="Primero"
-                        Name="btnPrimero"/>
+                        Name="btnPrimero" Click="btnPrimero_Click" />
                 <Button Grid.Column="8"
                         Style="{StaticResource SuccessButton}"
                         Content="Anterior" 
-                        Name="btnAnterior"/>
+                        Name="btnAnterior" Click="btnAnterior_Click" />
                 <Button Grid.Column="9" 
                         Style="{StaticResource SuccessButton}"
                         Content="Siguiente"
-                        Name="btnSiguiente"/>
+                        Name="btnSiguiente" Click="btnSiguiente_Click" />
                 <Button Grid.Column="10"
                         Style="{StaticResource SuccessButton}"
                         Content="Ultimo"
-                        Name="btnUltimo"/>
+                        Name="btnUltimo" Click="btnUltimo_Click" />
             </Grid>
-            
+
             <Grid Grid.Row="2"
                   VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
@@ -143,12 +164,47 @@
                              Style="{StaticResource InputForm}"/>
                 </StackPanel>
             </Grid>
+            <ListView Height="213" HorizontalAlignment="Left" Margin="17,10,0,0" x:Name="listView1" 
+                  VerticalAlignment="Top" Width="480" ItemsSource="{Binding Source={StaticResource ResourceKey=VISTA_CLIENTES}}" Grid.Row="3" Grid.RowSpan="2" SelectionChanged="listView1_SelectionChanged" Panel.ZIndex="-1">
+                <ListView.View>
+                    <GridView>
+
+                        <GridViewColumn Width="118" Header="DNI" DisplayMemberBinding="{Binding Dni}"/>
+                        <GridViewColumn Width="118" Header="Nombre" DisplayMemberBinding="{Binding Nombre}"/>
+                        <GridViewColumn Width="118" Header="Apellido" DisplayMemberBinding="{Binding Apellido}"/>
+                        <GridViewColumn Width="118" Header="Direccion" DisplayMemberBinding="{Binding Direccion}"/>
+
+                    </GridView>
+
+                </ListView.View>
+            </ListView>
+            <TextBox Margin="17,180,698,0" Name="txtFiltro" Style="{StaticResource InputForm}" Grid.Row="2" />
+            <Button Content="Filtrar" Margin="151,178,592,2" Name="btnFiltro" Style="{StaticResource SuccessButton}" Width="92" Grid.Row="2" Click="btnFiltro_Click" Height="20" />
+            <Label Content="Ordenar Por: " Margin="0,170,463,0" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="2" />
+
+            <Expander Grid.Row="2" Header="---------"  HorizontalAlignment="Left" Margin="397,176,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Grid.RowSpan="3" Panel.ZIndex="3">
+                <ListBox Height="85" Name="listSort" SelectionChanged="listSort_SelectionChanged">
+
+                    <ListBoxItem Content="Dni"/>
+
+                    <ListBoxItem Content="Nombre" />
+
+                    <ListBoxItem Content="Apellido" />
+
+                    <ListBoxItem Content="Direccion" />
+
+                </ListBox>
+            </Expander>
+
             <Button Grid.Row="3"
                     Content="Salir"
                     x:Name="btnSalir"
                     Style="{StaticResource ButtonSalir}"
-                    Click="btnSalir_Click">
+                    Click="btnSalir_Click" Margin="0,198,6,0">
             </Button>
+
         </Grid>
+        
+        
     </Border>
 </Window>
