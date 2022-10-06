@@ -161,14 +161,15 @@ namespace Vistas
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Cliente cli in listaClientes)
-            {
-                if (cli.Dni == txtDni.Text)
+            if(option == 'n')
+                foreach (Cliente cli in listaClientes)
                 {
-                    MessageBox.Show("Ya hay un cliente con el DNI ingresado");
-                    return;
+                    if (cli.Dni == txtDni.Text)
+                    {
+                        MessageBox.Show("Ya hay un cliente con el DNI ingresado");
+                        return;
+                    }
                 }
-            }
             
             
             
@@ -180,6 +181,7 @@ namespace Vistas
 
             if (result == MessageBoxResult.Yes)
             {
+                if (actual == null) actual = new Cliente();
                 actual.Dni = txtDni.Text;
                 actual.Nombre = txtNombre.Text;
                 actual.Apellido = txtApellido.Text;
