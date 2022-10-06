@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace ClasesBase
 {
-    public class Cliente
+    public class Cliente : INotifyPropertyChanged
     {
        private string dni;
 
@@ -36,5 +37,28 @@ namespace ClasesBase
           set { direccion = value; }
       }
 
+      public Cliente(string dni, string nombre, string apellido, string direccion)
+      {
+          this.Dni = dni;
+          this.Direccion = direccion;
+          this.Nombre = nombre;
+          this.Apellido = apellido;
+      }
+
+      public Cliente()
+      {
+          // TODO: Complete member initialization
+      }
+
+
+      public event PropertyChangedEventHandler PropertyChanged;
+
+      public void Notify(string prop)
+      {
+          if (this.PropertyChanged != null)
+          {
+              PropertyChanged(this, new PropertyChangedEventArgs(prop));
+          }
+      }
     }
 }
