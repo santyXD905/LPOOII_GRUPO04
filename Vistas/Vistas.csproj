@@ -78,7 +78,15 @@
     <Compile Include="Vendedores.xaml.cs">
       <DependentUpon>Vendedores.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Venta.cs" />
+    <Compile Include="Ventas.xaml.cs">
+      <DependentUpon>Ventas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VistaPrevia.xaml.cs">
+      <DependentUpon>VistaPrevia.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VistaPreviaVenta.xaml.cs">
+      <DependentUpon>VistaPreviaVenta.xaml</DependentUpon>
+    </Compile>
     <Page Include="Clientes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -139,6 +147,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vendedores.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ventas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VistaPrevia.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VistaPreviaVenta.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

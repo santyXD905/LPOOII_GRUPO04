@@ -20,6 +20,7 @@ namespace Vistas
     /// </summary>
     public partial class Productos : Window
     {
+        public string mode = "default";
         public Productos()
         {
             InitializeComponent();
@@ -29,7 +30,7 @@ namespace Vistas
 
         private int cont = 1;
         private bool bandera = false;
-
+        private Producto oProducto = new Producto();
         #region manejo de bontones
         
         public void habilitarText(bool estado)
@@ -65,6 +66,7 @@ namespace Vistas
             habilitarGuarCanc(true);
             habilitarABM(false);
             bandera = false;
+            btnSeleccionar.IsEnabled = false;
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
@@ -89,6 +91,7 @@ namespace Vistas
                 Producto p1 = new Producto();
                 p1 = TrabajarProducto.TraerActual(cont);
                 establecerProducto(p1);
+                btnSeleccionar.IsEnabled = true;
             }
             else
             {
@@ -104,6 +107,7 @@ namespace Vistas
                 Producto p1 = new Producto();
                 p1 = TrabajarProducto.TraerActual(cont);
                 establecerProducto(p1);
+                btnSeleccionar.IsEnabled = true;
             }
             else
             {
@@ -117,6 +121,7 @@ namespace Vistas
             p1 = TrabajarProducto.TraerActual(1);
             establecerProducto(p1);
             cont = 1;
+            btnSeleccionar.IsEnabled = true;
         }
 
         private void btnUltimo_Click(object sender, RoutedEventArgs e)
@@ -125,6 +130,7 @@ namespace Vistas
             p1 = TrabajarProducto.TraerActual(TrabajarProducto.DeterminarCantidadProductos());
             establecerProducto(p1);
             cont = TrabajarProducto.DeterminarCantidadProductos();
+            btnSeleccionar.IsEnabled = true;
         }
 
         #endregion
@@ -149,7 +155,7 @@ namespace Vistas
                         }
                         else
                         {
-                            Producto oProducto = new Producto();
+                            
                             oProducto.CodProducto = txtCodigo.Text;
                             oProducto.Categoria = txtCategoria.Text;
                             oProducto.Color = txtColor.Text;
@@ -200,6 +206,7 @@ namespace Vistas
                 habilitarGuarCanc(true);
                 txtCodigo.IsEnabled = false;
                 bandera = true;
+                btnSeleccionar.IsEnabled = false ;
             }
             else
             {
@@ -212,6 +219,7 @@ namespace Vistas
         {
             if (!string.IsNullOrEmpty(txtCodigo.Text))
             {
+                btnSeleccionar.IsEnabled = true;
                 MessageBoxResult result = MessageBox.Show("Eliminar el producto?", "Borrado Producto", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
@@ -259,6 +267,7 @@ namespace Vistas
 
         public void establecerProducto(Producto p1)
         {
+            oProducto = p1;
             txtCodigo.Text = p1.CodProducto;
             txtCategoria.Text = p1.Categoria;
             txtColor.Text = p1.Color;
@@ -268,6 +277,7 @@ namespace Vistas
 
         public void limpiar()
         {
+            oProducto = null;
             txtCodigo.Text = string.Empty;
             txtCategoria.Text = string.Empty;
             txtColor.Text = string.Empty;
@@ -284,6 +294,7 @@ namespace Vistas
                 cont = listView1.SelectedIndex + 1;
                 seleccionado = TrabajarProducto.TraerActual(cont);
                 this.establecerProducto(seleccionado);
+                btnSeleccionar.IsEnabled = true;
             }
             else
             {
@@ -310,6 +321,32 @@ namespace Vistas
 
             return true;
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+         
+            if (mode.Equals("venta"))
+            {
+                btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
+                btnSeleccionar.IsEnabled = false;
+            }
+            else
+            {
+                btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;
+            }
+            limpiar();
+        }
+
+        private void btnSeleccionar_Click(object sender, RoutedEventArgs e)
+        {
+            Ventas padre = this.Owner as Ventas;
+            padre.producto = oProducto;
+            padre.btnSelProd.Content = "Seleccionado";
+            padre.btnSelProd.Background = Brushes.Khaki;
+            padre.btnSelProd.Foreground = Brushes.Black;
+            this.Close();
+        }
+        
        
     }
 }

@@ -7,7 +7,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="True" Loaded="Window_Loaded">
     <Window.Resources>
         <ObjectDataProvider x:Key="DATA_USER" ObjectType="{x:Type svc:TrabajarProducto}" MethodName="TraerProducto">    
         </ObjectDataProvider>
@@ -186,6 +186,7 @@
                 <Label Content="Descripcion: " x:Name="lblDescripcion" Style="{StaticResource LabelForm}" />
                 <Label Content="Precio: " x:Name="lblPrecio" Style="{StaticResource LabelForm}" />
             </StackPanel>
+            <Button Content="Seleccionar" Margin="0,67,266,0" Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Visibility="Hidden" Grid.Row="2" Click="btnSeleccionar_Click" />
         </Grid>
     </Border>
 </Window>

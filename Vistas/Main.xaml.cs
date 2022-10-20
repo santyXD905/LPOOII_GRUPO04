@@ -96,6 +96,12 @@ namespace Vistas
             actual.Show();
         }
 
+        private void VentasItem_Click(object sender, RoutedEventArgs e)
+        {
+            Ventas ventana = new Ventas();
+            ventana.Show();
+        }
+
 
     }
 }

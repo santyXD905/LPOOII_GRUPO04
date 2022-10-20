@@ -60,6 +60,7 @@
     <Compile Include="TrabajarCliente.cs" />
     <Compile Include="TrabajarProducto.cs" />
     <Compile Include="TrabajarVendedor.cs" />
+    <Compile Include="TrabajarVentas.cs" />
     <Compile Include="Vendedor.cs" />
     <Compile Include="Venta.cs" />
   </ItemGroup>

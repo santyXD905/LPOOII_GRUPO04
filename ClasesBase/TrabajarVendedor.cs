@@ -235,5 +235,31 @@ namespace ClasesBase
             cmd.ExecuteNonQuery();
             cnn.Close();
         }
+
+        public static Vendedor getByLegajo(string legajo)
+        {
+            // conexion a la base de datos
+            SqlConnection cnn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
+
+            //operaciones
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = cnn;
+            cmd.CommandText = "SELECT * FROM Vendedor WHERE legajo = " + legajo;
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            Vendedor v = new Vendedor();
+
+            v.Apellido = dt.Rows[0]["apellido"].ToString();
+            v.Nombre = dt.Rows[0]["nombre"].ToString();
+            v.Legajo = legajo;
+
+            return v;
+
+        }
     }
 }

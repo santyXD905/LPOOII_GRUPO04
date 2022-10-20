@@ -264,5 +264,33 @@ namespace ClasesBase
             cnn.Close();
 
         }
+
+        public static Producto getByCod(string cod)
+        {
+            // conexion a la base de datos
+            SqlConnection cnn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
+
+            //operaciones
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = cnn;
+            cmd.CommandText = "SELECT * FROM Producto WHERE codProducto = " + cod;
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            Producto v = new Producto();
+
+            v.Categoria = dt.Rows[0]["categoria"].ToString();
+            v.Color = dt.Rows[0]["color"].ToString();
+            v.Descripcion = dt.Rows[0]["descripcion"].ToString();
+            v.Precio = Decimal.Parse(dt.Rows[0]["precio"].ToString());
+            v.CodProducto = cod;
+
+            return v;
+
+        }
     }
 }
