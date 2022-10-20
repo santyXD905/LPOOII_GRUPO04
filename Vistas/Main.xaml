@@ -176,6 +176,16 @@
                           FontWeight="Normal" 
                           FontStyle="Normal" Click="FacturaItem_Click">
                 </MenuItem>
+                <MenuItem Name="VentasItem" 
+                          Header="Ventas"
+                          Width="80" Height="20"
+                          FontSize="12"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Margin="5" FontStretch="SemiExpanded" 
+                          FontWeight="Normal" 
+                          FontStyle="Normal" Click="VentasItem_Click">
+                </MenuItem>
             </Menu>
 
             <Rectangle Name="rectangle1"

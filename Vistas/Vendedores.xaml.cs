@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ClasesBase;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Vistas
 {
@@ -20,6 +21,8 @@ namespace Vistas
     /// </summary>
     public partial class Vendedores : Window
     {
+        public string mode = "default";
+        private Vendedor oVendedor = new Vendedor();
         public Vendedores()
         {
             InitializeComponent();
@@ -97,6 +100,7 @@ namespace Vistas
                 habilitarGuarCanc(true);
                 txtLegajo.IsEnabled = false;
                 bandera = true;
+                btnSeleccionar.IsEnabled = false;
             }
             else
             {
@@ -128,6 +132,7 @@ namespace Vistas
             txtLegajo.Text = v1.Legajo;
             txtNombre.Text = v1.Nombre;
             txtApellido.Text = v1.Apellido;
+            oVendedor = v1;
         }
 
         public void limpiar()
@@ -135,6 +140,7 @@ namespace Vistas
             txtLegajo.Text = string.Empty;
             txtNombre.Text = string.Empty;
             txtApellido.Text = string.Empty;
+            oVendedor = null;
         }
 
 
@@ -161,7 +167,7 @@ namespace Vistas
                         }
                         else
                         {
-                            Vendedor oVendedor = new Vendedor();
+                            
                             oVendedor.Apellido = txtApellido.Text;
                             oVendedor.Nombre = txtNombre.Text;
                             oVendedor.Legajo = txtLegajo.Text;
@@ -209,6 +215,8 @@ namespace Vistas
                 {
                     TrabajarVendedor.BorrarVendedor(txtLegajo.Text);
                 }
+                btnSeleccionar.IsEnabled = false;
+
             }
             else
             {
@@ -239,6 +247,7 @@ namespace Vistas
                 Vendedor v1 = new Vendedor();
                 v1 = TrabajarVendedor.TraerActual(cont);
                 establecerVendedor(v1);
+                btnSeleccionar.IsEnabled = true;
             }
             else
             {
@@ -254,6 +263,7 @@ namespace Vistas
                 Vendedor v1 = new Vendedor();
                 v1 = TrabajarVendedor.TraerActual(cont);
                 establecerVendedor(v1);
+                btnSeleccionar.IsEnabled = true;
             }
             else
             {
@@ -267,6 +277,7 @@ namespace Vistas
             v1 = TrabajarVendedor.TraerActual(1);
             establecerVendedor(v1);
             cont = 1;
+            btnSeleccionar.IsEnabled = true;
         }
 
         private void btnUltimo_Click(object sender, RoutedEventArgs e)
@@ -275,6 +286,7 @@ namespace Vistas
             v1 = TrabajarVendedor.TraerActual(TrabajarVendedor.DeterminarCantidadVendedores());
             establecerVendedor(v1);
             cont = TrabajarVendedor.DeterminarCantidadVendedores();
+            btnSeleccionar.IsEnabled = true;
         }
 
         #endregion
@@ -284,23 +296,48 @@ namespace Vistas
            
             DataRowView dt = listView1.SelectedValue as DataRowView;
             Vendedor seleccionado = new Vendedor();
-            MessageBox.Show(listView1.SelectedIndex.ToString());
             if (listView1.SelectedIndex != -1)
             {
                 cont = listView1.SelectedIndex + 1;
                 seleccionado = TrabajarVendedor.TraerActual(cont);
                 this.establecerVendedor(seleccionado);
+                btnSeleccionar.IsEnabled = true;
             }
             else
             {
                 cont = 1;
                 seleccionado = TrabajarVendedor.TraerActual(cont);
                 this.establecerVendedor(seleccionado);
+
             }
             
         }
 
+        private void btnSeleccionar_Click(object sender, RoutedEventArgs e)
+        {
+            Ventas padre = this.Owner as Ventas;
+            padre.vendedor = oVendedor;
+            padre.btnSelVendedor.Content = "Seleccionado";
+            padre.btnSelVendedor.Background = Brushes.Khaki;
+            padre.btnSelVendedor.Foreground = Brushes.Black;
+            this.Close();
+        }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (mode.Equals("venta"))
+            {
+                btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
+                btnSeleccionar.IsEnabled = false;
+            }
+            else
+            {
+                btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;
+            }
+            limpiar();
+        }
+
+        
 
     }
 }

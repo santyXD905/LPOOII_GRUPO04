@@ -48,6 +48,20 @@
         <Setter Property="VerticalAlignment" Value="Top"/>
     </Style>
 
+    <Style TargetType="{x:Type Button}" x:Key="EstiloButtonCapo">
+        <Setter Property="Height" Value="25"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="FontFamily" Value="Montserrat"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="Green"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="0,0,5,0"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+    </Style>
 
     <!-- Buttons Header-->
     

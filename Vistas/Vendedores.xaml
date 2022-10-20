@@ -7,7 +7,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="True" Loaded="Window_Loaded">
     <Window.Resources>
         <ObjectDataProvider
             ObjectType="{x:Type svc:TrabajarVendedor}"
@@ -169,6 +169,7 @@
                     </TextBox.Text>
                 </TextBox>
             </StackPanel>
+            <Button Content="Seleccionar" Margin="0,57,85,0" Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Visibility="Hidden" Grid.Row="2" Click="btnSeleccionar_Click" />
         </Grid>
     </Border>
     

@@ -1,0 +1,94 @@
+﻿<Window x:Class="Vistas.VistaPrevia"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svc="clr-namespace:ClasesBase;assembly=ClasesBase"
+        Title="VistaPrevia" Height="528" Width="808"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True"
+        Loaded="Window_Loaded">
+    <Border CornerRadius="10" BorderThickness="0">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                <GradientStop Color="#17141F" Offset="0"></GradientStop>
+                <GradientStop Color="#171531" Offset="0.55"></GradientStop>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Grid Height="480" Width="760">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="450"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="27"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0"
+                        Text="Vista Previa"
+                        Foreground="DarkGray"
+                        FontSize="20"
+                        FontFamily="Montserrat"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Margin="20,0,0,0"/>
+
+                <Button x:Name="btnMinimize"
+                            Style="{StaticResource MinimizeButton}"
+                            Grid.Column="1"
+                            Content="-"
+                            Click="btnMinimize_Click">
+                </Button>
+
+                <Button x:Name="btnClose"
+                            Style="{StaticResource CloseButton}"
+                            Grid.Column="2"
+                            Content="x"
+                            Click="btnSalir_Click">
+                </Button>
+
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0,0,90,0">
+                <FlowDocumentReader Margin="58,6,-58,-6">
+                    <FlowDocument Name="DocMain">
+                        <Paragraph FontFamily="Montserrat" FontSize="15" Foreground="DarkGray" >Listado de clientes</Paragraph>
+                        <BlockUIContainer>
+                            <ListView Height="213" HorizontalAlignment="Center" Name="listView1" 
+                  VerticalAlignment="Center" Width="500" Panel.ZIndex="-1"  FontFamily="Montserrat" >
+                                <ListView.View>
+                                    <GridView>
+
+                                        <GridViewColumn Width="118" Header="DNI" DisplayMemberBinding="{Binding Dni}"/>
+                                        <GridViewColumn Width="118" Header="Nombre" DisplayMemberBinding="{Binding Nombre}"/>
+                                        <GridViewColumn Width="118" Header="Apellido" DisplayMemberBinding="{Binding Apellido}"/>
+                                        <GridViewColumn Width="118" Header="Direccion" DisplayMemberBinding="{Binding Direccion}"/>
+
+                                    </GridView>
+
+                                </ListView.View>
+                            </ListView>
+
+                        </BlockUIContainer>
+                        <BlockUIContainer>
+                            <Button
+                                Content="Imprimir"
+                                x:Name="btnImprimir"
+                                Style="{StaticResource ButtonSalir}"
+                                Click="btnImprimir_Click"
+                                Margin="0,10,48, -4">
+                            </Button>
+                        </BlockUIContainer>
+                    </FlowDocument>
+                </FlowDocumentReader>
+            </Grid>
+
+
+        </Grid>
+    </Border>
+
+</Window>

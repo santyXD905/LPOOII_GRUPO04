@@ -13,6 +13,8 @@ using System.Windows.Shapes;
 using ClasesBase;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.SqlClient;
+using System.Data;
 namespace Vistas
 {
     /// <summary>
@@ -20,8 +22,7 @@ namespace Vistas
     /// </summary>
     public partial class Clientes : Window
     {
-
-
+        public String mode="default";
         #region Attributes
         ObservableCollection<Cliente> listaClientes;
         CollectionViewSource vistaFiltro;
@@ -43,7 +44,15 @@ namespace Vistas
 
             txtFiltro.Text = String.Empty;
             habilitarText(false);
-            
+
+            if (mode.Equals("venta"))
+            {
+                btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
+                btnSeleccionar.IsEnabled = false;
+            }
+            else {
+                btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;
+            }
         }
         private void btnSalir_Click(object sender, RoutedEventArgs e)
         {
@@ -107,7 +116,9 @@ namespace Vistas
         {
             habilitarText(false);
             actual = listView1.SelectedItem as Cliente;
-            if (actual != null) setTextBoxes(actual);
+            if (actual != null) { setTextBoxes(actual);
+            btnSeleccionar.IsEnabled = true;
+            } 
 
 
         }
@@ -123,17 +134,18 @@ namespace Vistas
             habilitarText(true);
             habilitarGuarCanc(true);
             habilitarABM(false);
-
+            btnSeleccionar.IsEnabled = false;
             option = 'n';
         }
         private void btnModificar_Click(object sender, RoutedEventArgs e)
         {
             if (actual != null)
             {
+
                 habilitarGuarCanc(true);
                 habilitarText(true);
                 txtDni.IsEnabled = false;
-
+                btnSeleccionar.IsEnabled = false;
                 option = 'u';
             }
             else MessageBox.Show("Seleccione un cliente primero");
@@ -144,8 +156,10 @@ namespace Vistas
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
         {
+
             if (actual != null)
             {
+                btnSeleccionar.IsEnabled = false;
                 MessageBoxResult result = MessageBox.Show(
                     "Confirme eliminacion",
                     "Eliminacion Cliente", MessageBoxButton.OKCancel);
@@ -230,6 +244,7 @@ namespace Vistas
                 vistaFiltro.View.MoveCurrentToFirst();
                 actual = vistaFiltro.View.CurrentItem as Cliente;
                 setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
             }
 
         }
@@ -243,6 +258,7 @@ namespace Vistas
                 if (vistaFiltro.View.IsCurrentBeforeFirst) vistaFiltro.View.MoveCurrentToLast();
                 actual = vistaFiltro.View.CurrentItem as Cliente;
                 setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
             }
         }
 
@@ -254,6 +270,7 @@ namespace Vistas
                 if (vistaFiltro.View.IsCurrentAfterLast) vistaFiltro.View.MoveCurrentToFirst();
                 actual = vistaFiltro.View.CurrentItem as Cliente;
                 setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
             }
         }
 
@@ -264,6 +281,7 @@ namespace Vistas
                 vistaFiltro.View.MoveCurrentToLast();
                 actual = vistaFiltro.View.CurrentItem as Cliente;
                 setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
             }
         }
         #endregion
@@ -299,9 +317,47 @@ namespace Vistas
             if (vistaFiltro != null)
             {
                 vistaFiltro.Filter += filtroEventHandler;
+                if (listView1.Items.Count == 0)
+                {
+                    btnImprimir.IsEnabled = false;
+
+                }
+                else  btnImprimir.IsEnabled = true;
+            }
+
+        }
+
+       
+        private void btnImprimir_Click(object sender, RoutedEventArgs e)
+        {
+            VistaPrevia vistaPrevia = new VistaPrevia();
+            ItemCollection ic = listView1.Items;
+            ObservableCollection<Cliente> lista = new ObservableCollection<Cliente>();
+            foreach (Cliente x in ic)
+            {
+                lista.Add(x);
+            }
+
+            if (lista != null)
+            {
+                vistaPrevia.listaClientes = lista;
+                vistaPrevia.Show();
             }
         }
 
+        private void btnSeleccionar_Click(object sender, RoutedEventArgs e)
+        {
+           
+            Ventas padre = this.Owner as Ventas;
+            padre.btnSelCliente.Content = "Seleccionado";
+            padre.btnSelCliente.Background = Brushes.Khaki;
+            padre.btnSelCliente.Foreground = Brushes.Black;
+            padre.cliente = actual;
+            
+            this.Close();
+        }
+
+        
         
 
 

@@ -147,5 +147,32 @@ namespace ClasesBase
             return lista;
         }
 
+        public static Cliente getByDni(string dni)
+        {
+            // conexion a la base de datos
+            SqlConnection cnn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
+
+            //operaciones
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = cnn;
+            cmd.CommandText = "SELECT * FROM Cliente WHERE dni LIKE '" + dni + "'";
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            Cliente v = new Cliente();
+
+            v.Nombre = dt.Rows[0]["nombre"].ToString();
+            v.Apellido = dt.Rows[0]["apellido"].ToString();
+            v.Direccion = dt.Rows[0]["direccion"].ToString();
+            v.Dni = dni;
+
+            return v;
+
+        }
+
     }
 }
