@@ -23,12 +23,14 @@ namespace Vistas
     public partial class Clientes : Window
     {
         public String mode="default";
+
         #region Attributes
         ObservableCollection<Cliente> listaClientes;
         CollectionViewSource vistaFiltro;
         char option;
         Cliente actual;
         #endregion
+
         public Clientes()
         {
             InitializeComponent();
@@ -123,7 +125,6 @@ namespace Vistas
 
         }
         #endregion
-
 
 
         //metodos para manejar los botones

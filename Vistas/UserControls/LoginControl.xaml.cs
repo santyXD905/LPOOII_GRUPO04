@@ -11,26 +11,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Threading.Tasks;
-
 
 namespace Vistas.UserControls
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for LoginControl.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class LoginControl : UserControl
     {
+        public LoginControl()
+        {
+            InitializeComponent();
+        }
+
+
         // para el hardcode
         public struct usuario
         {
             public string user;
             public string pass;
-        }
-
-        public UserControl1()
-        {
-            InitializeComponent();
         }
 
         private void btnLoguin(object sender, RoutedEventArgs e)
@@ -64,4 +63,5 @@ namespace Vistas.UserControls
             }
         }
     }
+    
 }

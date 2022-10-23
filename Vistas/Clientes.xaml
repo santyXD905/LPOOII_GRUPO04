@@ -168,7 +168,8 @@
                 <Button Content="Seleccionar" x:Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Margin="0,35,87,0" Grid.Column="1" Visibility="Hidden" Click="btnSeleccionar_Click"></Button>
             </Grid>
             <ListView Height="213" HorizontalAlignment="Left" Margin="17,10,0,0" x:Name="listView1" 
-                  VerticalAlignment="Top" Width="480" ItemsSource="{Binding Source={StaticResource ResourceKey=VISTA_CLIENTES}}" Grid.Row="3" Grid.RowSpan="2" SelectionChanged="listView1_SelectionChanged" Panel.ZIndex="-1">
+                  VerticalAlignment="Top" Width="480" ItemsSource="{Binding Source={StaticResource ResourceKey=VISTA_CLIENTES}}" Grid.Row="3" Grid.RowSpan="2" SelectionChanged="listView1_SelectionChanged" 
+                      Panel.ZIndex="-1" IsSynchronizedWithCurrentItem="True">
                 <ListView.View>
                     
                     <GridView>

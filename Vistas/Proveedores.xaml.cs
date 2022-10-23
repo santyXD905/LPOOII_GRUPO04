@@ -11,6 +11,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ClasesBase;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Vistas
 {
@@ -24,21 +28,78 @@ namespace Vistas
             InitializeComponent();
         }
 
-        public void limpiar()
+
+        #region Attributes
+
+        ObservableCollection<Proveedor> listaProveedores = new ObservableCollection<Proveedor>(); // para el manejo de filtros
+        CollectionViewSource vistaFiltro = new CollectionViewSource();
+        char option; // interpola la opcion del boton guardar entre modificar o agregar un nuevo objeto 
+        Proveedor actual; //Proveedor seleccionado
+
+        #endregion
+
+
+        private void WindowLoaded(object sender, RoutedEventArgs e)
         {
-            txtCuit.Text = string.Empty;
-            txtDomicilio.Text = string.Empty;
-            txtRazon.Text = string.Empty;
-            txtTelefono.Text = string.Empty;
+            //recuperamos los objetos y usamos una arreglo para manejar las actualizaciones y eliminaciones
+            ObjectDataProvider odp = this.Resources["LISTA_PROVEEDORES"] as ObjectDataProvider;
+            listaProveedores = odp.Data as ObservableCollection<Proveedor>;
+
+            //recuperamos la vista de los recursos y la usamos para manejar navegar por los objetos
+            vistaFiltro = this.Resources["VISTA_PROVEEDORES"] as CollectionViewSource;
+
+            habilitarText(false);
         }
 
-        public void habilitarText(bool estado)
+
+
+        //metodos para manejar los botones nuevo, modificar, eliminar
+        #region Nuevo_Moficar_Eliminar
+
+        private void btnNuevo_Click(object sender, RoutedEventArgs e)
         {
-            txtCuit.IsEnabled = estado;
-            txtDomicilio.IsEnabled = estado;
-            txtRazon.IsEnabled = estado;
-            txtTelefono.IsEnabled = estado;
+            limpiar();
+            habilitarText(true);
+            habilitarGuarCanc(true);
+            habilitarABM(false);
+            option = 'n';
         }
+
+        private void btnModificar_Click(object sender, RoutedEventArgs e)
+        {
+            if (actual != null)
+            {
+
+                habilitarGuarCanc(true);
+                habilitarText(true);
+                txtCuit.IsEnabled = false;
+                option = 'u';
+            }
+            else MessageBox.Show("Seleccione un Proveedor primero");
+        }
+
+        private void btnEliminar_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (actual != null)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                    "Confirme eliminacion",
+                    "Eliminacion Proveedor", MessageBoxButton.OKCancel);
+
+                if (result == MessageBoxResult.OK)
+                {
+                    TrabajarProveedor.EliminarProveedor(actual.CUIT);
+                    listaProveedores.Remove(actual);
+                }
+            }
+            else MessageBox.Show("Seleccione un Proveedor primero");
+        }
+
+
+        #endregion
+
+        #region habilitar_deshabilitar_botones
 
         public void habilitarGuarCanc(bool estado)
         {
@@ -57,41 +118,41 @@ namespace Vistas
             btnUltimo.IsEnabled = estado;
         }
 
-        private void btnNuevo_Click(object sender, RoutedEventArgs e)
+
+        #endregion
+
+        #region habilitar_limpiar_cargar_texboxes
+
+        public void limpiar()
         {
-            limpiar();
-            habilitarText(true);
-            habilitarGuarCanc(true);
-            habilitarABM(false);
+            txtCuit.Text = string.Empty;
+            txtDomicilio.Text = string.Empty;
+            txtRazon.Text = string.Empty;
+            txtTelefono.Text = string.Empty;
         }
 
-        private void btnGuardar_Click(object sender, RoutedEventArgs e)
+        public void habilitarText(bool estado)
         {
-            MessageBoxResult result = MessageBox.Show("Guardar el Proveedor?", "Alta Proveedor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            txtCuit.IsEnabled = estado;
+            txtDomicilio.IsEnabled = estado;
+            txtRazon.IsEnabled = estado;
+            txtTelefono.IsEnabled = estado;
+        }
 
-            if (result == MessageBoxResult.Yes)
+        public void setTextBoxes(Proveedor prov)
+        {
+            if (prov != null)
             {
-                Proveedor oPreveedor = new Proveedor();
-                oPreveedor.CUIT = txtCuit.Text;
-                oPreveedor.RazonSocial = txtRazon.Text;
-                oPreveedor.Domicilio = txtDomicilio.Text;
-                oPreveedor.Telefono = txtTelefono.Text;
-                MessageBox.Show("CUIT: " + oPreveedor.CUIT + "\nRazon Social: " + oPreveedor.RazonSocial + "\nDomicilio: " + oPreveedor.Domicilio + "\nTelefono: " + oPreveedor.Telefono);
-                habilitarText(false);
-                habilitarGuarCanc(false);
-                habilitarABM(true);
-
+                txtCuit.Text = prov.CUIT;
+                txtRazon.Text= prov.RazonSocial;
+                txtDomicilio.Text= prov.Domicilio;
+                txtTelefono.Text = prov.Telefono;
             }
-            
         }
 
-        private void btnCancelar_Click(object sender, RoutedEventArgs e)
-        {
-            limpiar();
-            habilitarText(false);
-            habilitarGuarCanc(false);
-            habilitarABM(true);
-        }
+        #endregion
+
+        #region manejar_ventana
 
         private void btnSalir_Click(object sender, RoutedEventArgs e)
         {
@@ -102,5 +163,132 @@ namespace Vistas
         {
             WindowState = WindowState.Minimized;
         }
+
+        #endregion
+
+        #region Guardar_Cancelar
+
+        private void btnGuardar_Click(object sender, RoutedEventArgs e)
+        {
+            
+            //verificamos en caso de guardar un nuevo proveedor que no se repita el CUIT
+            if (option == 'n')
+                foreach (Proveedor prov in listaProveedores)
+                {
+                    if (prov.CUIT == txtCuit.Text)
+                    {
+                        MessageBox.Show("Ya hay un Proveedor con el CUIT ingresado");
+                        return;
+                    }
+                }
+
+            //solicitamos una confirmacion de parte del usuario
+            MessageBoxResult result = MessageBox.Show(
+                option == 'n' ? "Guardar el Proveedor?" : "Modificar el Proveedor?",
+                option == 'n' ? "Alta Proveedor" : "Modificacion Proveedor",
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+
+            if (result == MessageBoxResult.Yes)
+            {
+                if (actual == null) actual = new Proveedor(txtCuit.Text,txtRazon.Text,txtDomicilio.Text,txtTelefono.Text);
+                if (option == 'n')
+                {
+
+                    TrabajarProveedor.GuardarProveedor(actual);
+                    listaProveedores.Add(actual);
+                }
+                else
+                {
+                    TrabajarProveedor.ModificarProveedor(actual);
+                    //actualizamos la UI
+                    listaProveedores = TrabajarProveedor.TraerProveedores();
+                    vistaFiltro.Source = listaProveedores;
+                }
+
+                habilitarText(false);
+                habilitarGuarCanc(false);
+                habilitarABM(true);
+                actual = null;
+                limpiar();
+
+            }
+
+           
+
+        }
+
+        private void btnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            limpiar();
+            habilitarText(false);
+            habilitarGuarCanc(false);
+            habilitarABM(true);
+            actual = null;
+        }
+
+        #endregion
+
+        #region navegar_listView
+
+        private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            habilitarText(false);
+            actual = listView1.SelectedItem as Proveedor;
+            if (actual != null) setTextBoxes(actual);
+        }
+
+        private void btnPrimero_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToFirst();
+                actual = vistaFiltro.View.CurrentItem as Proveedor;
+                setTextBoxes(actual);
+            }
+
+        }
+
+        private void btnAnterior_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToPrevious();
+                if (vistaFiltro.View.IsCurrentBeforeFirst) vistaFiltro.View.MoveCurrentToLast();
+                actual = vistaFiltro.View.CurrentItem as Proveedor;
+                setTextBoxes(actual);
+            }
+        }
+
+        private void btnSiguiente_Click(object sender, RoutedEventArgs e)
+        {
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToNext();
+                if (vistaFiltro.View.IsCurrentAfterLast) vistaFiltro.View.MoveCurrentToFirst();
+                actual = vistaFiltro.View.CurrentItem as Proveedor;
+                setTextBoxes(actual);
+            }
+        }
+
+        private void btnUltimo_Click(object sender, RoutedEventArgs e)
+        {
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToLast();
+                actual = vistaFiltro.View.CurrentItem as Proveedor;
+                setTextBoxes(actual);
+            }
+        }
+
+        #endregion
+
+
+
+
+
+
     }
 }
