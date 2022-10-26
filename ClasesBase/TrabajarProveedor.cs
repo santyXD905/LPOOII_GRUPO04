@@ -36,8 +36,8 @@ namespace ClasesBase
             //se insertan los objetos de la consulta adentro del objeto a retonar
             foreach (DataRow x in dt.Rows)
             {
-                lista.Add(new Proveedor(x["cuit"].ToString(), x["domicilio"].ToString(),
-                    x["razonSocial"].ToString(), x["telefono"].ToString()));
+                lista.Add(new Proveedor(x["cuit"].ToString(), x["razonSocial"].ToString(),
+                    x["domicilio"].ToString(), x["telefono"].ToString()));
             }
 
             return lista;
@@ -100,7 +100,7 @@ namespace ClasesBase
             cmd.Connection = cnn;
             cmd.CommandText = "EliminarProveedor";
 
-            SqlParameter param = new SqlParameter("@ciut", SqlDbType.VarChar);
+            SqlParameter param = new SqlParameter("@cuit", SqlDbType.VarChar);
             param.Direction = ParameterDirection.Input;
             param.Value = ciut;
             cmd.Parameters.Add(param);

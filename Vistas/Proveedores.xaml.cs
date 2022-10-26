@@ -89,7 +89,8 @@ namespace Vistas
 
                 if (result == MessageBoxResult.OK)
                 {
-                    TrabajarProveedor.EliminarProveedor(actual.CUIT);
+                    MessageBox.Show(txtCuit.Text);
+                    TrabajarProveedor.EliminarProveedor(txtCuit.Text.ToString());
                     listaProveedores.Remove(actual);
                 }
             }
@@ -191,7 +192,7 @@ namespace Vistas
 
             if (result == MessageBoxResult.Yes)
             {
-                if (actual == null) actual = new Proveedor(txtCuit.Text,txtRazon.Text,txtDomicilio.Text,txtTelefono.Text);
+                actual = new Proveedor(txtCuit.Text,txtRazon.Text,txtDomicilio.Text,txtTelefono.Text);
                 if (option == 'n')
                 {
 
@@ -200,6 +201,7 @@ namespace Vistas
                 }
                 else
                 {
+                    MessageBox.Show(txtRazon.Text);
                     TrabajarProveedor.ModificarProveedor(actual);
                     //actualizamos la UI
                     listaProveedores = TrabajarProveedor.TraerProveedores();
@@ -284,9 +286,6 @@ namespace Vistas
         }
 
         #endregion
-
-
-
 
 
 

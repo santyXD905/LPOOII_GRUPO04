@@ -101,11 +101,11 @@
                 <Button Grid.Column="1"
                         Style="{StaticResource DangerButton}"
                         Name="btnModificar"
-                        Content="Modificar"/>
+                        Content="Modificar" Click="btnModificar_Click" />
                 <Button Grid.Column="2" 
                         Style="{StaticResource DangerButton}"
                         Name="btnEliminar" 
-                        Content="Eliminar"/>
+                        Content="Eliminar" Click="btnEliminar_Click" />
                 <!--guardar, cancelar-->
                 <Button Grid.Column="4" 
                         Style="{StaticResource PrimaryButton}"
@@ -165,8 +165,8 @@
                     <GridView>
 
                         <GridViewColumn Width="118" Header="CUIT" DisplayMemberBinding="{Binding CUIT}"/>
-                        <GridViewColumn Width="118" Header="Domicilio" DisplayMemberBinding="{Binding Domicilio}"/>
                         <GridViewColumn Width="118" Header="Razon Social" DisplayMemberBinding="{Binding RazonSocial}"/>
+                        <GridViewColumn Width="118" Header="Domicilio" DisplayMemberBinding="{Binding Domicilio}"/>
                         <GridViewColumn Width="118" Header="Telefono" DisplayMemberBinding="{Binding Telefono}"/>
 
                     </GridView>
