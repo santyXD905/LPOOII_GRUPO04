@@ -8,6 +8,21 @@ namespace ClasesBase
 {
     public class Producto : IDataErrorInfo
     {
+
+        public Producto(string cod,string cat,string col, string des, decimal pres)
+        {
+            this.codProducto = cod;
+            this.categoria = cat;
+            this.color = col;
+            this.descripcion = des;
+            this.precio = pres;
+        }
+
+        public override string ToString()
+        {
+            return codProducto.ToString() + ", " + precio.ToString();
+        }
+
         private string codProducto;
 
         public string CodProducto

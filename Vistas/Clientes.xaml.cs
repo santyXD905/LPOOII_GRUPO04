@@ -22,21 +22,24 @@ namespace Vistas
     /// </summary>
     public partial class Clientes : Window
     {
-        public String mode="default";
+        public Clientes()
+        {
+            InitializeComponent();
+
+        }
 
         #region Attributes
+
         ObservableCollection<Cliente> listaClientes;
         CollectionViewSource vistaFiltro;
         char option;
         Cliente actual;
-        #endregion
+        public String mode = "default";
 
-        public Clientes()
-        {
-            InitializeComponent();
-            
-        }
+        #endregion
+        
         #region Ventana
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ObjectDataProvider odp = this.Resources["LISTA_CLIENTES"] as ObjectDataProvider;
@@ -66,69 +69,11 @@ namespace Vistas
         {
             WindowState = WindowState.Minimized;
         }
+
         #endregion
 
-        //metodos para habilitar y deshabilitar elementos
-        #region Utilidades
-        public void limpiar()
-        {
-            txtDni.Text = string.Empty;
-            txtNombre.Text = string.Empty;
-            txtApellido.Text = string.Empty;
-            txtDireccion.Text = string.Empty;
-        }
+        #region Nuevo_Modificar_Eliminar
 
-        public void habilitarText(bool estado)
-        {
-            txtDni.IsEnabled = estado;
-            txtNombre.IsEnabled = estado;
-            txtApellido.IsEnabled = estado;
-            txtDireccion.IsEnabled = estado;
-        }
-
-        public void habilitarGuarCanc(bool estado)
-        {
-            btnGuardar.IsEnabled = estado;
-            btnCancelar.IsEnabled = estado;
-        }
-
-        public void habilitarABM(bool estado)
-        {
-            btnNuevo.IsEnabled = estado;
-            btnModificar.IsEnabled = estado;
-            btnEliminar.IsEnabled = estado;
-            btnAnterior.IsEnabled = estado;
-            btnSiguiente.IsEnabled = estado;
-            btnPrimero.IsEnabled = estado;
-            btnUltimo.IsEnabled = estado;
-        }
-
-        public void setTextBoxes(Cliente cli)
-        {
-            if (cli != null)
-            {
-                txtApellido.Text = cli.Apellido;
-                txtDireccion.Text = cli.Direccion;
-                txtDni.Text = cli.Dni;
-                txtNombre.Text = cli.Nombre;
-            }
-            
-        }
-        private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            habilitarText(false);
-            actual = listView1.SelectedItem as Cliente;
-            if (actual != null) { setTextBoxes(actual);
-            btnSeleccionar.IsEnabled = true;
-            } 
-
-
-        }
-        #endregion
-
-
-        //metodos para manejar los botones
-        #region ABM
         private void btnNuevo_Click(object sender, RoutedEventArgs e)
         {
             limpiar();
@@ -138,6 +83,7 @@ namespace Vistas
             btnSeleccionar.IsEnabled = false;
             option = 'n';
         }
+
         private void btnModificar_Click(object sender, RoutedEventArgs e)
         {
             if (actual != null)
@@ -174,9 +120,14 @@ namespace Vistas
             else MessageBox.Show("Seleccione un cliente primero");
         }
 
+
+        #endregion
+
+        #region Guardar_Cancelar
+
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            if(option == 'n')
+            if (option == 'n')
                 foreach (Cliente cli in listaClientes)
                 {
                     if (cli.Dni == txtDni.Text)
@@ -185,12 +136,12 @@ namespace Vistas
                         return;
                     }
                 }
-            
-            
-            
+
+
+
             MessageBoxResult result = MessageBox.Show(
-                option == 'n'? "Guardar el cliente?":"Modificar el cliente?", 
-                option == 'n'? "Alta Cliente":"Modificacion Cliente", 
+                option == 'n' ? "Guardar el cliente?" : "Modificar el cliente?",
+                option == 'n' ? "Alta Cliente" : "Modificacion Cliente",
                 MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 
@@ -232,10 +183,24 @@ namespace Vistas
             habilitarABM(true);
             actual = null;
         }
+
         #endregion
 
+        #region navegar_listview
 
-        #region Barra navegacion
+        //este metodo maneja la seleccion de modo objeto/detalle 
+        private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            habilitarText(false);
+            actual = listView1.SelectedItem as Cliente;
+            if (actual != null)
+            {
+                setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
+            }
+
+
+        }
 
         private void btnPrimero_Click(object sender, RoutedEventArgs e)
         {
@@ -287,8 +252,79 @@ namespace Vistas
         }
         #endregion
 
+        #region Habilitar_Deshabilitar_Botones
+
+        public void habilitarGuarCanc(bool estado)
+        {
+            btnGuardar.IsEnabled = estado;
+            btnCancelar.IsEnabled = estado;
+        }
+
+        public void habilitarABM(bool estado)
+        {
+            btnNuevo.IsEnabled = estado;
+            btnModificar.IsEnabled = estado;
+            btnEliminar.IsEnabled = estado;
+            btnAnterior.IsEnabled = estado;
+            btnSiguiente.IsEnabled = estado;
+            btnPrimero.IsEnabled = estado;
+            btnUltimo.IsEnabled = estado;
+        }
+ 
+        #endregion
+
+        #region Habilitar_Limpiar_Cargar_Textboxes
+
+        public void limpiar()
+        {
+            txtDni.Text = string.Empty;
+            txtNombre.Text = string.Empty;
+            txtApellido.Text = string.Empty;
+            txtDireccion.Text = string.Empty;
+        }
+
+        public void habilitarText(bool estado)
+        {
+            txtDni.IsEnabled = estado;
+            txtNombre.IsEnabled = estado;
+            txtApellido.IsEnabled = estado;
+            txtDireccion.IsEnabled = estado;
+        }
+
+        public void setTextBoxes(Cliente cli)
+        {
+            if (cli != null)
+            {
+                txtApellido.Text = cli.Apellido;
+                txtDireccion.Text = cli.Direccion;
+                txtDni.Text = cli.Dni;
+                txtNombre.Text = cli.Nombre;
+            }
+
+        }
+
+        //metodos para manejar los botones
+
+        #endregion
 
         #region Filtros y ordenamiento
+
+        private void txtFiltro_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (vistaFiltro != null)
+            {
+                vistaFiltro.Filter += filtroEventHandler;
+
+                //controlamos la opcion de imprimir para que no se pueda imprimir una lista vacia 
+                if (listView1.Items.Count == 0)
+                {
+                    btnImprimir.IsEnabled = false;
+
+                }
+                else btnImprimir.IsEnabled = true;
+            }
+
+        }
 
         private void filtroEventHandler(object sender, FilterEventArgs e)
         {
@@ -300,6 +336,7 @@ namespace Vistas
                 else e.Accepted = false;
             }
         }
+
         private void listSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (vistaFiltro != null)
@@ -313,22 +350,7 @@ namespace Vistas
 
         #endregion 
 
-        private void txtFiltro_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (vistaFiltro != null)
-            {
-                vistaFiltro.Filter += filtroEventHandler;
-                if (listView1.Items.Count == 0)
-                {
-                    btnImprimir.IsEnabled = false;
-
-                }
-                else  btnImprimir.IsEnabled = true;
-            }
-
-        }
-
-       
+        //metodo para manejar la impresion de los objetos en una lista
         private void btnImprimir_Click(object sender, RoutedEventArgs e)
         {
             VistaPrevia vistaPrevia = new VistaPrevia();
@@ -346,6 +368,7 @@ namespace Vistas
             }
         }
 
+        //metodo para manejar la seleccion de un objeto como parte de una vista
         private void btnSeleccionar_Click(object sender, RoutedEventArgs e)
         {
            

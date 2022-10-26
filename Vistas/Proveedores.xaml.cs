@@ -38,6 +38,17 @@ namespace Vistas
 
         #endregion
 
+        #region manejar_ventana
+
+        private void btnSalir_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
@@ -51,9 +62,8 @@ namespace Vistas
             habilitarText(false);
         }
 
-
-
-        //metodos para manejar los botones nuevo, modificar, eliminar
+        #endregion
+        
         #region Nuevo_Moficar_Eliminar
 
         private void btnNuevo_Click(object sender, RoutedEventArgs e)
@@ -100,78 +110,11 @@ namespace Vistas
 
         #endregion
 
-        #region habilitar_deshabilitar_botones
-
-        public void habilitarGuarCanc(bool estado)
-        {
-            btnGuardar.IsEnabled = estado;
-            btnCancelar.IsEnabled = estado;
-        }
-
-        public void habilitarABM(bool estado)
-        {
-            btnNuevo.IsEnabled = estado;
-            btnModificar.IsEnabled = estado;
-            btnEliminar.IsEnabled = estado;
-            btnAnterior.IsEnabled = estado;
-            btnSiguiente.IsEnabled = estado;
-            btnPrimero.IsEnabled = estado;
-            btnUltimo.IsEnabled = estado;
-        }
-
-
-        #endregion
-
-        #region habilitar_limpiar_cargar_texboxes
-
-        public void limpiar()
-        {
-            txtCuit.Text = string.Empty;
-            txtDomicilio.Text = string.Empty;
-            txtRazon.Text = string.Empty;
-            txtTelefono.Text = string.Empty;
-        }
-
-        public void habilitarText(bool estado)
-        {
-            txtCuit.IsEnabled = estado;
-            txtDomicilio.IsEnabled = estado;
-            txtRazon.IsEnabled = estado;
-            txtTelefono.IsEnabled = estado;
-        }
-
-        public void setTextBoxes(Proveedor prov)
-        {
-            if (prov != null)
-            {
-                txtCuit.Text = prov.CUIT;
-                txtRazon.Text= prov.RazonSocial;
-                txtDomicilio.Text= prov.Domicilio;
-                txtTelefono.Text = prov.Telefono;
-            }
-        }
-
-        #endregion
-
-        #region manejar_ventana
-
-        private void btnSalir_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void btnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
-        #endregion
-
         #region Guardar_Cancelar
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            
+
             //verificamos en caso de guardar un nuevo proveedor que no se repita el CUIT
             if (option == 'n')
                 foreach (Proveedor prov in listaProveedores)
@@ -192,7 +135,7 @@ namespace Vistas
 
             if (result == MessageBoxResult.Yes)
             {
-                actual = new Proveedor(txtCuit.Text,txtRazon.Text,txtDomicilio.Text,txtTelefono.Text);
+                actual = new Proveedor(txtCuit.Text, txtRazon.Text, txtDomicilio.Text, txtTelefono.Text);
                 if (option == 'n')
                 {
 
@@ -216,7 +159,7 @@ namespace Vistas
 
             }
 
-           
+
 
         }
 
@@ -287,7 +230,93 @@ namespace Vistas
 
         #endregion
 
+        #region habilitar_deshabilitar_botones
 
+        public void habilitarGuarCanc(bool estado)
+        {
+            btnGuardar.IsEnabled = estado;
+            btnCancelar.IsEnabled = estado;
+        }
+
+        public void habilitarABM(bool estado)
+        {
+            btnNuevo.IsEnabled = estado;
+            btnModificar.IsEnabled = estado;
+            btnEliminar.IsEnabled = estado;
+            btnAnterior.IsEnabled = estado;
+            btnSiguiente.IsEnabled = estado;
+            btnPrimero.IsEnabled = estado;
+            btnUltimo.IsEnabled = estado;
+        }
+
+
+        #endregion
+
+        #region habilitar_limpiar_cargar_texboxes
+
+        public void limpiar()
+        {
+            txtCuit.Text = string.Empty;
+            txtDomicilio.Text = string.Empty;
+            txtRazon.Text = string.Empty;
+            txtTelefono.Text = string.Empty;
+        }
+
+        public void habilitarText(bool estado)
+        {
+            txtCuit.IsEnabled = estado;
+            txtDomicilio.IsEnabled = estado;
+            txtRazon.IsEnabled = estado;
+            txtTelefono.IsEnabled = estado;
+        }
+
+        public void setTextBoxes(Proveedor prov)
+        {
+            if (prov != null)
+            {
+                txtCuit.Text = prov.CUIT;
+                txtRazon.Text= prov.RazonSocial;
+                txtDomicilio.Text= prov.Domicilio;
+                txtTelefono.Text = prov.Telefono;
+            }
+        }
+
+        #endregion
+
+        #region filtrado y ordenacion
+
+        private void txtFiltro_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (vistaFiltro != null)
+            {
+                vistaFiltro.Filter += filtroEventHandler;
+            }
+
+        }
+
+        private void filtroEventHandler(object sender, FilterEventArgs e)
+        {
+            Proveedor curr = e.Item as Proveedor;
+
+            if (txtFiltro != null)
+            {
+                if (curr.Domicilio.StartsWith(txtFiltro.Text, StringComparison.CurrentCultureIgnoreCase)) e.Accepted = true;
+                else e.Accepted = false;
+            }
+        }
+
+        private void listSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (vistaFiltro != null)
+            {
+                vistaFiltro.SortDescriptions.Clear();
+                string campo = ((ListBoxItem)listSort.Items[listSort.SelectedIndex]).Content as string;
+                //MessageBox.Show(campo);
+                vistaFiltro.SortDescriptions.Add(new SortDescription(campo, ListSortDirection.Ascending));
+            }
+        }
+
+        #endregion
 
     }
 }

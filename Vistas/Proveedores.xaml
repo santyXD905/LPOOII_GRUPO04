@@ -23,7 +23,7 @@
         <CollectionViewSource
             x:Key="VISTA_PROVEEDORES"
             Source="{StaticResource LISTA_PROVEEDORES}"
-            
+            Filter="filtroEventHandler"
             ></CollectionViewSource>
         
 
@@ -158,8 +158,8 @@
             </StackPanel>
             
              <!--muestra los objetos-->
-            <ListView Height="213" HorizontalAlignment="Left" Margin="20,17,0,0" x:Name="listView1" 
-                  VerticalAlignment="Top" Width="480" ItemsSource="{Binding Source={StaticResource VISTA_PROVEEDORES}}" Grid.Row="3" Panel.ZIndex="-1" SelectionChanged="listView1_SelectionChanged">
+            <ListView Height="168" HorizontalAlignment="Left" Margin="20,78,0,0" x:Name="listView1" 
+                  VerticalAlignment="Top" Width="491" ItemsSource="{Binding Source={StaticResource VISTA_PROVEEDORES}}" Grid.Row="3" Panel.ZIndex="-1" SelectionChanged="listView1_SelectionChanged">
                 <ListView.View>
 
                     <GridView>
@@ -173,6 +173,24 @@
 
                 </ListView.View>
             </ListView>
+            <!--elementos para ordenacion y filtrado-->
+            <TextBox Margin="57,16,774,256" Name="txtFiltro" Style="{StaticResource InputForm}" Grid.Row="3" TextChanged="txtFiltro_TextChanged" Background="AliceBlue"/>
+            <Label Content="Ordenar Por: " Margin="292,14,0,239" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="3" HorizontalAlignment="Left" Height="39" Width="99" />
+
+            <Expander Grid.Row="2" Header="---------"  HorizontalAlignment="Left" Margin="397,176,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Grid.RowSpan="3" Panel.ZIndex="3">
+                <ListBox Height="85" Name="listSort" SelectionChanged="listSort_SelectionChanged">
+
+                    <ListBoxItem Content="CUIT"/>
+
+                    <ListBoxItem Content="RazonSocial" />
+
+                    <ListBoxItem Content="Domicilio" />
+
+                    <ListBoxItem Content="Telefono" />
+
+                </ListBox>
+            </Expander>
+
         </Grid>
     </Border>
 </Window>

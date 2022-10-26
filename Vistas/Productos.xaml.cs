@@ -11,6 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ClasesBase;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Data;
 
 namespace Vistas
@@ -20,27 +23,238 @@ namespace Vistas
     /// </summary>
     public partial class Productos : Window
     {
-        public string mode = "default";
+      
         public Productos()
         {
             InitializeComponent();
-            habilitarText(false);
-            habilitarGuarCanc(false);
         }
 
-        private int cont = 1;
-        private bool bandera = false;
-        private Producto oProducto = new Producto();
-        #region manejo de bontones
-        
-        public void habilitarText(bool estado)
+        #region atributes
+
+        ObservableCollection<Producto> listaProductos = new ObservableCollection<Producto>(); // para el manejo de filtros
+        CollectionViewSource vistaFiltro = new CollectionViewSource();
+        char option; // interpola la opcion del boton guardar entre modificar o agregar un nuevo objeto 
+        Producto actual = null; //Producto seleccionado
+        public string mode = "default";
+
+        #endregion
+
+        #region manejo de ventana
+
+        private void btnSalir_Click(object sender, RoutedEventArgs e)
         {
-            txtCodigo.IsEnabled = estado;
-            txtCategoria.IsEnabled = estado;
-            txtColor.IsEnabled = estado;
-            txtDescripcion.IsEnabled = estado;
-            txtPrecio.IsEnabled = estado;
+            this.Close();
         }
+
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ObjectDataProvider odp = this.Resources["LISTA_PRODUCTOS"] as ObjectDataProvider;
+            listaProductos = odp.Data as ObservableCollection<Producto>;
+
+            vistaFiltro = this.Resources["VISTA_PRODUCTOS"] as CollectionViewSource;
+
+            //txtFiltro.Text = String.Empty;
+            habilitarText(false);
+
+            if (mode.Equals("venta"))
+            {
+                btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
+                btnSeleccionar.IsEnabled = false;
+            }
+            else
+            {
+                btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;
+            }
+            limpiar();
+        }
+
+
+        #endregion
+
+        #region Nuevo_Modificar_Eliminar
+
+        private void btnNuevo_Click(object sender, RoutedEventArgs e)
+        {
+            limpiar();
+            habilitarText(true);
+            habilitarGuarCanc(true);
+            habilitarABM(false);
+            btnSeleccionar.IsEnabled = false;
+            option = 'n';
+        }
+
+        private void btnModificar_Click(object sender, RoutedEventArgs e)
+        {
+            if (actual != null)
+            {
+
+                habilitarGuarCanc(true);
+                habilitarText(true);
+                txtCodigo.IsEnabled = false;
+                btnSeleccionar.IsEnabled = false;
+                option = 'u';
+            }
+            else MessageBox.Show("Seleccione un Producto primero");
+
+        }
+
+        private void btnEliminar_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (actual != null)
+            {
+                btnSeleccionar.IsEnabled = false;
+                MessageBoxResult result = MessageBox.Show(
+                    "Confirme eliminacion",
+                    "Eliminacion Producto", MessageBoxButton.OKCancel);
+
+                if (result == MessageBoxResult.OK)
+                {
+                   TrabajarProducto.EliminarProducto(actual.CodProducto);
+                    listaProductos.Remove(actual);
+                }
+            }
+            else MessageBox.Show("Seleccione un Producto primero");
+        }
+
+
+        #endregion
+
+        #region Guardar_Cancelar
+
+        private void btnGuardar_Click(object sender, RoutedEventArgs e)
+        {
+            //se validan los datos del formulario
+            if (IsValid(this))
+            {
+                //se verifica la unicidad de la clave primaria 
+                if (option == 'n')
+
+                    foreach (Producto prd in listaProductos)
+                    {
+                        if (prd.CodProducto == txtCodigo.Text)
+                        {
+                            MessageBox.Show("Ya hay un producto ingresado con ese codigo");
+                            return;
+                        }
+                    }
+
+                //se solicita confimacion de la accion a realizar
+                MessageBoxResult result = MessageBox.Show(
+                option == 'n' ? "Guardar el cliente?" : "Modificar el cliente?",
+                option == 'n' ? "Alta Producto" : "Modificacion Producto",
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    actual = new Producto(txtCodigo.Text, txtCategoria.Text, txtColor.Text, txtDescripcion.Text, Convert.ToDecimal(txtPrecio.Text));
+                    //se realiza la accion y se actualiza las vistas
+                    if (option == 'n')
+                    {
+                        TrabajarProducto.AgregarProducto(actual);
+                        listaProductos.Add(actual);
+                    }
+                    else
+                    {
+                        TrabajarProducto.ModificarProducto(actual);
+                        listaProductos = TrabajarProducto.TraerProductos();
+                        vistaFiltro.Source = listaProductos;
+                    }
+
+                    habilitarText(false);
+                    habilitarGuarCanc(false);
+                    habilitarABM(true);
+                    actual = null;
+                    limpiar();
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Hay campos incorrectos");
+            }
+        }
+
+        private void btnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            limpiar();
+            habilitarText(false);
+            habilitarGuarCanc(false);
+            habilitarABM(true);
+            actual = null;
+        }
+
+        #endregion
+
+        #region navegar list_view
+
+        //este metodo maneja la seleccion de modo objeto/detalle 
+        private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            habilitarText(false);
+            actual = listView1.SelectedItem as Producto;
+            if (actual != null)
+            {
+                setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
+            }
+        }
+
+        private void btnPrimero_Click(object sender, RoutedEventArgs e)
+        {
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToFirst();
+                actual = vistaFiltro.View.CurrentItem as Producto;
+                setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
+            }
+        }
+
+        private void btnAnterior_Click(object sender, RoutedEventArgs e)
+        {
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToPrevious();
+                if (vistaFiltro.View.IsCurrentBeforeFirst) vistaFiltro.View.MoveCurrentToLast();
+                actual = vistaFiltro.View.CurrentItem as Producto;
+                setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
+            }
+        }
+
+        private void btnSiguiente_Click(object sender, RoutedEventArgs e)
+        {
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToNext();
+                if (vistaFiltro.View.IsCurrentAfterLast) vistaFiltro.View.MoveCurrentToFirst();
+                actual = vistaFiltro.View.CurrentItem as Producto;
+                setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
+            }
+        }
+
+        private void btnUltimo_Click(object sender, RoutedEventArgs e)
+        {
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToLast();
+                actual = vistaFiltro.View.CurrentItem as Producto;
+                setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
+            }
+        }
+
+        #endregion
+       
+        #region Habilitar_Deshabilitar_Botones
 
         public void habilitarGuarCanc(bool estado)
         {
@@ -59,254 +273,45 @@ namespace Vistas
             btnUltimo.IsEnabled = estado;
         }
 
-        private void btnNuevo_Click(object sender, RoutedEventArgs e)
-        {
-            limpiar();
-            habilitarText(true);
-            habilitarGuarCanc(true);
-            habilitarABM(false);
-            bandera = false;
-            btnSeleccionar.IsEnabled = false;
-        }
-
-        private void btnCancelar_Click(object sender, RoutedEventArgs e)
-        {
-            limpiar();
-            habilitarText(false);
-            habilitarGuarCanc(false);
-            habilitarABM(true);
-        }
-
-
-        
         #endregion
 
-        #region botones de direcciones
+        #region Habilitar_Limpiar_Cargar_Textboxes
 
-        private void btnSiguiente_Click(object sender, RoutedEventArgs e)
+        public void setTextBoxes(Producto p1)
         {
-            if (cont < TrabajarProducto.DeterminarCantidadProductos())
+            if (p1 != null)
             {
-                cont++;
-                Producto p1 = new Producto();
-                p1 = TrabajarProducto.TraerActual(cont);
-                establecerProducto(p1);
-                btnSeleccionar.IsEnabled = true;
+                txtCodigo.Text = p1.CodProducto;
+                txtCategoria.Text = p1.Categoria;
+                txtColor.Text = p1.Color;
+                txtDescripcion.Text = p1.Descripcion;
+                txtPrecio.Text = p1.Precio.ToString();
             }
-            else
-            {
-                MessageBox.Show("No hay otro producto adelante");
-            }
+           
         }
 
-        private void btnAnterior_Click(object sender, RoutedEventArgs e)
+        public void habilitarText(bool estado)
         {
-            if (cont > 1)
-            {
-                cont--;
-                Producto p1 = new Producto();
-                p1 = TrabajarProducto.TraerActual(cont);
-                establecerProducto(p1);
-                btnSeleccionar.IsEnabled = true;
-            }
-            else
-            {
-                MessageBox.Show("No hay otro producto atras");
-            }
-        }
-
-        private void btnPrimero_Click(object sender, RoutedEventArgs e)
-        {
-            Producto p1 = new Producto();
-            p1 = TrabajarProducto.TraerActual(1);
-            establecerProducto(p1);
-            cont = 1;
-            btnSeleccionar.IsEnabled = true;
-        }
-
-        private void btnUltimo_Click(object sender, RoutedEventArgs e)
-        {
-            Producto p1 = new Producto();
-            p1 = TrabajarProducto.TraerActual(TrabajarProducto.DeterminarCantidadProductos());
-            establecerProducto(p1);
-            cont = TrabajarProducto.DeterminarCantidadProductos();
-            btnSeleccionar.IsEnabled = true;
-        }
-
-        #endregion
-
-        #region alta baja modificacion
-
-        private void btnGuardar_Click(object sender, RoutedEventArgs e)
-        {
-            if (IsValid(this))
-            {
-                if (!bandera)
-                {
-                    bandera = false;
-
-                    MessageBoxResult result = MessageBox.Show("Guardar el producto?", "Alta Producto", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        if (TrabajarProducto.DeterminarProductoExistente(txtCodigo.Text))
-                        {
-                            MessageBox.Show("El codigo del producto ya existe, por favor ingrese otro");
-                        }
-                        else
-                        {
-                            
-                            oProducto.CodProducto = txtCodigo.Text;
-                            oProducto.Categoria = txtCategoria.Text;
-                            oProducto.Color = txtColor.Text;
-                            oProducto.Descripcion = txtDescripcion.Text;
-                            oProducto.Precio = decimal.Parse(txtPrecio.Text);
-                            MessageBox.Show("Codigo: " + oProducto.CodProducto + "\nCategoria: " + oProducto.Categoria + "\nColor: " + oProducto.Color + "\nDescripcion: " + oProducto.Descripcion + "\nPrecio: " + oProducto.Precio);
-                            TrabajarProducto.AgregarProducto(oProducto);
-                            habilitarText(false);
-                            habilitarGuarCanc(false);
-                            habilitarABM(true);
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBoxResult result = MessageBox.Show("Modificar el producto?", "Actualizacion de Producto", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        Producto oProducto = new Producto();
-                        oProducto.CodProducto = txtCodigo.Text;
-                        oProducto.Categoria = txtCategoria.Text;
-                        oProducto.Color = txtColor.Text;
-                        oProducto.Descripcion = txtDescripcion.Text;
-                        oProducto.Precio = decimal.Parse(txtPrecio.Text);
-                        MessageBox.Show("Codigo: " + oProducto.CodProducto + "\nCategoria: " + oProducto.Categoria + "\nColor: " + oProducto.Color + "\nDescripcion: " + oProducto.Descripcion + "\nPrecio: " + oProducto.Precio);
-                        TrabajarProducto.ModificarProducto(oProducto);
-                        habilitarText(false);
-                        habilitarGuarCanc(false);
-                        habilitarABM(true);
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Hay campos incorrectos");
-            }
-
-            this.actualizarListProductos();
-        }
-
-        private void btnModificar_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(txtCodigo.Text))
-            {
-                habilitarText(true);
-                habilitarABM(false);
-                habilitarGuarCanc(true);
-                txtCodigo.IsEnabled = false;
-                bandera = true;
-                btnSeleccionar.IsEnabled = false ;
-            }
-            else
-            {
-                MessageBox.Show("No hay elemento seleccionado");
-            }     
-
-        }
-
-        private void btnEliminar_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(txtCodigo.Text))
-            {
-                btnSeleccionar.IsEnabled = true;
-                MessageBoxResult result = MessageBox.Show("Eliminar el producto?", "Borrado Producto", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    TrabajarProducto.BorrarProducto(txtCodigo.Text);
-                }
-            }
-            else
-            {
-                MessageBox.Show("No hay elemento seleccionado");
-            }
-
-            this.actualizarListProductos();
-
-        }
-
-        /*creamos un nuevo binding porque el objetDataProvider no se actualizaba y
-         no podiamos enlazar los datos con la propiedad DataContext del lisview*/
-        public void actualizarListProductos()
-        {
-            Binding actualizador = new Binding();
-            actualizador.Source = TrabajarProducto.TraerProductos();
-
-            listView1.SetBinding(ListView.ItemsSourceProperty, actualizador);
-        }
-
-
-        #endregion
-
-        #region manejo de ventana
-
-        private void btnSalir_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void btnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
-        #endregion
-
-        #region manejo de formulario
-
-        public void establecerProducto(Producto p1)
-        {
-            oProducto = p1;
-            txtCodigo.Text = p1.CodProducto;
-            txtCategoria.Text = p1.Categoria;
-            txtColor.Text = p1.Color;
-            txtDescripcion.Text = p1.Descripcion;
-            txtPrecio.Text = p1.Precio.ToString();
+            txtCodigo.IsEnabled = estado;
+            txtCategoria.IsEnabled = estado;
+            txtColor.IsEnabled = estado;
+            txtDescripcion.IsEnabled = estado;
+            txtPrecio.IsEnabled = estado;
         }
 
         public void limpiar()
         {
-            oProducto = null;
+            
             txtCodigo.Text = string.Empty;
             txtCategoria.Text = string.Empty;
             txtColor.Text = string.Empty;
             txtDescripcion.Text = string.Empty;
             txtPrecio.Text = string.Empty;
         }
-
-        private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DataRowView dt = listView1.SelectedValue as DataRowView;
-            Producto seleccionado = new Producto();
-            if (listView1.SelectedIndex != -1)
-            {
-                cont = listView1.SelectedIndex + 1;
-                seleccionado = TrabajarProducto.TraerActual(cont);
-                this.establecerProducto(seleccionado);
-                btnSeleccionar.IsEnabled = true;
-            }
-            else
-            {
-                cont = 1;
-                seleccionado = TrabajarProducto.TraerActual(cont);
-                this.establecerProducto(seleccionado);
-            }
-            
-            
-        }
+  
         #endregion
 
+        //metodo para realizar las validaciones de datos
         public static bool IsValid(DependencyObject parent)
         {
             if (Validation.GetHasError(parent))
@@ -315,6 +320,7 @@ namespace Vistas
             // Validate all the bindings on the children
             for (int i = 0; i != VisualTreeHelper.GetChildrenCount(parent); ++i)
             {
+                MessageBox.Show(i.ToString());
                 DependencyObject child = VisualTreeHelper.GetChild(parent, i);
                 if (!IsValid(child)) { return false; }
             }
@@ -322,25 +328,11 @@ namespace Vistas
             return true;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-         
-            if (mode.Equals("venta"))
-            {
-                btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
-                btnSeleccionar.IsEnabled = false;
-            }
-            else
-            {
-                btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;
-            }
-            limpiar();
-        }
-
+       
         private void btnSeleccionar_Click(object sender, RoutedEventArgs e)
         {
             Ventas padre = this.Owner as Ventas;
-            padre.producto = oProducto;
+            padre.producto = actual;
             padre.btnSelProd.Content = "Seleccionado";
             padre.btnSelProd.Background = Brushes.Khaki;
             padre.btnSelProd.Foreground = Brushes.Black;

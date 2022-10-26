@@ -9,18 +9,17 @@
         Background="Transparent"
         AllowsTransparency="True" Loaded="Window_Loaded">
     <Window.Resources>
-        <ObjectDataProvider x:Key="DATA_USER" ObjectType="{x:Type svc:TrabajarProducto}" MethodName="TraerProducto">    
-        </ObjectDataProvider>
-         <ObjectDataProvider
-            ObjectType="{x:Type svc:TrabajarProducto}"
-            MethodName="TraerPrimerProducto"
-            x:Key="primero"
-            />
         <ObjectDataProvider
+            x:Key="LISTA_PRODUCTOS"
             ObjectType="{x:Type svc:TrabajarProducto}"
             MethodName="TraerProductos"
-            x:Key="list_productos"
-            />
+        ></ObjectDataProvider>
+        <CollectionViewSource
+            x:Key="VISTA_PRODUCTOS"
+            Source="{StaticResource ResourceKey=LISTA_PRODUCTOS}"
+           
+        ></CollectionViewSource>
+
     </Window.Resources>
     <Border CornerRadius="10" BorderThickness="0" Height="514" Width="1047">
         <Border.Background>
@@ -122,28 +121,29 @@
                         Style="{StaticResource SuccessButton}"
                         Content="Ultimo"
                         Name="btnUltimo" Click="btnUltimo_Click" />
+                
                 <StackPanel Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.ColumnSpan="3" Margin="48,59,0,-169">
-                    <TextBox x:Name="txtCodigo" Style="{StaticResource TextBoxError}" DataContext="{StaticResource primero}">
+                    <TextBox x:Name="txtCodigo" Style="{StaticResource TextBoxError}">
                         <TextBox.Text>
                             <Binding Path="CodProducto" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                         </TextBox.Text>
                     </TextBox>
-                    <TextBox x:Name="txtCategoria" Style="{StaticResource TextBoxError}" DataContext="{StaticResource primero}">
+                    <TextBox x:Name="txtCategoria" Style="{StaticResource TextBoxError}" >
                         <TextBox.Text>
                             <Binding Path="Categoria" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                         </TextBox.Text>
                     </TextBox>
-                    <TextBox x:Name="txtColor" Style="{StaticResource TextBoxError}" DataContext="{StaticResource primero}">
+                    <TextBox x:Name="txtColor" Style="{StaticResource TextBoxError}" >
                         <TextBox.Text>
                             <Binding Path="Color" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                         </TextBox.Text>
                     </TextBox>
-                    <TextBox x:Name="txtDescripcion" Style="{StaticResource TextBoxError}" DataContext="{StaticResource primero}">
+                    <TextBox x:Name="txtDescripcion" Style="{StaticResource TextBoxError}" >
                         <TextBox.Text>
                             <Binding Path="Descripcion" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                         </TextBox.Text>
                     </TextBox>
-                    <TextBox x:Name="txtPrecio" Style="{StaticResource TextBoxError}" DataContext="{StaticResource primero}">
+                    <TextBox x:Name="txtPrecio" Style="{StaticResource TextBoxError}" >
                         <TextBox.Text>
                             <Binding Path="Precio" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -164,16 +164,16 @@
                 </Grid.ColumnDefinitions>
                 <Button Content="Salir" x:Name="btnSalir" Style="{StaticResource ButtonSalir}" Click="btnSalir_Click" Grid.Column="3" Margin="0,6,13,0"></Button>
             </Grid>
-            <ListView Height="129" HorizontalAlignment="Left" Margin="375,8,0,0" x:Name="listView1" 
-                  VerticalAlignment="Top" Width="315" ItemsSource="{Binding Source={StaticResource list_productos}, Mode=OneWay}" Grid.Row="4" SelectionChanged="listView1_SelectionChanged">
+            <ListView Height="129" HorizontalAlignment="Left" Margin="284,24,0,0" x:Name="listView1" 
+                  VerticalAlignment="Top" Width="411" ItemsSource="{Binding Source={StaticResource  ResourceKey=VISTA_PRODUCTOS}}" Grid.Row="4" SelectionChanged="listView1_SelectionChanged">
                 <ListView.View>
                     <GridView>
 
-                        <GridViewColumn Header="Codigo" DisplayMemberBinding="{Binding Path=codProducto}"/>
-                        <GridViewColumn Header="Categoria" DisplayMemberBinding="{Binding Path=categoria}"/>
-                        <GridViewColumn Header="Color" DisplayMemberBinding="{Binding Path=color}"/>
-                        <GridViewColumn Header="Descripcion" DisplayMemberBinding="{Binding Path=descripcion}"/>
-                        <GridViewColumn Header="Precio" DisplayMemberBinding="{Binding Path=precio}"/>
+                        <GridViewColumn Header="Codigo" DisplayMemberBinding="{Binding Path=CodProducto}"/>
+                        <GridViewColumn Header="Categoria" DisplayMemberBinding="{Binding Path=Categoria}"/>
+                        <GridViewColumn Header="Color" DisplayMemberBinding="{Binding Path=Color}"/>
+                        <GridViewColumn Header="Descripcion" DisplayMemberBinding="{Binding Path=Descripcion}"/>
+                        <GridViewColumn Header="Precio" DisplayMemberBinding="{Binding Path=Precio}"/>
 
                     </GridView>
 

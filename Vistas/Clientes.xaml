@@ -184,7 +184,7 @@
                 </ListView.View>
             </ListView>
             <TextBox Margin="17,180,698,0" Name="txtFiltro" Style="{StaticResource InputForm}" Grid.Row="2" TextChanged="txtFiltro_TextChanged" />
-            <Label Content="Ordenar Por: " Margin="0,170,463,0" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="2" />
+            <Label Content="Ordenar Por: " Margin="272,170,0,0" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="2" HorizontalAlignment="Left" />
 
             <Expander Grid.Row="2" Header="---------"  HorizontalAlignment="Left" Margin="397,176,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Grid.RowSpan="3" Panel.ZIndex="3">
                 <ListBox Height="85" Name="listSort" SelectionChanged="listSort_SelectionChanged">

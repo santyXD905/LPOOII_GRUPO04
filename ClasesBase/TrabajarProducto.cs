@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-
 using System.Data;
 using System.Data.SqlClient;
 
@@ -11,111 +11,36 @@ namespace ClasesBase
     public class TrabajarProducto
     {
 
-        //TraerProducto para el formulario de productos
-
-        public static Producto TraerProducto() { 
-            Producto producto = new Producto();
-            producto.CodProducto = "";
-            producto.Categoria = "";
-            producto.Color = "";
-            producto.Descripcion = "";
-            return producto;
-        }
-
         //TraerProductos que devuelva el Código, Categoría, Color,Descripción, Precio.
 
-        public static DataTable TraerProductos()
+        public static ObservableCollection<Producto> TraerProductos()
         {
-            SqlConnection cn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText="SELECT * FROM Producto";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = cn;
-
-            DataTable dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-
-            da.Fill(dt);
-
-            return dt;
-
-        }
-
-        //Obtener primer elemento(para el binding)
-        public static Producto TraerPrimerProducto() {
-            Producto p1 = new Producto();
-            SqlConnection cn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT TOP 1 * FROM Producto";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = cn;
-
-            DataTable dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-
-            da.Fill(dt);
-
-            p1.CodProducto = dt.Rows[0]["codProducto"].ToString();
-            p1.Categoria = dt.Rows[0]["categoria"].ToString();
-            p1.Color = dt.Rows[0]["color"].ToString();
-            p1.Descripcion = dt.Rows[0]["descripcion"].ToString();
-            p1.Precio = decimal.Parse(dt.Rows[0]["precio"].ToString());
-            return p1;
-        }
-
-        //Obtener actual
-        public static Producto TraerActual(int index) {
-
-            Producto p1 = new Producto();
-
             // conexion a la base de datos
             SqlConnection cnn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
 
             //operaciones
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandType = CommandType.StoredProcedure; // SIN SP-> Text
+
+            cmd.CommandType = CommandType.Text;
             cmd.Connection = cnn;
 
-            cmd.CommandText = "ObtenerProducto";
-
-            SqlParameter param = new SqlParameter("@actual", SqlDbType.Int);
-            param.Value = index;
-            param.Direction = ParameterDirection.Input;
-            cmd.Parameters.Add(param);
-
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-
-            da.Fill(dt);
-
-            p1.CodProducto = dt.Rows[0]["codProducto"].ToString();
-            p1.Categoria = dt.Rows[0]["categoria"].ToString();
-            p1.Color = dt.Rows[0]["color"].ToString();
-            p1.Descripcion = dt.Rows[0]["descripcion"].ToString();
-            p1.Precio = decimal.Parse(dt.Rows[0]["precio"].ToString());
-
-            return p1;
-        }
-        //Determinar cantidad de productos
-        public static int DeterminarCantidadProductos()
-        {
-            SqlConnection cn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
-
-            SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "SELECT * FROM Producto";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = cn;
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
 
             DataTable dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
 
             da.Fill(dt);
 
-            return dt.Rows.Count;
+            ObservableCollection<Producto> lista = new ObservableCollection<Producto>();
 
+            foreach (DataRow x in dt.Rows)
+            {
+                lista.Add(new Producto(x["codProducto"].ToString(), x["categoria"].ToString(),
+                    x["color"].ToString(), x["descripcion"].ToString(),Convert.ToDecimal(x["precio"].ToString())));
+            }
+
+            return lista;
         }
 
         //Determinar producto existente
@@ -144,6 +69,7 @@ namespace ClasesBase
             if (dt.Rows.Count == 0) return false;
             else return true;
         }
+
         //Agregar nuevo producto
 
         public static void AgregarProducto(Producto producto)
@@ -242,7 +168,7 @@ namespace ClasesBase
 
         //Borrar producto
 
-        public static void BorrarProducto(string codigo)
+        public static void EliminarProducto(string codigo)
         {
             // conexion a la base de datos
             SqlConnection cnn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
@@ -281,13 +207,7 @@ namespace ClasesBase
             DataTable dt = new DataTable();
             da.Fill(dt);
 
-            Producto v = new Producto();
-
-            v.Categoria = dt.Rows[0]["categoria"].ToString();
-            v.Color = dt.Rows[0]["color"].ToString();
-            v.Descripcion = dt.Rows[0]["descripcion"].ToString();
-            v.Precio = Decimal.Parse(dt.Rows[0]["precio"].ToString());
-            v.CodProducto = cod;
+            Producto v = new Producto(cod,dt.Rows[0]["categoria"].ToString(),dt.Rows[0]["color"].ToString(),dt.Rows[0]["descripcion"].ToString(), Decimal.Parse(dt.Rows[0]["precio"].ToString()));
 
             return v;
 
