@@ -130,7 +130,7 @@ namespace Vistas
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
             //se validan los datos del formulario
-            if (IsValid(this))
+            if (IsValid(stpPadre))
             {
                 //se verifica la unicidad de la clave primaria 
                 if (option == 'n')
@@ -146,7 +146,7 @@ namespace Vistas
 
                 //se solicita confimacion de la accion a realizar
                 MessageBoxResult result = MessageBox.Show(
-                option == 'n' ? "Guardar el cliente?" : "Modificar el cliente?",
+                option == 'n' ? "Guardar el producto?" : "Modificar el producto?",
                 option == 'n' ? "Alta Producto" : "Modificacion Producto",
                 MessageBoxButton.YesNo, MessageBoxImage.Question);
 
@@ -320,7 +320,6 @@ namespace Vistas
             // Validate all the bindings on the children
             for (int i = 0; i != VisualTreeHelper.GetChildrenCount(parent); ++i)
             {
-                MessageBox.Show(i.ToString());
                 DependencyObject child = VisualTreeHelper.GetChild(parent, i);
                 if (!IsValid(child)) { return false; }
             }

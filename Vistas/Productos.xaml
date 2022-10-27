@@ -10,6 +10,11 @@
         AllowsTransparency="True" Loaded="Window_Loaded">
     <Window.Resources>
         <ObjectDataProvider
+            x:Key="PRODUCTO_VALIDACION"
+            ObjectType="{x:Type svc:TrabajarProducto}"
+            MethodName="TraerProducto"
+        ></ObjectDataProvider>
+        <ObjectDataProvider
             x:Key="LISTA_PRODUCTOS"
             ObjectType="{x:Type svc:TrabajarProducto}"
             MethodName="TraerProductos"
@@ -122,28 +127,28 @@
                         Content="Ultimo"
                         Name="btnUltimo" Click="btnUltimo_Click" />
                 
-                <StackPanel Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.ColumnSpan="3" Margin="48,59,0,-169">
-                    <TextBox x:Name="txtCodigo" Style="{StaticResource TextBoxError}">
+                <StackPanel Name="stpPadre" Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.ColumnSpan="3" Margin="48,59,0,-169">
+                    <TextBox x:Name="txtCodigo" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
                         <TextBox.Text>
                             <Binding Path="CodProducto" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                         </TextBox.Text>
                     </TextBox>
-                    <TextBox x:Name="txtCategoria" Style="{StaticResource TextBoxError}" >
+                    <TextBox x:Name="txtCategoria" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
                         <TextBox.Text>
                             <Binding Path="Categoria" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                         </TextBox.Text>
                     </TextBox>
-                    <TextBox x:Name="txtColor" Style="{StaticResource TextBoxError}" >
+                    <TextBox x:Name="txtColor" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
                         <TextBox.Text>
                             <Binding Path="Color" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                         </TextBox.Text>
                     </TextBox>
-                    <TextBox x:Name="txtDescripcion" Style="{StaticResource TextBoxError}" >
+                    <TextBox x:Name="txtDescripcion" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
                         <TextBox.Text>
                             <Binding Path="Descripcion" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                         </TextBox.Text>
                     </TextBox>
-                    <TextBox x:Name="txtPrecio" Style="{StaticResource TextBoxError}" >
+                    <TextBox x:Name="txtPrecio" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
                         <TextBox.Text>
                             <Binding Path="Precio" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>

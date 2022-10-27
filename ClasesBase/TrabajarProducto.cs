@@ -10,6 +10,13 @@ namespace ClasesBase
 {
     public class TrabajarProducto
     {
+        
+        //Traer producto
+        public static Producto TraerProducto()
+        {
+            Producto producto = new Producto("", "", "", "", 0);
+            return producto;
+        }
 
         //TraerProductos que devuelva el Código, Categoría, Color,Descripción, Precio.
 
