@@ -8,6 +8,14 @@ namespace ClasesBase
 {
     public class Vendedor : IDataErrorInfo
     {
+        public Vendedor(string leg, string ape, string nom)
+        {
+            // TODO: Complete member initialization
+            this.legajo = leg;
+            this.apellido = ape;
+            this.nombre = nom;
+        }
+
         private string legajo;
 
         public string Legajo

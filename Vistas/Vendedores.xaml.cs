@@ -11,8 +11,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ClasesBase;
-using System.Data;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace Vistas
 {
@@ -21,8 +23,7 @@ namespace Vistas
     /// </summary>
     public partial class Vendedores : Window
     {
-        public string mode = "default";
-        private Vendedor oVendedor = new Vendedor();
+        
         public Vendedores()
         {
             InitializeComponent();
@@ -30,32 +31,225 @@ namespace Vistas
             habilitarGuarCanc(false);
         }
 
-        private int cont = 1;
-        private bool bandera = false;
+        #region Attributes
 
-        public static bool IsValid(DependencyObject parent)
+        ObservableCollection<Vendedor> listaVendedores = new ObservableCollection<Vendedor>(); // para el manejo de filtros
+        CollectionViewSource vistaFiltro = new CollectionViewSource();
+        char option; // interpola la opcion del boton guardar entre modificar o agregar un nuevo objeto 
+        Vendedor actual; //Vendedor seleccionado
+        public String mode = "default";
+
+        #endregion
+
+        #region manejar_ventana
+
+        private void btnSalir_Click(object sender, RoutedEventArgs e)
         {
-            if (Validation.GetHasError(parent))
-                return false;
+            this.Close();
+        }
 
-            // Validate all the bindings on the children
-            for (int i = 0; i != VisualTreeHelper.GetChildrenCount(parent); ++i)
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ObjectDataProvider odp = this.Resources["LISTA_VENDEDORES"] as ObjectDataProvider;
+            listaVendedores = odp.Data as ObservableCollection<Vendedor>;
+
+            vistaFiltro = this.Resources["VISTA_VENDEDORES"] as CollectionViewSource;
+
+            //txtFiltro.Text = String.Empty;
+
+            habilitarText(false);
+
+            if (mode.Equals("venta"))
             {
-                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
-                if (!IsValid(child)) { return false; }
+                btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
+                btnSeleccionar.IsEnabled = false;
             }
-
-            return true;
+            else
+            {
+                btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;
+            }
+            limpiar();
         }
 
-        #region manejo de botones
+        #endregion
 
-        public void habilitarText(bool estado)
+        #region Nuevo_Modificar_Eliminar
+        
+        private void btnNuevo_Click(object sender, RoutedEventArgs e)
         {
-            txtLegajo.IsEnabled = estado;
-            txtNombre.IsEnabled = estado;
-            txtApellido.IsEnabled = estado;
+            limpiar();
+            habilitarText(true);
+            habilitarGuarCanc(true);
+            habilitarABM(false);
+            btnSeleccionar.IsEnabled = false;
+            option = 'n';
         }
+
+        private void btnModificar_Click(object sender, RoutedEventArgs e)
+        {
+            if (actual != null)
+            {
+
+                habilitarGuarCanc(true);
+                habilitarText(true);
+                txtLegajo.IsEnabled = false;
+                btnSeleccionar.IsEnabled = false;
+                option = 'u';
+            }
+            else MessageBox.Show("Seleccione un vendedor primero");
+        }
+
+        private void btnEliminar_Click(object sender, RoutedEventArgs e)
+        {
+            if (actual != null)
+            {
+                btnSeleccionar.IsEnabled = false;
+                MessageBoxResult result = MessageBox.Show(
+                    "Confirme eliminacion",
+                    "Eliminacion Vendedor", MessageBoxButton.OKCancel);
+
+                if (result == MessageBoxResult.OK)
+                {
+                    TrabajarVendedor.EliminarVendedor(actual.Legajo);
+                    listaVendedores.Remove(actual);
+                }
+            }
+            else MessageBox.Show("Seleccione un Vendedor primero");
+        }
+
+        #endregion
+
+        #region Guardar_Cancelar
+
+        private void btnGuardar_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsValid(stpPadre))
+            {
+                if (option == 'n')
+                    foreach (Vendedor cli in listaVendedores)
+                    {
+                        if (cli.Legajo == txtLegajo.Text)
+                        {
+                            MessageBox.Show("Ya hay un Vendedor con el Legajo ingresado");
+                            return;
+                        }
+                    }
+
+
+
+                MessageBoxResult result = MessageBox.Show(
+                    option == 'n' ? "Guardar el Vendedor?" : "Modificar el Vendedor?",
+                    option == 'n' ? "Alta Vendedor" : "Modificacion Vendedor",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    actual = new Vendedor(txtLegajo.Text, txtApellido.Text, txtNombre.Text);
+
+                    if (option == 'n')
+                    {
+                        TrabajarVendedor.AgregarVendedor(actual);
+                        listaVendedores.Add(actual);
+                    }
+                    else
+                    {
+                        TrabajarVendedor.ModificarVendedor(actual);
+                        listaVendedores = TrabajarVendedor.TraerVendedores();
+                        vistaFiltro.Source = listaVendedores;
+                    }
+
+                    habilitarText(false);
+                    habilitarGuarCanc(false);
+                    habilitarABM(true);
+                    actual = null;
+                    limpiar();
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Hay campos incorrectos");
+            }
+        }
+
+        private void btnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            limpiar();
+            habilitarText(false);
+            habilitarGuarCanc(false);
+            habilitarABM(true);
+            actual = null;
+        }
+
+        #endregion
+
+        #region navegar_listview
+
+        private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            habilitarText(false);
+            actual = listView1.SelectedItem as Vendedor;
+            if (actual != null)
+            {
+                setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
+            }
+        }
+
+        private void btnPrimero_Click(object sender, RoutedEventArgs e)
+        {
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToFirst();
+                actual = vistaFiltro.View.CurrentItem as Vendedor;
+                setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
+            }
+        }
+        private void btnAnterior_Click(object sender, RoutedEventArgs e)
+        {
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToPrevious();
+                if (vistaFiltro.View.IsCurrentBeforeFirst) vistaFiltro.View.MoveCurrentToLast();
+                actual = vistaFiltro.View.CurrentItem as Vendedor;
+                setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
+            }
+        }
+
+        private void btnSiguiente_Click(object sender, RoutedEventArgs e)
+        {
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToNext();
+                if (vistaFiltro.View.IsCurrentAfterLast) vistaFiltro.View.MoveCurrentToFirst();
+                actual = vistaFiltro.View.CurrentItem as Vendedor;
+                setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
+            }
+        }
+
+        private void btnUltimo_Click(object sender, RoutedEventArgs e)
+        {
+            if (vistaFiltro.View != null)
+            {
+                vistaFiltro.View.MoveCurrentToLast();
+                actual = vistaFiltro.View.CurrentItem as Vendedor;
+                setTextBoxes(actual);
+                btnSeleccionar.IsEnabled = true;
+            }
+        }
+
+        #endregion
+
+        #region Habilitar_Deshabilitar_Botones
 
         public void habilitarGuarCanc(bool estado)
         {
@@ -74,65 +268,23 @@ namespace Vistas
             btnUltimo.IsEnabled = estado;
         }
 
-        private void btnNuevo_Click(object sender, RoutedEventArgs e)
-        {
-            limpiar();
-            habilitarText(true);
-            habilitarGuarCanc(true);
-            habilitarABM(false);
-            bandera = false;
-        }
-
-        private void btnCancelar_Click(object sender, RoutedEventArgs e)
-        {
-            limpiar();
-            habilitarText(false);
-            habilitarGuarCanc(false);
-            habilitarABM(true);
-        }
-
-        private void btnModificar_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(txtLegajo.Text))
-            {
-                habilitarText(true);
-                habilitarABM(false);
-                habilitarGuarCanc(true);
-                txtLegajo.IsEnabled = false;
-                bandera = true;
-                btnSeleccionar.IsEnabled = false;
-            }
-            else
-            {
-                MessageBox.Show("No hay elemento seleccionado");
-            }
-        }
-
         #endregion
 
-        #region manejo de ventana
+        #region Habilitar_Limpiar_Cargar_Textboxes
 
-        private void btnSalir_Click(object sender, RoutedEventArgs e)
+        public void habilitarText(bool estado)
         {
-            this.Close();
+            txtLegajo.IsEnabled = estado;
+            txtNombre.IsEnabled = estado;
+            txtApellido.IsEnabled = estado;
         }
 
-        private void btnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
-
-        #endregion
-
-        #region manejo de formulario
-
-        public void establecerVendedor(Vendedor v1)
+        public void setTextBoxes(Vendedor v1)
         {
             txtLegajo.Text = v1.Legajo;
             txtNombre.Text = v1.Nombre;
             txtApellido.Text = v1.Apellido;
-            oVendedor = v1;
+            actual = v1;
         }
 
         public void limpiar()
@@ -140,202 +292,82 @@ namespace Vistas
             txtLegajo.Text = string.Empty;
             txtNombre.Text = string.Empty;
             txtApellido.Text = string.Empty;
-            oVendedor = null;
-        }
-
-
-
-        #endregion
-
-        #region alta baja modificacion
-
-        private void btnGuardar_Click(object sender, RoutedEventArgs e)
-        {
-            if (IsValid(this))
-            {
-                if (!bandera)
-                {
-                    bandera = false;
-
-                    MessageBoxResult result = MessageBox.Show("Guardar el vendedor?", "Alta Vendedor", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        if (TrabajarVendedor.DeterminarVendedorExistente(txtLegajo.Text))
-                        {
-                            MessageBox.Show("El legajo del vendedor ya existe, por favor ingrese otro");
-                        }
-                        else
-                        {
-                            
-                            oVendedor.Apellido = txtApellido.Text;
-                            oVendedor.Nombre = txtNombre.Text;
-                            oVendedor.Legajo = txtLegajo.Text;
-                            MessageBox.Show("Legajo: " + oVendedor.Legajo + "\nApellido: " + oVendedor.Apellido + "\nNombre: " + oVendedor.Nombre);
-                            TrabajarVendedor.AgregarVendedor(oVendedor);
-                            habilitarText(false);
-                            habilitarGuarCanc(false);
-                            habilitarABM(true);
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBoxResult result = MessageBox.Show("Modificar el vendedor?", "Actualizacion de Vendedor", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        Vendedor oVendedor = new Vendedor();
-                        oVendedor.Apellido = txtApellido.Text;
-                        oVendedor.Nombre = txtNombre.Text;
-                        oVendedor.Legajo = txtLegajo.Text;
-                        MessageBox.Show("Legajo: " + oVendedor.Legajo + "\nApellido: " + oVendedor.Apellido + "\nNombre: " + oVendedor.Nombre);
-                        TrabajarVendedor.ModificarVendedor(oVendedor);
-                        habilitarText(false);
-                        habilitarGuarCanc(false);
-                        habilitarABM(true);
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Hay campos incorrectos");
-            }
-
-            this.actualizarListVendedores();
-        }
-
-        private void btnEliminar_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(txtLegajo.Text))
-            {
-                MessageBoxResult result = MessageBox.Show("Eliminar el vendedor?", "Borrado Vendedor", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    TrabajarVendedor.BorrarVendedor(txtLegajo.Text);
-                }
-                btnSeleccionar.IsEnabled = false;
-
-            }
-            else
-            {
-                MessageBox.Show("No hay elemento seleccionado");
-            }
-
-            this.actualizarListVendedores();
-        }
-
-        public void actualizarListVendedores()
-        {
-            Binding actualizador = new Binding();
-            actualizador.Source = TrabajarVendedor.TraerVendedores();
-
-            listView1.SetBinding(ListView.ItemsSourceProperty, actualizador);
-        }
-
-
-        #endregion
-
-        #region botones de direcciones
-
-        private void btnSiguiente_Click(object sender, RoutedEventArgs e)
-        {
-            if (cont < TrabajarVendedor.DeterminarCantidadVendedores())
-            {
-                cont++;
-                Vendedor v1 = new Vendedor();
-                v1 = TrabajarVendedor.TraerActual(cont);
-                establecerVendedor(v1);
-                btnSeleccionar.IsEnabled = true;
-            }
-            else
-            {
-                MessageBox.Show("No hay otro vendedor adelante");
-            }
-        }
-
-        private void btnAnterior_Click(object sender, RoutedEventArgs e)
-        {
-            if (cont > 1)
-            {
-                cont--;
-                Vendedor v1 = new Vendedor();
-                v1 = TrabajarVendedor.TraerActual(cont);
-                establecerVendedor(v1);
-                btnSeleccionar.IsEnabled = true;
-            }
-            else
-            {
-                MessageBox.Show("No hay otro vendedor atras");
-            }
-        }
-
-        private void btnPrimero_Click(object sender, RoutedEventArgs e)
-        {
-            Vendedor v1 = new Vendedor();
-            v1 = TrabajarVendedor.TraerActual(1);
-            establecerVendedor(v1);
-            cont = 1;
-            btnSeleccionar.IsEnabled = true;
-        }
-
-        private void btnUltimo_Click(object sender, RoutedEventArgs e)
-        {
-            Vendedor v1 = new Vendedor();
-            v1 = TrabajarVendedor.TraerActual(TrabajarVendedor.DeterminarCantidadVendedores());
-            establecerVendedor(v1);
-            cont = TrabajarVendedor.DeterminarCantidadVendedores();
-            btnSeleccionar.IsEnabled = true;
+            actual = null;
         }
 
         #endregion
 
-        private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-           
-            DataRowView dt = listView1.SelectedValue as DataRowView;
-            Vendedor seleccionado = new Vendedor();
-            if (listView1.SelectedIndex != -1)
-            {
-                cont = listView1.SelectedIndex + 1;
-                seleccionado = TrabajarVendedor.TraerActual(cont);
-                this.establecerVendedor(seleccionado);
-                btnSeleccionar.IsEnabled = true;
-            }
-            else
-            {
-                cont = 1;
-                seleccionado = TrabajarVendedor.TraerActual(cont);
-                this.establecerVendedor(seleccionado);
+        #region Filtros y ordenamiento
 
+        private void txtFiltro_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (vistaFiltro != null)
+            {
+                vistaFiltro.Filter += filtroEventHandler;
+
+                //controlamos la opcion de imprimir para que no se pueda imprimir una lista vacia 
+                /*
+                if (listView1.Items.Count == 0)
+                {
+                    btnImprimir.IsEnabled = false;
+
+                }
+                else btnImprimir.IsEnabled = true;
+                 */
             }
-            
+
+        }
+
+        private void filtroEventHandler(object sender, FilterEventArgs e)
+        {
+            Vendedor curr = e.Item as Vendedor;
+
+            if (txtFiltro != null)
+            {
+                if (curr.Apellido.StartsWith(txtFiltro.Text, StringComparison.CurrentCultureIgnoreCase)) e.Accepted = true;
+                else e.Accepted = false;
+            }
+        }
+
+        private void listSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (vistaFiltro != null)
+            {
+                vistaFiltro.SortDescriptions.Clear();
+                string campo = ((ListBoxItem)listSort.Items[listSort.SelectedIndex]).Content as string;
+                //MessageBox.Show(campo);
+                vistaFiltro.SortDescriptions.Add(new SortDescription(campo, ListSortDirection.Ascending));
+            }
+        }
+
+        #endregion
+
+        public static bool IsValid(DependencyObject parent)
+        {
+            if (Validation.GetHasError(parent))
+                return false;
+
+            // Validate all the bindings on the children
+            for (int i = 0; i != VisualTreeHelper.GetChildrenCount(parent); ++i)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+                if (!IsValid(child)) { return false; }
+            }
+
+            return true;
         }
 
         private void btnSeleccionar_Click(object sender, RoutedEventArgs e)
         {
             Ventas padre = this.Owner as Ventas;
-            padre.vendedor = oVendedor;
+            padre.vendedor =actual;
             padre.btnSelVendedor.Content = "Seleccionado";
             padre.btnSelVendedor.Background = Brushes.Khaki;
             padre.btnSelVendedor.Foreground = Brushes.Black;
             this.Close();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (mode.Equals("venta"))
-            {
-                btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
-                btnSeleccionar.IsEnabled = false;
-            }
-            else
-            {
-                btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;
-            }
-            limpiar();
-        }
+       
 
         
 

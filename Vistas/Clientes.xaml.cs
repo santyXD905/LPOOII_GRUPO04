@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Data;
+
 namespace Vistas
 {
     /// <summary>
@@ -38,7 +39,7 @@ namespace Vistas
 
         #endregion
         
-        #region Ventana
+        #region Manejar_Ventana
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -96,9 +97,6 @@ namespace Vistas
                 option = 'u';
             }
             else MessageBox.Show("Seleccione un cliente primero");
-
-
-
         }
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
@@ -127,51 +125,59 @@ namespace Vistas
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            if (option == 'n')
-                foreach (Cliente cli in listaClientes)
-                {
-                    if (cli.Dni == txtDni.Text)
-                    {
-                        MessageBox.Show("Ya hay un cliente con el DNI ingresado");
-                        return;
-                    }
-                }
-
-
-
-            MessageBoxResult result = MessageBox.Show(
-                option == 'n' ? "Guardar el cliente?" : "Modificar el cliente?",
-                option == 'n' ? "Alta Cliente" : "Modificacion Cliente",
-                MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-
-            if (result == MessageBoxResult.Yes)
+            if (IsValid(stpPadre))
             {
-                if (actual == null) actual = new Cliente();
-                actual.Dni = txtDni.Text;
-                actual.Nombre = txtNombre.Text;
-                actual.Apellido = txtApellido.Text;
-                actual.Direccion = txtDireccion.Text;
-
                 if (option == 'n')
-                {
-                    TrabajarCliente.GuardarCliente(actual);
-                    listaClientes.Add(actual);
-                }
-                else
-                {
-                    TrabajarCliente.ModificarCliente(actual);
-                    listaClientes = TrabajarCliente.TraerClientes();
-                    vistaFiltro.Source = listaClientes;
-                }
+                    foreach (Cliente cli in listaClientes)
+                    {
+                        if (cli.Dni == txtDni.Text)
+                        {
+                            MessageBox.Show("Ya hay un cliente con el DNI ingresado");
+                            return;
+                        }
+                    }
 
-                habilitarText(false);
-                habilitarGuarCanc(false);
-                habilitarABM(true);
-                actual = null;
-                limpiar();
 
+
+                MessageBoxResult result = MessageBox.Show(
+                    option == 'n' ? "Guardar el cliente?" : "Modificar el cliente?",
+                    option == 'n' ? "Alta Cliente" : "Modificacion Cliente",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    if (actual == null) actual = new Cliente();
+                    actual.Dni = txtDni.Text;
+                    actual.Nombre = txtNombre.Text;
+                    actual.Apellido = txtApellido.Text;
+                    actual.Direccion = txtDireccion.Text;
+
+                    if (option == 'n')
+                    {
+                        TrabajarCliente.GuardarCliente(actual);
+                        listaClientes.Add(actual);
+                    }
+                    else
+                    {
+                        TrabajarCliente.ModificarCliente(actual);
+                        listaClientes = TrabajarCliente.TraerClientes();
+                        vistaFiltro.Source = listaClientes;
+                    }
+
+                    habilitarText(false);
+                    habilitarGuarCanc(false);
+                    habilitarABM(true);
+                    actual = null;
+                    limpiar();
+
+                }
             }
+            else
+            {
+                MessageBox.Show("Hay campos incorrectos");
+            }
+            
 
         }
 
@@ -349,6 +355,22 @@ namespace Vistas
         }
 
         #endregion 
+
+        //metodo para realizar las validaciones de datos
+        public static bool IsValid(DependencyObject parent)
+        {
+            if (Validation.GetHasError(parent))
+                return false;
+
+            // Validate all the bindings on the children
+            for (int i = 0; i != VisualTreeHelper.GetChildrenCount(parent); ++i)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+                if (!IsValid(child)) { return false; }
+            }
+
+            return true;
+        }
 
         //metodo para manejar la impresion de los objetos en una lista
         private void btnImprimir_Click(object sender, RoutedEventArgs e)

@@ -10,6 +10,13 @@ namespace ClasesBase
 {
     public class TrabajarProveedor
     {
+        //Traer proveedor
+        public static Proveedor TraerProveedor()
+        {
+            Proveedor prov = new Proveedor("", "", "", "");
+            return prov;
+        }
+
         //trae todos los proveedores
         public static ObservableCollection<Proveedor> TraerProveedores()
         {

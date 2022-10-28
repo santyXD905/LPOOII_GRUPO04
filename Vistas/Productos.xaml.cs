@@ -311,6 +311,52 @@ namespace Vistas
   
         #endregion
 
+        #region Filtros y ordenamiento
+
+        private void txtFiltro_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (vistaFiltro != null)
+            {
+                vistaFiltro.Filter += filtroEventHandler;
+
+                //controlamos la opcion de imprimir para que no se pueda imprimir una lista vacia 
+                /*
+                if (listView1.Items.Count == 0)
+                {
+                    btnImprimir.IsEnabled = false;
+
+                }
+                else btnImprimir.IsEnabled = true;
+                */
+            }
+
+        }
+
+        private void filtroEventHandler(object sender, FilterEventArgs e)
+        {
+            Producto curr = e.Item as Producto;
+
+            if (txtFiltro != null)
+            {
+                //filta por el codigo de producto
+                if (curr.CodProducto.StartsWith(txtFiltro.Text, StringComparison.CurrentCultureIgnoreCase)) e.Accepted = true;
+                else e.Accepted = false;
+            }
+        }
+
+        private void listSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (vistaFiltro != null)
+            {
+                vistaFiltro.SortDescriptions.Clear();
+                string campo = ((ListBoxItem)listSort.Items[listSort.SelectedIndex]).Content as string;
+                //MessageBox.Show(campo);
+                vistaFiltro.SortDescriptions.Add(new SortDescription(campo, ListSortDirection.Ascending));
+            }
+        }
+
+        #endregion 
+
         //metodo para realizar las validaciones de datos
         public static bool IsValid(DependencyObject parent)
         {

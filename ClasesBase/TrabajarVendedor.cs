@@ -1,118 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.SqlClient;
 
+
 namespace ClasesBase
 {
     public class TrabajarVendedor
     {
-        //TraerVendedor para el formulario de vendedor
 
+        //TraerVendedor para el formulario de vendedor
         public static Vendedor TraerVendedor()
         {
-            Vendedor vendedor = new Vendedor();
-            vendedor.Legajo = "";
-            vendedor.Nombre = "";
-            vendedor.Apellido = "";
+            Vendedor vendedor = new Vendedor("", "", "");
             
             return vendedor;
         }
 
         //TraerVendedor que devuelva el Legajo, Nombre, Apellido.
-
-        public static DataTable TraerVendedores()
+        public static ObservableCollection<Vendedor> TraerVendedores()
         {
-            SqlConnection cn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM Vendedor";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = cn;
-
-            DataTable dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-
-            da.Fill(dt);
-
-            return dt;
-        }
-
-        //Obtener primer elemento(para el binding)
-        public static Vendedor TraerPrimerVendedor()
-        {
-            Vendedor v1 = new Vendedor();
-            SqlConnection cn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT TOP 1 * FROM Vendedor";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = cn;
-
-            DataTable dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-
-            da.Fill(dt);
-
-            v1.Legajo = dt.Rows[0]["Legajo"].ToString();
-            v1.Nombre = dt.Rows[0]["Nombre"].ToString();
-            v1.Apellido = dt.Rows[0]["Apellido"].ToString();
-            
-            return v1;
-        }
-        //Obtener actual
-        public static Vendedor TraerActual(int index)
-        {
-
-            Vendedor v1 = new Vendedor();
-
             // conexion a la base de datos
             SqlConnection cnn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
 
             //operaciones
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandType = CommandType.StoredProcedure; 
+
+            cmd.CommandType = CommandType.Text;
             cmd.Connection = cnn;
 
-            cmd.CommandText = "ObtenerVendedor";
-
-            SqlParameter param = new SqlParameter("@actual", SqlDbType.Int);
-            param.Value = index;
-            param.Direction = ParameterDirection.Input;
-            cmd.Parameters.Add(param);
-
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-
-            da.Fill(dt);
-
-            v1.Legajo = dt.Rows[0]["Legajo"].ToString();
-            v1.Nombre = dt.Rows[0]["Nombre"].ToString();
-            v1.Apellido = dt.Rows[0]["Apellido"].ToString();
-            
-            return v1;
-        }
-        //Determinar cantidad de productos
-        public static int DeterminarCantidadVendedores()
-        {
-            SqlConnection cn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
-
-            SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "SELECT * FROM Vendedor";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = cn;
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
 
             DataTable dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
 
             da.Fill(dt);
 
-            return dt.Rows.Count;
+            ObservableCollection<Vendedor> lista = new ObservableCollection<Vendedor>();
 
+            foreach (DataRow x in dt.Rows)
+            {
+                lista.Add(new Vendedor(x["Legajo"].ToString(), x["Apellido"].ToString(),
+                    x["Nombre"].ToString()));
+            }
+
+            return lista;
         }
+
+        
+        
+        
 
         //Determinar producto existente
 
@@ -214,7 +155,7 @@ namespace ClasesBase
 
         //Modificar vendedor
 
-        public static void BorrarVendedor(string codigo)
+        public static void EliminarVendedor(string codigo)
         {
             // conexion a la base de datos
             SqlConnection cnn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
@@ -252,11 +193,7 @@ namespace ClasesBase
             DataTable dt = new DataTable();
             da.Fill(dt);
 
-            Vendedor v = new Vendedor();
-
-            v.Apellido = dt.Rows[0]["apellido"].ToString();
-            v.Nombre = dt.Rows[0]["nombre"].ToString();
-            v.Legajo = legajo;
+            Vendedor v = new Vendedor(legajo,dt.Rows[0]["apellido"].ToString(),dt.Rows[0]["nombre"].ToString());
 
             return v;
 

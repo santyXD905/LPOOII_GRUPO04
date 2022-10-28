@@ -11,6 +11,13 @@
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         >
     <Window.Resources>
+        <!--metodo que usamos para realizar las validaciones-->
+        <ObjectDataProvider
+            x:Key="CLIENTE_VALIDACION"
+            ObjectType="{x:Type svc:TrabajarCliente}"
+            MethodName="TraerCliente"
+        ></ObjectDataProvider>
+        <!--Arreglo que usamos para crear una vista-->
         <ObjectDataProvider
             x:Key="LISTA_CLIENTES"
             ObjectType="{x:Type svc:TrabajarCliente}"
@@ -153,17 +160,27 @@
                            x:Name="lblDireccion"
                            Style="{StaticResource LabelForm}"/>
                 </StackPanel>
-                <StackPanel Grid.Column="1"
-                            VerticalAlignment="Stretch"
-                            HorizontalAlignment="Left">
-                    <TextBox x:Name="txtDni"
-                             Style="{StaticResource InputForm}"/>
-                    <TextBox x:Name="txtNombre"
-                             Style="{StaticResource InputForm}"/>
-                    <TextBox x:Name="txtApellido"
-                             Style="{StaticResource InputForm}"/>
-                    <TextBox x:Name="txtDireccion"
-                             Style="{StaticResource InputForm}"/>
+                <StackPanel Name="stpPadre" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                    <TextBox x:Name="txtDni" Style="{StaticResource TextBoxError}" DataContext="{StaticResource CLIENTE_VALIDACION}">
+                        <TextBox.Text>
+                            <Binding Path="Dni" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox x:Name="txtNombre" Style="{StaticResource TextBoxError}" DataContext="{StaticResource CLIENTE_VALIDACION}">
+                        <TextBox.Text>
+                            <Binding Path="Nombre" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox x:Name="txtApellido" Style="{StaticResource TextBoxError}" DataContext="{StaticResource CLIENTE_VALIDACION}">
+                        <TextBox.Text>
+                            <Binding Path="Apellido" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox x:Name="txtDireccion" Style="{StaticResource TextBoxError}" DataContext="{StaticResource CLIENTE_VALIDACION}">
+                        <TextBox.Text>
+                            <Binding Path="Direccion" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                        </TextBox.Text>
+                    </TextBox>
                 </StackPanel>
                 <Button Content="Seleccionar" x:Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Margin="0,35,87,0" Grid.Column="1" Visibility="Hidden" Click="btnSeleccionar_Click"></Button>
             </Grid>

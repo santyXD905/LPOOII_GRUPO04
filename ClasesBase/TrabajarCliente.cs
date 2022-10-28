@@ -11,7 +11,12 @@ namespace ClasesBase
 {
     public class TrabajarCliente
     {
-
+        //Traer proveedor
+        public static Cliente TraerCliente()
+        {
+            Cliente cli = new Cliente("", "", "", "");
+            return cli;
+        }
         public static void GuardarCliente(Cliente cliente)
         {
 

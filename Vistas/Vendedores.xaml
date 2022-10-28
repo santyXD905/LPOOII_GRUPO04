@@ -9,16 +9,25 @@
         Background="Transparent"
         AllowsTransparency="True" Loaded="Window_Loaded">
     <Window.Resources>
+        
         <ObjectDataProvider
+            x:Key="VENDEDOR_VALIDACION"
             ObjectType="{x:Type svc:TrabajarVendedor}"
-            MethodName="TraerPrimerVendedor"
-            x:Key="primero"
-            />
+            MethodName="TraerVendedor"
+        ></ObjectDataProvider>
+        
         <ObjectDataProvider
+            x:Key="LISTA_VENDEDORES"
             ObjectType="{x:Type svc:TrabajarVendedor}"
             MethodName="TraerVendedores"
-            x:Key="list_vendedores"
-            />
+        ></ObjectDataProvider>
+        
+        <CollectionViewSource
+            x:Key="VISTA_VENDEDORES"
+            Source="{StaticResource ResourceKey=LISTA_VENDEDORES}"
+            Filter="filtroEventHandler"
+        ></CollectionViewSource>
+        
     </Window.Resources>
     <Border CornerRadius="10" BorderThickness="0">
         <Border.Background>
@@ -134,14 +143,14 @@
                     Style="{StaticResource ButtonSalir}"
                     Click="btnSalir_Click">
             </Button>
-            <ListView Height="156" HorizontalAlignment="Left" Margin="258,15,0,0" x:Name="listView1" 
-                  VerticalAlignment="Top" Width="247" ItemsSource="{Binding Source={StaticResource list_vendedores}, Mode=OneWay}" Grid.Row="4" SelectionChanged="listView1_SelectionChanged">
+            <ListView Height="156" HorizontalAlignment="Left" Margin="258,39,0,0" x:Name="listView1" 
+                  VerticalAlignment="Top" Width="247" ItemsSource="{Binding Source={StaticResource VISTA_VENDEDORES}}" Grid.Row="4" SelectionChanged="listView1_SelectionChanged">
                 <ListView.View>
                     <GridView>
-
-                        <GridViewColumn Header="Legajo" DisplayMemberBinding="{Binding Path=legajo}"/>
-                        <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Path=nombre}"/>
-                        <GridViewColumn Header="Apellido" DisplayMemberBinding="{Binding Path=apellido}"/>
+                        
+                        <GridViewColumn Header="Legajo" DisplayMemberBinding="{Binding Path=Legajo}"/>
+                        <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Path=Nombre}"/>
+                        <GridViewColumn Header="Apellido" DisplayMemberBinding="{Binding Path=Apellido}"/>
 
                     </GridView>
 
@@ -152,24 +161,40 @@
                 <Label x:Name="lblNombre" Content="Nombre:" Style="{StaticResource LabelForm}" />
                 <Label x:Name="lblApellido" Content="Apellido:" Style="{StaticResource LabelForm}" />
             </StackPanel>
-            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="385,37,0,38" Grid.Row="2">
-                <TextBox x:Name="txtLegajo" Style="{StaticResource TextBoxError}" DataContext="{StaticResource primero}">
+            <StackPanel Name="stpPadre" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="385,37,0,38" Grid.Row="2">
+                <TextBox x:Name="txtLegajo" Style="{StaticResource TextBoxError}" DataContext="{StaticResource VENDEDOR_VALIDACION}">
                     <TextBox.Text>
                         <Binding Path="Legajo" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                     </TextBox.Text>
                 </TextBox>
-                <TextBox x:Name="txtNombre" Style="{StaticResource TextBoxError}" DataContext="{StaticResource primero}">
+                <TextBox x:Name="txtNombre" Style="{StaticResource TextBoxError}" DataContext="{StaticResource VENDEDOR_VALIDACION}">
                     <TextBox.Text>
                         <Binding Path="Nombre" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                     </TextBox.Text>
                 </TextBox>
-                <TextBox x:Name="txtApellido" Style="{StaticResource TextBoxError}" DataContext="{StaticResource primero}">
+                <TextBox x:Name="txtApellido" Style="{StaticResource TextBoxError}" DataContext="{StaticResource VENDEDOR_VALIDACION}">
                     <TextBox.Text>
                         <Binding Path="Apellido" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                     </TextBox.Text>
                 </TextBox>
             </StackPanel>
             <Button Content="Seleccionar" Margin="0,57,85,0" Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Visibility="Hidden" Grid.Row="2" Click="btnSeleccionar_Click" />
+
+            <TextBox Margin="54,17,586,183" Name="txtFiltro" Style="{StaticResource InputForm}" Grid.Row="4" TextChanged="txtFiltro_TextChanged" />
+            <Label Content="Ordenar Por: " Margin="212,11,0,183" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="4" HorizontalAlignment="Left" Height="26" Width="110" />
+
+            <Expander Grid.Row="4" Header="---------"  HorizontalAlignment="Left" Margin="318,11,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Panel.ZIndex="3">
+                <ListBox Height="85" Name="listSort" SelectionChanged="listSort_SelectionChanged">
+
+                    <ListBoxItem Content="Legajo"/>
+
+                    <ListBoxItem Content="Apellido" />
+
+                    <ListBoxItem Content="Nombre" />
+
+                </ListBox>
+            </Expander>
+
         </Grid>
     </Border>
     

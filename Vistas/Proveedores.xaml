@@ -11,8 +11,13 @@
         AllowsTransparency="True" Loaded="WindowLoaded">
     
     <Window.Resources>
-
-        <!--Arreglo de  que usamos para crear una vista-->        
+        <!--metodo que usamos para realizar las validaciones-->
+        <ObjectDataProvider
+            x:Key="PROVEEDOR_VALIDACION"
+            ObjectType="{x:Type svc:TrabajarProveedor}"
+            MethodName="TraerProveedor"
+        ></ObjectDataProvider>
+        <!--Arreglo que usamos para crear una vista-->        
         <ObjectDataProvider
             x:Key="LISTA_PROVEEDORES"
             ObjectType="{x:Type svc:TrabajarProveedor}"
@@ -150,14 +155,30 @@
                 <Label Content="Telefono: " x:Name="lblTelefono" Style="{StaticResource LabelForm}" />
             </StackPanel>
             <!--contiene los textbox-->
-            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="483,40,0,0" Grid.Row="2">
-                <TextBox x:Name="txtCuit" Style="{StaticResource InputForm}" />
-                <TextBox x:Name="txtRazon" Style="{StaticResource InputForm}" />
-                <TextBox x:Name="txtDomicilio" Style="{StaticResource InputForm}" />
-                <TextBox x:Name="txtTelefono" Style="{StaticResource InputForm}"/>
+            <StackPanel Name="stpPadre" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="483,41,0,0" Grid.Row="2">
+                <TextBox x:Name="txtCuit" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PROVEEDOR_VALIDACION}">
+                    <TextBox.Text>
+                        <Binding Path="CUIT" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="txtRazon" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PROVEEDOR_VALIDACION}">
+                    <TextBox.Text>
+                        <Binding Path="RazonSocial" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="txtDomicilio" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PROVEEDOR_VALIDACION}">
+                    <TextBox.Text>
+                        <Binding Path="Domicilio" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="txtTelefono" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PROVEEDOR_VALIDACION}">
+                    <TextBox.Text>
+                        <Binding Path="Telefono" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
-            
-             <!--muestra los objetos-->
+
+            <!--muestra los objetos-->
             <ListView Height="168" HorizontalAlignment="Left" Margin="20,78,0,0" x:Name="listView1" 
                   VerticalAlignment="Top" Width="491" ItemsSource="{Binding Source={StaticResource VISTA_PROVEEDORES}}" Grid.Row="3" Panel.ZIndex="-1" SelectionChanged="listView1_SelectionChanged">
                 <ListView.View>
@@ -175,9 +196,9 @@
             </ListView>
             <!--elementos para ordenacion y filtrado-->
             <TextBox Margin="57,16,774,256" Name="txtFiltro" Style="{StaticResource InputForm}" Grid.Row="3" TextChanged="txtFiltro_TextChanged" Background="AliceBlue"/>
-            <Label Content="Ordenar Por: " Margin="292,14,0,239" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="3" HorizontalAlignment="Left" Height="39" Width="99" />
+            <Label Content="Ordenar Por: " Margin="306,10,0,257" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="3" HorizontalAlignment="Left" Height="25" Width="99" />
 
-            <Expander Grid.Row="2" Header="---------"  HorizontalAlignment="Left" Margin="397,176,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Grid.RowSpan="3" Panel.ZIndex="3">
+            <Expander Grid.Row="3" Header="---------"  HorizontalAlignment="Left" Margin="414,26,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Panel.ZIndex="3">
                 <ListBox Height="85" Name="listSort" SelectionChanged="listSort_SelectionChanged">
 
                     <ListBoxItem Content="CUIT"/>

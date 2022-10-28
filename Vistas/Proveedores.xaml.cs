@@ -114,52 +114,56 @@ namespace Vistas
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-
-            //verificamos en caso de guardar un nuevo proveedor que no se repita el CUIT
-            if (option == 'n')
-                foreach (Proveedor prov in listaProveedores)
-                {
-                    if (prov.CUIT == txtCuit.Text)
-                    {
-                        MessageBox.Show("Ya hay un Proveedor con el CUIT ingresado");
-                        return;
-                    }
-                }
-
-            //solicitamos una confirmacion de parte del usuario
-            MessageBoxResult result = MessageBox.Show(
-                option == 'n' ? "Guardar el Proveedor?" : "Modificar el Proveedor?",
-                option == 'n' ? "Alta Proveedor" : "Modificacion Proveedor",
-                MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-
-            if (result == MessageBoxResult.Yes)
+            if (IsValid(stpPadre))
             {
-                actual = new Proveedor(txtCuit.Text, txtRazon.Text, txtDomicilio.Text, txtTelefono.Text);
+                //verificamos en caso de guardar un nuevo proveedor que no se repita el CUIT
                 if (option == 'n')
+                    foreach (Proveedor prov in listaProveedores)
+                    {
+                        if (prov.CUIT == txtCuit.Text)
+                        {
+                            MessageBox.Show("Ya hay un Proveedor con el CUIT ingresado");
+                            return;
+                        }
+                    }
+
+                //solicitamos una confirmacion de parte del usuario
+                MessageBoxResult result = MessageBox.Show(
+                    option == 'n' ? "Guardar el Proveedor?" : "Modificar el Proveedor?",
+                    option == 'n' ? "Alta Proveedor" : "Modificacion Proveedor",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+
+                if (result == MessageBoxResult.Yes)
                 {
+                    actual = new Proveedor(txtCuit.Text, txtRazon.Text, txtDomicilio.Text, txtTelefono.Text);
+                    if (option == 'n')
+                    {
 
-                    TrabajarProveedor.GuardarProveedor(actual);
-                    listaProveedores.Add(actual);
+                        TrabajarProveedor.GuardarProveedor(actual);
+                        listaProveedores.Add(actual);
+                    }
+                    else
+                    {
+                        MessageBox.Show(txtRazon.Text);
+                        TrabajarProveedor.ModificarProveedor(actual);
+                        //actualizamos la UI
+                        listaProveedores = TrabajarProveedor.TraerProveedores();
+                        vistaFiltro.Source = listaProveedores;
+                    }
+
+                    habilitarText(false);
+                    habilitarGuarCanc(false);
+                    habilitarABM(true);
+                    actual = null;
+                    limpiar();
+
                 }
-                else
-                {
-                    MessageBox.Show(txtRazon.Text);
-                    TrabajarProveedor.ModificarProveedor(actual);
-                    //actualizamos la UI
-                    listaProveedores = TrabajarProveedor.TraerProveedores();
-                    vistaFiltro.Source = listaProveedores;
-                }
-
-                habilitarText(false);
-                habilitarGuarCanc(false);
-                habilitarABM(true);
-                actual = null;
-                limpiar();
-
             }
-
-
+            else
+            {
+                MessageBox.Show("Hay campos incorrectos");
+            }
 
         }
 
@@ -318,5 +322,20 @@ namespace Vistas
 
         #endregion
 
+        //metodo para realizar las validaciones de datos
+        public static bool IsValid(DependencyObject parent)
+        {
+            if (Validation.GetHasError(parent))
+                return false;
+
+            // Validate all the bindings on the children
+            for (int i = 0; i != VisualTreeHelper.GetChildrenCount(parent); ++i)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+                if (!IsValid(child)) { return false; }
+            }
+
+            return true;
+        }
     }
 }

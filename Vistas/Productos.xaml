@@ -22,7 +22,7 @@
         <CollectionViewSource
             x:Key="VISTA_PRODUCTOS"
             Source="{StaticResource ResourceKey=LISTA_PRODUCTOS}"
-           
+            Filter="filtroEventHandler"
         ></CollectionViewSource>
 
     </Window.Resources>
@@ -169,7 +169,7 @@
                 </Grid.ColumnDefinitions>
                 <Button Content="Salir" x:Name="btnSalir" Style="{StaticResource ButtonSalir}" Click="btnSalir_Click" Grid.Column="3" Margin="0,6,13,0"></Button>
             </Grid>
-            <ListView Height="129" HorizontalAlignment="Left" Margin="284,24,0,0" x:Name="listView1" 
+            <ListView Height="129" HorizontalAlignment="Left" Margin="284,39,0,0" x:Name="listView1" 
                   VerticalAlignment="Top" Width="411" ItemsSource="{Binding Source={StaticResource  ResourceKey=VISTA_PRODUCTOS}}" Grid.Row="4" SelectionChanged="listView1_SelectionChanged">
                 <ListView.View>
                     <GridView>
@@ -192,6 +192,26 @@
                 <Label Content="Precio: " x:Name="lblPrecio" Style="{StaticResource LabelForm}" />
             </StackPanel>
             <Button Content="Seleccionar" Margin="0,67,266,0" Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Visibility="Hidden" Grid.Row="2" Click="btnSeleccionar_Click" />
+            <TextBox Margin="118,17,807,138" Name="txtFiltro" Style="{StaticResource InputForm}" TextChanged="txtFiltro_TextChanged" Grid.Row="4" />
+
+            <Label Content="Ordenar Por: " Margin="272,170,0,0" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="2" HorizontalAlignment="Left" />
+
+            <Expander Grid.Row="2" Header="---------"  HorizontalAlignment="Left" Margin="397,176,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Grid.RowSpan="3" Panel.ZIndex="3">
+                <ListBox Height="90" Name="listSort" SelectionChanged="listSort_SelectionChanged">
+
+                    <ListBoxItem Content="Codigo"/>
+
+                    <ListBoxItem Content="Categoria" />
+
+                    <ListBoxItem Content="Color" />
+
+                    <ListBoxItem Content="Descripcion" />
+
+                    <ListBoxItem Content="Precio" />
+
+                </ListBox>
+            </Expander>
+
         </Grid>
     </Border>
 </Window>
