@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using ClasesBase;
 namespace Vistas
 {
     /// <summary>
@@ -19,11 +19,7 @@ namespace Vistas
     /// </summary>
     public partial class Main : Window
     {
-        public struct usuarioLog
-        { 
-            public string tipoUsuer;
-        }
-        public usuarioLog userLog;
+        public Usuario logged;
 
         public Window proveedores;
         public Window clientes;
@@ -40,7 +36,7 @@ namespace Vistas
         }
         public void validar()
         {
-           if (userLog.tipoUsuer == "vendedor")
+           if (logged != null && logged.Rol == "vendedor")
                VendedorItem.Visibility = Visibility.Collapsed;
         }
 
@@ -99,6 +95,18 @@ namespace Vistas
         private void VentasItem_Click(object sender, RoutedEventArgs e)
         {
             Ventas ventana = new Ventas();
+            ventana.Show();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(logged != null) lblWelcome.Content += " " + logged.Nombre;
+            introSong.Play();
+        }
+
+        private void AboutItem_Click(object sender, RoutedEventArgs e)
+        {
+            About ventana = new About();
             ventana.Show();
         }
 

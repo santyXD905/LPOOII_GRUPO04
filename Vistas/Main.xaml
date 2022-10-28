@@ -6,7 +6,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
-        AllowsTransparency="True">
+        AllowsTransparency="True" Loaded="Window_Loaded">
     <Border CornerRadius="10" BorderThickness="0">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
@@ -186,15 +186,22 @@
                           FontWeight="Normal" 
                           FontStyle="Normal" Click="VentasItem_Click">
                 </MenuItem>
+                <MenuItem Name="AboutItem" 
+                          Header="Acerca De"
+                          Width="80" Height="20"
+                          FontSize="12"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Margin="5" FontStretch="SemiExpanded" 
+                          FontWeight="Normal" 
+                          FontStyle="Normal" Click="AboutItem_Click">
+                </MenuItem>
             </Menu>
-
-            <Rectangle Name="rectangle1"
-                       HorizontalAlignment="Center"
-                       Margin="12" 
-                       Grid.Row="2"
-                       Stroke="White"
-                       VerticalAlignment="Center"
-                       />
+            
+            <Grid Grid.Row="2" Margin="0,0,0,51">
+                <Label Name="lblWelcome" Content="Welcome" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="50"></Label>
+                <MediaElement Name="introSong" Source="Media/intro.mp3" LoadedBehavior="Manual" Visibility="Collapsed"></MediaElement>
+            </Grid>
         </Grid>
     </Border>
 
