@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using ClasesBase;
 namespace Vistas.UserControls
 {
     /// <summary>
@@ -25,30 +25,21 @@ namespace Vistas.UserControls
         }
 
 
-        // para el hardcode
-        public struct usuario
-        {
-            public string user;
-            public string pass;
-        }
-
         private void btnLoguin(object sender, RoutedEventArgs e)
         {
-            usuario admin, vendedor;
-            admin.user = "santy";
-            admin.pass = "santy";
-            vendedor.user = "mayko";
-            vendedor.pass = "mayko";
+            Usuario admin = new Usuario(), vendedor = new Usuario();
+            admin.Nombre = "santy";
+            admin.Password = "santy";
+            admin.Rol = "admin";
+            vendedor.Nombre = "mayko";
+            vendedor.Password = "mayko";
+            vendedor.Rol = "vendedor";
 
-            if (txtUser.Text == admin.user && txtPass.Password.ToString() == admin.pass || txtUser.Text == vendedor.user && txtPass.Password.ToString() == vendedor.pass)
+            if (txtUser.Text == admin.Nombre && txtPass.Password.ToString() == admin.Password || txtUser.Text == vendedor.Nombre && txtPass.Password.ToString() == vendedor.Password)
             {
                 Main main = new Main();
-                if (txtUser.Text == admin.user)
-                    main.userLog.tipoUsuer = "admin";
-                else
-                    main.userLog.tipoUsuer = "vendedor";
-
-                MessageBox.Show("Bienvenido " + txtUser.Text.ToString());
+                if (txtUser.Text == admin.Nombre) main.logged = admin;
+                else main.logged = vendedor;
 
                 main.validar();
                 main.Show();
