@@ -55,7 +55,6 @@ namespace Vistas
                 bgvideo.Stop();
             }
             bgvideo.Play();
-
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
@@ -81,6 +80,18 @@ namespace Vistas
             progre.Minimum = 0;
             progre.Maximum = duration;
 
+        }
+
+        private void btnVoumeDown_Click(object sender, RoutedEventArgs e)
+        {
+            if (bgvideo.Volume == 0) return;
+            bgvideo.Volume -= 0.1;
+        }
+
+        private void btnVolumeUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (bgvideo.Volume == 1) return;
+            bgvideo.Volume += 0.1;
         }
     }
 }
