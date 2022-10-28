@@ -5,11 +5,14 @@
     <Grid>
         <MediaElement LoadedBehavior="Manual" Name="bgvideo" Source="Media\te-mentiria.mp4"  Stretch="Fill" Margin="0,0,0,78" MediaOpened="bgvideo_MediaOpened"></MediaElement>
         <ProgressBar Name="progre" Margin="0,339,0,64" Foreground="#FFDB0303"></ProgressBar>
-        <WrapPanel Margin="0,364,0,0" HorizontalAlignment="Center">
+        <WrapPanel Margin="124,364,91,0" HorizontalAlignment="Center" Width="463">
             <Button Content="PLAY" Height="30" Name="btnPlay" Width="75" Click="btnPlay_Click" />
             <Button Content="STOP" Height="30" Name="btnStop" Width="75" Click="btnStop_Click" />
             <Button Content="Move Back" Height="30" Name="btnMoveBack" Width="75" Click="btnMoveBack_Click" />
             <Button Content="Move Forward" Height="30" Name="btnMoveForw" Width="88" Click="btnMoveForw_Click" />
+            <Button Content="Volume--" Height="30" Name="btnVoumeDown" Width="75" Click="btnVoumeDown_Click" />
+            <Button Content="Volume++" Height="30" Name="btnVolumeUp" Width="75" Click="btnVolumeUp_Click" />
         </WrapPanel>
+       
     </Grid>
 </Window>
