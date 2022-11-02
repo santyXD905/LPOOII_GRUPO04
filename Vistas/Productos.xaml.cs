@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Data;
+using Microsoft.Win32;
 
 namespace Vistas
 {
@@ -130,7 +131,7 @@ namespace Vistas
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
             //se validan los datos del formulario
-            if (IsValid(stpPadre))
+            if (IsValid(stpPadre) && IsValid(txtImagen))
             {
                 //se verifica la unicidad de la clave primaria 
                 if (option == 'n')
@@ -153,7 +154,7 @@ namespace Vistas
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    actual = new Producto(txtCodigo.Text, txtCategoria.Text, txtColor.Text, txtDescripcion.Text, Convert.ToDecimal(txtPrecio.Text));
+                    actual = new Producto(txtCodigo.Text, txtCategoria.Text, txtColor.Text, txtDescripcion.Text, Convert.ToDecimal(txtPrecio.Text), imgDynamic.Source.ToString());
                     //se realiza la accion y se actualiza las vistas
                     if (option == 'n')
                     {
@@ -286,6 +287,15 @@ namespace Vistas
                 txtColor.Text = p1.Color;
                 txtDescripcion.Text = p1.Descripcion;
                 txtPrecio.Text = p1.Precio.ToString();
+                if (!String.IsNullOrEmpty(p1.Imagen))
+                {
+                    imgDynamic.Source = new ImageSourceConverter().ConvertFromString(p1.Imagen) as ImageSource;
+                }
+                else
+                {
+                    imgDynamic.Source = null;
+                }
+                txtImagen.Text = p1.Imagen;
             }
            
         }
@@ -297,6 +307,7 @@ namespace Vistas
             txtColor.IsEnabled = estado;
             txtDescripcion.IsEnabled = estado;
             txtPrecio.IsEnabled = estado;
+            btnImage.IsEnabled = estado;
         }
 
         public void limpiar()
@@ -307,6 +318,8 @@ namespace Vistas
             txtColor.Text = string.Empty;
             txtDescripcion.Text = string.Empty;
             txtPrecio.Text = string.Empty;
+            txtImagen.Text = string.Empty;
+            imgDynamic.Source = null;
         }
   
         #endregion
@@ -382,6 +395,19 @@ namespace Vistas
             padre.btnSelProd.Background = Brushes.Khaki;
             padre.btnSelProd.Foreground = Brushes.Black;
             this.Close();
+        }
+
+        private void btnImage_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileImg = new OpenFileDialog();
+            fileImg.Filter = "Image files (*.bmp, *.jpg)|*.bmp;*.jpg|All files (*.*)|*.*";
+            string pathImg;
+            if (fileImg.ShowDialog() == true)
+            {
+                pathImg = fileImg.FileName;
+                imgDynamic.Source = new ImageSourceConverter().ConvertFromString(pathImg) as ImageSource;
+                txtImagen.Text = imgDynamic.Source.ToString();
+            }
         }
         
        

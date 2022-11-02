@@ -9,13 +9,14 @@ namespace ClasesBase
     public class Producto : IDataErrorInfo
     {
 
-        public Producto(string cod,string cat,string col, string des, decimal pres)
+        public Producto(string cod,string cat,string col, string des, decimal pres, string img)
         {
             this.codProducto = cod;
             this.categoria = cat;
             this.color = col;
             this.descripcion = des;
             this.precio = pres;
+            this.imagen = img;
         }
 
         public override string ToString()
@@ -51,6 +52,15 @@ namespace ClasesBase
            get { return descripcion; }
            set { descripcion = value; }
        }
+
+       private string imagen;
+
+       public string Imagen
+       {
+           get { return imagen; }
+           set { imagen = value; }
+       }
+
        private decimal? precio;
 
        public decimal? Precio
@@ -81,8 +91,11 @@ namespace ClasesBase
                     case "Descripcion":
                        msg_error = verificarDescripcion();
                        break;
+                    case "Imagen":
+                       msg_error = verificarImagen();
+                       break;
                     case "Precio":
-                       msg_error = "a";
+                       msg_error = verificarPrecio();
                        break;
                }
                return msg_error;
@@ -118,21 +131,21 @@ namespace ClasesBase
            }
            return null;
        }
-       private string verificarPrecio(string a)
+       private string verificarPrecio()
        {
-           decimal number;
-           string aux = a;
-           if (Precio==null)
+           if (Precio < 0)
            {
-               return "El precio es obligatorio";
+               return "No debe ser menor";
            }
-           else if(!Decimal.TryParse(Precio.ToString(),out number)){
-               return "No es decimal";
+           return null;
+       }
+       private string verificarImagen()
+       {
+           if (String.IsNullOrEmpty(Imagen))
+           {
+               return "La imagen es obligatoria";
            }
-           else if(Precio<0){
-               return "No debe ser menor que cero";
-           }
-           return aux;
+           return null;
        }
     }
 }

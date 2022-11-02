@@ -14,7 +14,7 @@ namespace ClasesBase
         //Traer producto
         public static Producto TraerProducto()
         {
-            Producto producto = new Producto("", "", "", "", 0);
+            Producto producto = new Producto("", "", "", "", 0,"");
             return producto;
         }
 
@@ -44,7 +44,7 @@ namespace ClasesBase
             foreach (DataRow x in dt.Rows)
             {
                 lista.Add(new Producto(x["codProducto"].ToString(), x["categoria"].ToString(),
-                    x["color"].ToString(), x["descripcion"].ToString(),Convert.ToDecimal(x["precio"].ToString())));
+                    x["color"].ToString(), x["descripcion"].ToString(), Convert.ToDecimal(x["precio"].ToString()), x["imagen"].ToString()));
             }
 
             return lista;
@@ -122,6 +122,11 @@ namespace ClasesBase
             param.Direction = ParameterDirection.Input;
             cmd.Parameters.Add(param);
 
+            param = new SqlParameter("@imagen", SqlDbType.VarChar);
+            param.Value = producto.Imagen;
+            param.Direction = ParameterDirection.Input;
+            cmd.Parameters.Add(param);
+
             cnn.Open();//abrir conexion
 
             cmd.ExecuteNonQuery(); //ejecutar transaccion
@@ -165,6 +170,11 @@ namespace ClasesBase
 
             param = new SqlParameter("@precio", SqlDbType.Decimal);
             param.Value = producto.Precio;
+            param.Direction = ParameterDirection.Input;
+            cmd.Parameters.Add(param);
+
+            param = new SqlParameter("@imagen", SqlDbType.VarChar);
+            param.Value = producto.Imagen;
             param.Direction = ParameterDirection.Input;
             cmd.Parameters.Add(param);
 
@@ -214,7 +224,7 @@ namespace ClasesBase
             DataTable dt = new DataTable();
             da.Fill(dt);
 
-            Producto v = new Producto(cod,dt.Rows[0]["categoria"].ToString(),dt.Rows[0]["color"].ToString(),dt.Rows[0]["descripcion"].ToString(), Decimal.Parse(dt.Rows[0]["precio"].ToString()));
+            Producto v = new Producto(cod, dt.Rows[0]["categoria"].ToString(), dt.Rows[0]["color"].ToString(), dt.Rows[0]["descripcion"].ToString(), Decimal.Parse(dt.Rows[0]["precio"].ToString()), dt.Rows[0]["imagen"].ToString());
 
             return v;
 
