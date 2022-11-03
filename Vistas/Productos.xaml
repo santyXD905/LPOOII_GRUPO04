@@ -127,7 +127,7 @@
                         Content="Ultimo"
                         Name="btnUltimo" Click="btnUltimo_Click" />
                 
-                <StackPanel Name="stpPadre" Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.ColumnSpan="3" Margin="48,59,0,-169">
+                <StackPanel Name="stpPadre" Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.ColumnSpan="3" Margin="48,59,0,-195" Width="118">
                     <TextBox x:Name="txtCodigo" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
                         <TextBox.Text>
                             <Binding Path="CodProducto" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
@@ -150,17 +150,18 @@
                     </TextBox>
                     <TextBox x:Name="txtPrecio" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
                         <TextBox.Text>
-                            <Binding Path="Precio" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Precio" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True">
                                 <Binding.ValidationRules>
                                     <svc:ReglaPrecio />
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
+                    <Button Name="btnImage" Content="Cargar imagen" Click="btnImage_Click" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="2"
-                  VerticalAlignment="Center" Margin="13,168,10,0">
+            <Grid Grid.Row="3"
+                  VerticalAlignment="Center" Margin="13,20,10,153" Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="400"/>
                     <ColumnDefinition Width="266"/>
@@ -168,6 +169,7 @@
                     <ColumnDefinition Width="238*" />
                 </Grid.ColumnDefinitions>
                 <Button Content="Salir" x:Name="btnSalir" Style="{StaticResource ButtonSalir}" Click="btnSalir_Click" Grid.Column="3" Margin="0,6,13,0"></Button>
+                <Label Content="Ordenar Por: " Margin="259,0,0,2" Name="label1" Style="{StaticResource LabelForm}" HorizontalAlignment="Left" />
             </Grid>
             <ListView Height="129" HorizontalAlignment="Left" Margin="284,39,0,0" x:Name="listView1" 
                   VerticalAlignment="Top" Width="411" ItemsSource="{Binding Source={StaticResource  ResourceKey=VISTA_PRODUCTOS}}" Grid.Row="4" SelectionChanged="listView1_SelectionChanged">
@@ -179,24 +181,25 @@
                         <GridViewColumn Header="Color" DisplayMemberBinding="{Binding Path=Color}"/>
                         <GridViewColumn Header="Descripcion" DisplayMemberBinding="{Binding Path=Descripcion}"/>
                         <GridViewColumn Header="Precio" DisplayMemberBinding="{Binding Path=Precio}"/>
-
+                        <GridViewColumn Header="Imagen" DisplayMemberBinding="{Binding Path=Imagen}"/>
                     </GridView>
 
                 </ListView.View>
             </ListView>
-            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0,19,532,31" Grid.Row="2">
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0,20,532,4" Grid.Row="2" Width="100">
                 <Label Content="Codigo: " x:Name="lblCodigo" Style="{StaticResource LabelForm}" />
                 <Label Content="Categoria:" x:Name="lblCategoria" Style="{StaticResource LabelForm}" />
                 <Label Content="Color: " x:Name="lblColor" Style="{StaticResource LabelForm}" />
                 <Label Content="Descripcion: " x:Name="lblDescripcion" Style="{StaticResource LabelForm}" />
                 <Label Content="Precio: " x:Name="lblPrecio" Style="{StaticResource LabelForm}" />
+                <Label Content="Imagen: " x:Name="lblImagen" Style="{StaticResource LabelForm}" />
             </StackPanel>
             <Button Content="Seleccionar" Margin="0,67,266,0" Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Visibility="Hidden" Grid.Row="2" Click="btnSeleccionar_Click" />
+            <Image Name="imgDynamic" Margin="132,10,727,0" Source="{Binding Imagen}" Height="140" Grid.Row="2" VerticalAlignment="Top" DataContext="{StaticResource PRODUCTO_VALIDACION}" >
+                
+            </Image>
             <TextBox Margin="118,17,807,138" Name="txtFiltro" Style="{StaticResource InputForm}" TextChanged="txtFiltro_TextChanged" Grid.Row="4" />
-
-            <Label Content="Ordenar Por: " Margin="272,170,0,0" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="2" HorizontalAlignment="Left" />
-
-            <Expander Grid.Row="2" Header="---------"  HorizontalAlignment="Left" Margin="397,176,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Grid.RowSpan="3" Panel.ZIndex="3">
+            <Expander Grid.Row="3" Header="---------"  HorizontalAlignment="Left" Margin="399,25,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Grid.RowSpan="2" Panel.ZIndex="3">
                 <ListBox Height="90" Name="listSort" SelectionChanged="listSort_SelectionChanged">
 
                     <ListBoxItem Content="Codigo"/>
@@ -208,10 +211,16 @@
                     <ListBoxItem Content="Descripcion" />
 
                     <ListBoxItem Content="Precio" />
+                    
+                    <ListBoxItem Content="Imagen" />
 
                 </ListBox>
             </Expander>
-
+            <TextBox Grid.Row="2" Height="39" HorizontalAlignment="Left" Margin="132,0,0,5" Name="txtImagen" VerticalAlignment="Bottom" Width="186" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
+                <TextBox.Text>
+                    <Binding Path="Imagen" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                </TextBox.Text>
+            </TextBox>
         </Grid>
     </Border>
 </Window>
