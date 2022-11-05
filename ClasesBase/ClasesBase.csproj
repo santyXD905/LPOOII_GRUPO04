@@ -60,6 +60,7 @@
     <Compile Include="TrabajarCliente.cs" />
     <Compile Include="TrabajarProducto.cs" />
     <Compile Include="TrabajarProveedor.cs" />
+    <Compile Include="TrabajarUsuario.cs" />
     <Compile Include="TrabajarVendedor.cs" />
     <Compile Include="TrabajarVentas.cs" />
     <Compile Include="Usuario.cs" />
