@@ -56,7 +56,7 @@
             </Grid>
 
             <Button Grid.Row="1" Background="white" Height="480" Width="500">
-                <!-- -->
+                <!-- --> 
                 <FixedDocument>
                     <PageContent>
                         <FixedPage> 
@@ -90,6 +90,7 @@
                         <Label Content="VENTA" Canvas.Left="100" Canvas.Top="17" FontFamily="Eras ITC" FontSize="16" ></Label>
                                     <Label Name="lblNroVenta" Content="Numero" Canvas.Left="14" Canvas.Top="61"></Label>
                                     <Label Name="lblFecha" Content="Fecha y Hora" Canvas.Left="14" Canvas.Top="93"></Label>
+                                    <Label Name="lblEstado" Content="Estado" Canvas.Left="14" Canvas.Top="125"></Label>
 
                         <Label Content="PRODUCTO" Canvas.Left="89" Canvas.Top="147" FontFamily="Eras ITC" FontSize="16" ></Label>
                                     <Label Name="lblDesc" Content="Descripcion" Canvas.Left="14" Canvas.Top="293"></Label>
@@ -102,8 +103,8 @@
                                 </Canvas>
                             </Grid>
 
-                <!-- -->
-                </FixedPage>
+                            <!-- -->
+                        </FixedPage>
                     </PageContent>
                 </FixedDocument> 
             </Button>

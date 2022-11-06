@@ -87,5 +87,7 @@ namespace ClasesBase
             }
             return null;
         }
+
+        public Vendedor() { }
     }
 }

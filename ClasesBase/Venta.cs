@@ -28,9 +28,9 @@ namespace ClasesBase
             get { return legajo; }
             set { legajo = value; }
         }
-        private string dni;
+        private int dni;
 
-        public string Dni
+        public int Dni
         {
             get { return dni; }
             set { dni = value; }
@@ -64,5 +64,28 @@ namespace ClasesBase
             set { importe = value; }
         }
 
+        private string estado;
+
+        public string Estado
+        {
+            get { return estado; }
+            set { estado = value; }
+        }
+
+
+        public Venta() { }
+
+        public Venta(int nroFactura, DateTime fecha, string legajo, int dni, string cod, decimal precio, int cantidad, decimal importe, string estado)
+        {
+            this.nroFactura = nroFactura;
+            this.fechaFactura = fecha;
+            this.legajo = legajo;
+            this.dni = dni;
+            this.codProducto = cod;
+            this.precio = precio;
+            this.cantidad = cantidad;
+            this.importe = importe;
+            this.estado = estado;
+        }
     }
 }

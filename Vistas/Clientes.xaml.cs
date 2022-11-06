@@ -43,13 +43,18 @@ namespace Vistas
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            habilitarABM(true);
+            habilitarGuarCanc(false);
+            habilitarText(false);
             ObjectDataProvider odp = this.Resources["LISTA_CLIENTES"] as ObjectDataProvider;
             listaClientes = odp.Data as ObservableCollection<Cliente>;
 
             vistaFiltro = this.Resources["VISTA_CLIENTES"] as CollectionViewSource;
 
             txtFiltro.Text = String.Empty;
-            habilitarText(false);
+            actual = null;
+            listView1.SelectedItem = null;
+            limpiar();
 
             if (mode.Equals("venta"))
             {
@@ -104,6 +109,11 @@ namespace Vistas
 
             if (actual != null)
             {
+                if(TrabajarVentas.BuscarDni(actual.Dni))
+                {
+                    MessageBox.Show("El cliente tiene ventas asociadas","Eliminacion Cliente");
+                    return;
+                }
                 btnSeleccionar.IsEnabled = false;
                 MessageBoxResult result = MessageBox.Show(
                     "Confirme eliminacion",
@@ -113,7 +123,9 @@ namespace Vistas
                 {
                     TrabajarCliente.EliminarCliente(actual.Dni);
                     listaClientes.Remove(actual);
+                    if (listaClientes.Count == 0) limpiar();
                 }
+                else btnSeleccionar.IsEnabled = true;
             }
             else MessageBox.Show("Seleccione un cliente primero");
         }
@@ -130,7 +142,7 @@ namespace Vistas
                 if (option == 'n')
                     foreach (Cliente cli in listaClientes)
                     {
-                        if (cli.Dni == txtDni.Text)
+                        if (cli.Dni == Int32.Parse(txtDni.Text))
                         {
                             MessageBox.Show("Ya hay un cliente con el DNI ingresado");
                             return;
@@ -148,7 +160,7 @@ namespace Vistas
                 if (result == MessageBoxResult.Yes)
                 {
                     if (actual == null) actual = new Cliente();
-                    actual.Dni = txtDni.Text;
+                    actual.Dni = Int32.Parse(txtDni.Text);
                     actual.Nombre = txtNombre.Text;
                     actual.Apellido = txtApellido.Text;
                     actual.Direccion = txtDireccion.Text;
@@ -188,6 +200,8 @@ namespace Vistas
             habilitarGuarCanc(false);
             habilitarABM(true);
             actual = null;
+
+
         }
 
         #endregion
@@ -303,7 +317,7 @@ namespace Vistas
             {
                 txtApellido.Text = cli.Apellido;
                 txtDireccion.Text = cli.Direccion;
-                txtDni.Text = cli.Dni;
+                txtDni.Text = cli.Dni.ToString();
                 txtNombre.Text = cli.Nombre;
             }
 
@@ -398,6 +412,7 @@ namespace Vistas
             padre.btnSelCliente.Content = "Seleccionado";
             padre.btnSelCliente.Background = Brushes.Khaki;
             padre.btnSelCliente.Foreground = Brushes.Black;
+            padre.txtDni.Text = actual.Dni + ", " + actual.Apellido + ", " + actual.Nombre;
             padre.cliente = actual;
             
             this.Close();

@@ -48,7 +48,7 @@
         <Setter Property="VerticalAlignment" Value="Top"/>
     </Style>
 
-    <Style TargetType="{x:Type Button}" x:Key="EstiloButtonCapo">
+    <Style TargetType="{x:Type Button}" x:Key="SelectButton">
         <Setter Property="Height" Value="25"/>
         <Setter Property="Width" Value="100"/>
         <Setter Property="FontFamily" Value="Montserrat"/>

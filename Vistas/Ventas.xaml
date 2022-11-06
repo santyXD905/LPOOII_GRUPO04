@@ -10,6 +10,20 @@
         xmlns:svc="clr-namespace:ClasesBase;assembly=ClasesBase" Loaded="Window_Loaded"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         >
+    
+    <Window.Resources>
+        <ObjectDataProvider 
+            x:Key="LISTA_VENTAS"
+            ObjectType="{x:Type svc:TrabajarVentas}"
+            MethodName="TraerVentas"
+        ></ObjectDataProvider>
+
+        <CollectionViewSource 
+            x:Key="VISTA_VENTAS"
+            Source="{StaticResource ResourceKey=LISTA_VENTAS}"
+            Filter="filtroEventHandler"
+        ></CollectionViewSource>
+    </Window.Resources>
    
 
     <Border CornerRadius="10" BorderThickness="0">
@@ -19,15 +33,16 @@
                 <GradientStop Color="#171531" Offset="0.55"></GradientStop>
             </LinearGradientBrush>
         </Border.Background>
-        <Grid>
+        <Grid Width="835">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="40"/>
-                <RowDefinition Height="200"/>
-                <RowDefinition Height="234"/>
+                <RowDefinition Height="175"/>
+                <RowDefinition Height="259"/>
                 <RowDefinition Height="0*" />
                 <RowDefinition Height="35*" />
             </Grid.RowDefinitions>
+            
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -58,6 +73,7 @@
                             Click="btnSalir_Click">
                 </Button>
             </Grid>
+            
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -79,11 +95,11 @@
                 <Button Grid.Column="1"
                         Style="{StaticResource DangerButton}"
                         Name="btnModificar"
-                        Content="Modificar"  />
+                        Content="Modificar" Click="btnModificar_Click" />
                 <Button Grid.Column="2" 
                         Style="{StaticResource DangerButton}"
                         Name="btnEliminar" 
-                        Content="Eliminar"  />
+                        Content="Eliminar" Click="btnEliminar_Click" />
 
                 <Button Grid.Column="4" 
                         Style="{StaticResource PrimaryButton}"
@@ -98,23 +114,23 @@
                 <Button Grid.Column="7"
                         Style="{StaticResource SuccessButton}"
                         Content="Primero"
-                        Name="btnPrimero"  />
+                        Name="btnPrimero" Click="btnPrimero_Click" />
                 <Button Grid.Column="8"
                         Style="{StaticResource SuccessButton}"
                         Content="Anterior" 
-                        Name="btnAnterior" />
+                        Name="btnAnterior" Click="btnAnterior_Click" />
                 <Button Grid.Column="9" 
                         Style="{StaticResource SuccessButton}"
                         Content="Siguiente"
-                        Name="btnSiguiente"  />
+                        Name="btnSiguiente" Click="btnSiguiente_Click" />
                 <Button Grid.Column="10"
                         Style="{StaticResource SuccessButton}"
                         Content="Ultimo"
-                        Name="btnUltimo"  />
+                        Name="btnUltimo" Click="btnUltimo_Click" />
             </Grid>
 
             <Grid Grid.Row="2"
-                  VerticalAlignment="Center">
+                  VerticalAlignment="Center" Margin="0,25,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="400"/>
                     <ColumnDefinition Width="400"/>
@@ -141,25 +157,77 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1"
                             VerticalAlignment="Stretch"
-                            HorizontalAlignment="Left" Width="141">
-                    <DatePicker Height="25" Name="datePicker1" Width="115" Grid.Column="1" />
-                    <Button Content="Seleccionar"  Margin ="0,5,5,0" Name="btnSelCliente" HorizontalAlignment="Center" Style="{StaticResource EstiloButtonCapo}" Click="btnSelCliente_Click" />
-                    <Button Content="Seleccionar" Margin ="0,5,5,0" HorizontalAlignment="Center" Name="btnSelProd" Style="{StaticResource EstiloButtonCapo}" Click="btnSelProd_Click" />
+                            HorizontalAlignment="Left" Width="282">
+                    
+                    <DatePicker Height="25" Name="datePicker1" Width="120" Grid.Column="1" HorizontalAlignment="Left" />
+                    
+                    <WrapPanel>
+                        <TextBox x:Name="txtDni"
+                             Style="{StaticResource InputForm}" IsEnabled="False" Text="No seleccionado"/>
+                        <Button Content="Seleccionar"  Margin ="30,5,5,0" Name="btnSelCliente" HorizontalAlignment="Right" Style="{StaticResource SelectButton}" Click="btnSelCliente_Click" Height="25" Width="100" />
+                    </WrapPanel>
+                    
+                    <WrapPanel>
+                        <TextBox x:Name="txtProd"
+                             Style="{StaticResource InputForm}" IsEnabled="False" Text="No seleccionado"/>
+                        <Button Content="Seleccionar" Margin ="30,5,5,0" HorizontalAlignment="Center" Name="btnSelProd" Style="{StaticResource SelectButton}" Click="btnSelProd_Click" />
+                    </WrapPanel>
+                    
+                   
                   
                     <TextBox x:Name="txtCantidad"
-                             Style="{StaticResource InputForm}"/>
-                    <Button Content="Seleccionar" Margin ="0,5,5,0" HorizontalAlignment="Center" Name="btnSelVendedor" Style="{StaticResource EstiloButtonCapo}" Click="btnSelVendedor_Click" />
+                             Style="{StaticResource InputForm}" HorizontalAlignment="Left"/>
+                    
+                    <WrapPanel>
+                        <TextBox x:Name="txtVendedor"
+                             Style="{StaticResource InputForm}" IsEnabled="False" Text="No seleccionado"/>
+                        <Button Content="Seleccionar" Margin ="30,5,5,0" HorizontalAlignment="Center" Name="btnSelVendedor" Style="{StaticResource SelectButton}" Click="btnSelVendedor_Click" />
+                    </WrapPanel>
                     
                 </StackPanel>
-    </Grid>
+                <Button Content="Vista Previa" Margin="0,64,0,0" Name="btnVistaPrevia" Style="{StaticResource ButtonSalir}" Grid.Column="1" Visibility="Hidden" Click="btnVistaPrevia_Click" />
+            </Grid>
             
-            
+            <Grid Grid.Row="3" Margin="1,6,-1,0">
+                <ListView Height="213" HorizontalAlignment="Left" Margin="16,34,0,0" Name="listVentas" 
+                  VerticalAlignment="Top" Width="480" ItemsSource="{Binding Source={StaticResource ResourceKey=VISTA_VENTAS}}" Panel.ZIndex="-1" IsSynchronizedWithCurrentItem="True" SelectionChanged="listVentas_SelectionChanged">
+                    <ListView.View>
 
-            <Button Grid.Row="3"
+                        <GridView>
+
+                            <GridViewColumn Width="53"  Header="Nro." DisplayMemberBinding="{Binding NroFactura}"/>
+                            <GridViewColumn Width="53"  Header="Fecha" DisplayMemberBinding="{Binding FechaFactura}"/>
+                            <GridViewColumn Width="53"  Header="Legajo" DisplayMemberBinding="{Binding Legajo}"/>
+                            <GridViewColumn Width="53"  Header="DNI" DisplayMemberBinding="{Binding Dni}"/>
+                            <GridViewColumn Width="53"  Header="Cod. Prod." DisplayMemberBinding="{Binding CodProducto}"/>
+                            <GridViewColumn Width="53"  Header="Precio" DisplayMemberBinding="{Binding Precio}"/>
+                            <GridViewColumn Width="53" Header="Cantidad" DisplayMemberBinding="{Binding Cantidad}"/>
+                            <GridViewColumn Width="53" Header="Total" DisplayMemberBinding="{Binding Importe}"/>
+                            <GridViewColumn Width="53" Header="Estado" DisplayMemberBinding="{Binding Estado}"/>
+
+                        </GridView>
+
+                    </ListView.View>
+                </ListView>
+                <TextBox Margin="16,6,699,227" Name="txtFiltro" Style="{StaticResource InputForm}" TextChanged="txtFiltro_TextChanged" />
+                <Expander Background="White" Header="---------" HorizontalAlignment="Left" IsExpanded="False" Margin="399,6,0,0" Name="expander1" Panel.ZIndex="3" VerticalAlignment="Top" Width="97">
+                    <ListBox Height="85" Name="listSort" SelectionChanged="listSort_SelectionChanged">
+                        <ListBoxItem Content="Nro" />
+                        <ListBoxItem Content="Cantidad" />
+                        <ListBoxItem Content="Precio" />
+                        <ListBoxItem Content="Total" />
+                        <ListBoxItem Content="Estado" />
+                        <ListBoxItem Content="Fecha" />
+                    </ListBox>
+                </Expander>
+                <Label Content="Ordenar Por: " HorizontalAlignment="Left" Margin="281,0,0,223" Name="label1" Style="{StaticResource LabelForm}" />
+            </Grid>
+
+            <Button Grid.Row="5"
                     Content="Salir"
                     x:Name="btnSalir"
                     Style="{StaticResource ButtonSalir}"
-                    Click="btnSalir_Click" Margin="0,230,6,0" Grid.RowSpan="3">
+                    Click="btnSalir_Click" Margin="0,0,6,0">
             </Button>
         </Grid>
 
