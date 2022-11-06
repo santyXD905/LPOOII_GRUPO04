@@ -10,6 +10,11 @@ namespace ClasesBase
 {
     public class TrabajarVentas
     {
+        public static Venta TraerVenta()
+        {
+            Venta v = new Venta();
+            return v;
+        }
         public static void GuardarVenta(Venta nueva) {
             // conexion a la base de datos
             SqlConnection cnn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);

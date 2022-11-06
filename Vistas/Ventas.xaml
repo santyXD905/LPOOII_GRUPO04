@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Vistas.Ventas"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Ventas" Height="580" Width="859"
+        Title="Ventas" Height="680" Width="859"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
@@ -12,12 +12,18 @@
         >
     
     <Window.Resources>
+        <ObjectDataProvider
+            x:Key="VENTA_VALIDACION"
+            ObjectType="{x:Type svc:TrabajarVentas}"
+            MethodName="TraerVenta"
+        ></ObjectDataProvider>
         <ObjectDataProvider 
             x:Key="LISTA_VENTAS"
             ObjectType="{x:Type svc:TrabajarVentas}"
             MethodName="TraerVentas"
         ></ObjectDataProvider>
-
+        <XmlDataProvider x:Key="tipo_estado" Source="Estados.xml" XPath="/estados" />
+        <svc:ConversorEstados x:Key="textToBrush" />
         <CollectionViewSource 
             x:Key="VISTA_VENTAS"
             Source="{StaticResource ResourceKey=LISTA_VENTAS}"
@@ -136,9 +142,8 @@
                     <ColumnDefinition Width="400"/>
                     <ColumnDefinition Width="35*" />
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0"
-                            VerticalAlignment="Stretch"
-                            HorizontalAlignment="Right">
+                <StackPanel VerticalAlignment="Stretch"
+                            HorizontalAlignment="Right" Height="187" Margin="0,0,0,-37">
                     <Label Content="Fecha :"
                            x:Name="lblFecha"
                            Style="{StaticResource LabelForm}"/>
@@ -154,48 +159,75 @@
                     <Label Content="Vendedor:" 
                            x:Name="lblVendedor"
                            Style="{StaticResource LabelForm}"/>
+                    <Label Content="Estado:" 
+                           x:Name="lblEstado"
+                           Style="{StaticResource LabelForm}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1"
                             VerticalAlignment="Stretch"
-                            HorizontalAlignment="Left" Width="282">
+                            HorizontalAlignment="Left" Width="282" Height="187" Margin="0,0,0,-37">
                     
                     <DatePicker Height="25" Name="datePicker1" Width="120" Grid.Column="1" HorizontalAlignment="Left" />
                     
                     <WrapPanel>
                         <TextBox x:Name="txtDni"
-                             Style="{StaticResource InputForm}" IsEnabled="False" Text="No seleccionado"/>
+                             Style="{StaticResource TextBoxError}" IsEnabled="True" DataContext="{StaticResource VENTA_VALIDACION}">
+                            <TextBox.Text>
+                                <Binding Path="Dni" UpdateSourceTrigger="PropertyChanged" >
+                                    <Binding.ValidationRules>
+                                        <svc:ReglaDni />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>    
                         <Button Content="Seleccionar"  Margin ="30,5,5,0" Name="btnSelCliente" HorizontalAlignment="Right" Style="{StaticResource SelectButton}" Click="btnSelCliente_Click" Height="25" Width="100" />
                     </WrapPanel>
                     
                     <WrapPanel>
                         <TextBox x:Name="txtProd"
-                             Style="{StaticResource InputForm}" IsEnabled="False" Text="No seleccionado"/>
+                             Style="{StaticResource TextBoxError}" IsEnabled="True" DataContext="{StaticResource VENTA_VALIDACION}">
+                            <TextBox.Text>
+                                <Binding Path="CodProducto" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True"/>
+                            </TextBox.Text>
+                        </TextBox>
                         <Button Content="Seleccionar" Margin ="30,5,5,0" HorizontalAlignment="Center" Name="btnSelProd" Style="{StaticResource SelectButton}" Click="btnSelProd_Click" />
                     </WrapPanel>
                     
                    
                   
                     <TextBox x:Name="txtCantidad"
-                             Style="{StaticResource InputForm}" HorizontalAlignment="Left"/>
+                             Style="{StaticResource TextBoxError}" HorizontalAlignment="Left" DataContext="{StaticResource VENTA_VALIDACION}">
+                        <TextBox.Text>
+                            <Binding Path="Cantidad" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True">
+                                <Binding.ValidationRules>
+                                    <svc:ReglaCantidad />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>    
                     
                     <WrapPanel>
                         <TextBox x:Name="txtVendedor"
-                             Style="{StaticResource InputForm}" IsEnabled="False" Text="No seleccionado"/>
+                             Style="{StaticResource TextBoxError}" IsEnabled="True" DataContext="{StaticResource VENTA_VALIDACION}">
+                            <TextBox.Text>
+                                <Binding Path="Legajo" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True"/>
+                            </TextBox.Text>
+                        </TextBox>    
                         <Button Content="Seleccionar" Margin ="30,5,5,0" HorizontalAlignment="Center" Name="btnSelVendedor" Style="{StaticResource SelectButton}" Click="btnSelVendedor_Click" />
                     </WrapPanel>
-                    
+                    <ComboBox ItemsSource="{Binding Source={StaticResource tipo_estado},XPath=tipo/@name}" Name="cmbEstado" Width="173" Height="21" Margin="10"/>
                 </StackPanel>
                 <Button Content="Vista Previa" Margin="0,64,0,0" Name="btnVistaPrevia" Style="{StaticResource ButtonSalir}" Grid.Column="1" Visibility="Hidden" Click="btnVistaPrevia_Click" />
             </Grid>
             
-            <Grid Grid.Row="3" Margin="1,6,-1,0">
-                <ListView Height="213" HorizontalAlignment="Left" Margin="16,34,0,0" Name="listVentas" 
-                  VerticalAlignment="Top" Width="480" ItemsSource="{Binding Source={StaticResource ResourceKey=VISTA_VENTAS}}" Panel.ZIndex="-1" IsSynchronizedWithCurrentItem="True" SelectionChanged="listVentas_SelectionChanged">
+            <Grid Grid.Row="3" Margin="1,56,-1,54" Grid.RowSpan="3">
+                <ListView Height="213" HorizontalAlignment="Left" Margin="16,65,0,0" Name="listVentas"
+                  VerticalAlignment="Top" Width="517" ItemsSource="{Binding Source={StaticResource ResourceKey=VISTA_VENTAS}}" Panel.ZIndex="-1" IsSynchronizedWithCurrentItem="True" SelectionChanged="listVentas_SelectionChanged">
                     <ListView.View>
 
-                        <GridView>
+                        <GridView >
 
-                            <GridViewColumn Width="53"  Header="Nro." DisplayMemberBinding="{Binding NroFactura}"/>
+                            <GridViewColumn Width="53"  Header="Nro." DisplayMemberBinding="{Binding NroFactura}" />
                             <GridViewColumn Width="53"  Header="Fecha" DisplayMemberBinding="{Binding FechaFactura}"/>
                             <GridViewColumn Width="53"  Header="Legajo" DisplayMemberBinding="{Binding Legajo}"/>
                             <GridViewColumn Width="53"  Header="DNI" DisplayMemberBinding="{Binding Dni}"/>
@@ -203,14 +235,21 @@
                             <GridViewColumn Width="53"  Header="Precio" DisplayMemberBinding="{Binding Precio}"/>
                             <GridViewColumn Width="53" Header="Cantidad" DisplayMemberBinding="{Binding Cantidad}"/>
                             <GridViewColumn Width="53" Header="Total" DisplayMemberBinding="{Binding Importe}"/>
-                            <GridViewColumn Width="53" Header="Estado" DisplayMemberBinding="{Binding Estado}"/>
+                            <GridViewColumn Width="53" Header="Estado" DisplayMemberBinding="{Binding Estado}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Estado}" TextAlignment="Right"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
                         </GridView>
 
                     </ListView.View>
+                    
                 </ListView>
                 <TextBox Margin="16,6,699,227" Name="txtFiltro" Style="{StaticResource InputForm}" TextChanged="txtFiltro_TextChanged" />
-                <Expander Background="White" Header="---------" HorizontalAlignment="Left" IsExpanded="False" Margin="399,6,0,0" Name="expander1" Panel.ZIndex="3" VerticalAlignment="Top" Width="97">
+                <Expander Background="White" Header="---------" HorizontalAlignment="Left" IsExpanded="False" Margin="385,38,0,0" Name="expander1" Panel.ZIndex="3" VerticalAlignment="Top" Width="97">
                     <ListBox Height="85" Name="listSort" SelectionChanged="listSort_SelectionChanged">
                         <ListBoxItem Content="Nro" />
                         <ListBoxItem Content="Cantidad" />
@@ -227,8 +266,9 @@
                     Content="Salir"
                     x:Name="btnSalir"
                     Style="{StaticResource ButtonSalir}"
-                    Click="btnSalir_Click" Margin="0,0,6,0">
+                    Click="btnSalir_Click" Margin="0,87,6,0">
             </Button>
+            
         </Grid>
 
 
