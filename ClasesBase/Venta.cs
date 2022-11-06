@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace ClasesBase
 {
-    public class Venta
+    public class Venta: IDataErrorInfo
     {
         private int nroFactura;
 
@@ -86,6 +87,78 @@ namespace ClasesBase
             this.cantidad = cantidad;
             this.importe = importe;
             this.estado = estado;
+        }
+
+        public string Error
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string msg_error = null;
+                switch (columnName)
+                {
+                    case "FechaFactura":
+                        msg_error = verificarFechaFactura();
+                        break;
+                    case "Estado":
+                        msg_error = verificarDNI();
+                        break;
+                    case "CodProducto":
+                        msg_error = verificarCodProducto();
+                        break;
+                    case "Cantidad":
+                        msg_error = verificarCantidad();
+                        break;
+                    case "Legajo":
+                        msg_error = verificarLegajo();
+                        break;
+                }
+                return msg_error;
+            }
+        }
+        private string verificarFechaFactura()
+        {
+            if (String.IsNullOrEmpty(FechaFactura.ToString()))
+            {
+                return "La fecha es obligatoria";
+            }
+            return null;
+        }
+        private string verificarDNI()
+        {
+            if (Dni <= 0)
+            {
+                return "La cantidad debe ser mayor que 0";
+            }
+            return null;
+        }
+        private string verificarCodProducto()
+        {
+            if (String.IsNullOrEmpty(CodProducto) || CodProducto == "No seleccionado")
+            {
+                return "El producto es obligatorio";
+            }
+            return null;
+        }
+        private string verificarCantidad()
+        {
+            if (Cantidad<=0)
+            {
+                return "La cantidad debe ser mayor que 0";
+            }
+            return null;
+        }
+        private string verificarLegajo()
+        {
+            if (String.IsNullOrEmpty(Legajo) || Legajo == "No seleccionado")
+            {
+                return "El vendedor es obligatorio";
+            }
+            return null;
         }
     }
 }

@@ -51,6 +51,7 @@ namespace Vistas
 
             actual = null;
             listVentas.SelectedItem = null;
+            cmbEstado.SelectedValue = "PENDIENTE";
             limpiar();
         }
         private void btnSalir_Click(object sender, RoutedEventArgs e)
@@ -76,7 +77,7 @@ namespace Vistas
             {
                 actual = new Venta();
                 actual.Dni = cliente.Dni;
-                actual.Estado = "Pagada";//default, cambiar a funcionalidad
+                actual.Estado = cmbEstado.SelectedValue.ToString();
                 actual.Legajo = vendedor.Legajo;
                 actual.CodProducto = producto.CodProducto;
                 actual.Precio = (decimal)producto.Precio;
@@ -171,13 +172,15 @@ namespace Vistas
         private void btnNuevo_Click(object sender, RoutedEventArgs e)
         {
             limpiar();
-            habilitarForm(true);
-            habilitarABM(false);
-            habilitarGuarCanc(true);
-            
+
             //defaultColors();
+
             btnVistaPrevia.Visibility = System.Windows.Visibility.Hidden;
             listVentas.SelectedItem = null;
+
+            habilitarABM(false);
+            habilitarGuarCanc(true);
+            habilitarForm(true);
         }
         #endregion
 
@@ -318,6 +321,7 @@ namespace Vistas
             txtDni.IsEnabled = a;
             txtProd.IsEnabled = a;
             txtVendedor.IsEnabled = a;
+            cmbEstado.IsEnabled = a;
         }
         private bool miniValidacion() {
 
@@ -363,6 +367,7 @@ namespace Vistas
                 txtDni.Text = cliente.Dni + ", " + cliente.Apellido + ", " + cliente.Nombre;
                 txtProd.Text = producto.CodProducto + ", " + producto.Descripcion;
                 txtVendedor.Text = vendedor.Legajo + ", " + vendedor.Apellido + ", " + vendedor.Nombre;
+                cmbEstado.SelectedValue = venta.Estado;
             }
 
         }
