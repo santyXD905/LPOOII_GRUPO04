@@ -52,6 +52,9 @@ namespace Vistas
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
+            habilitarABM(true);
+            habilitarGuarCanc(false);
+            habilitarText(false);
             //recuperamos los objetos y usamos una arreglo para manejar las actualizaciones y eliminaciones
             ObjectDataProvider odp = this.Resources["LISTA_PROVEEDORES"] as ObjectDataProvider;
             listaProveedores = odp.Data as ObservableCollection<Proveedor>;

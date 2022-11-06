@@ -54,6 +54,9 @@ namespace Vistas
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            habilitarABM(true);
+            habilitarGuarCanc(false);
+            habilitarText(false);
             ObjectDataProvider odp = this.Resources["LISTA_PRODUCTOS"] as ObjectDataProvider;
             listaProductos = odp.Data as ObservableCollection<Producto>;
 
@@ -109,6 +112,11 @@ namespace Vistas
 
             if (actual != null)
             {
+                if(TrabajarVentas.BuscarCodProducto(actual.CodProducto))
+                {
+                    MessageBox.Show("El producto tiene ventas asociadas","Eliminacion Producto");
+                    return;
+                }
                 btnSeleccionar.IsEnabled = false;
                 MessageBoxResult result = MessageBox.Show(
                     "Confirme eliminacion",
@@ -289,13 +297,22 @@ namespace Vistas
                 txtPrecio.Text = p1.Precio.ToString();
                 if (!String.IsNullOrEmpty(p1.Imagen))
                 {
-                    imgDynamic.Source = new ImageSourceConverter().ConvertFromString(p1.Imagen) as ImageSource;
+                    try
+                    {
+                        imgDynamic.Source = new ImageSourceConverter().ConvertFromString(p1.Imagen) as ImageSource;
+                        txtImagen.Text = p1.Imagen;
+                    }catch(Exception e)
+                    {
+                        imgDynamic.Source = new BitmapImage(new Uri("pack://application:,,,/Recursos/no-image.png"));
+                        txtImagen.Text = "Imagen no encontrada";
+                    }
                 }
                 else
                 {
                     imgDynamic.Source = null;
+                    txtImagen.Text = "No se proveyo una imagen";
                 }
-                txtImagen.Text = p1.Imagen;
+                
             }
            
         }
@@ -391,6 +408,7 @@ namespace Vistas
         {
             Ventas padre = this.Owner as Ventas;
             padre.producto = actual;
+            padre.txtProd.Text = actual.CodProducto + ", " + actual.Descripcion;
             padre.btnSelProd.Content = "Seleccionado";
             padre.btnSelProd.Background = Brushes.Khaki;
             padre.btnSelProd.Foreground = Brushes.Black;

@@ -41,6 +41,7 @@ namespace Vistas
             //venta
             lblNroVenta.Content = "Numero: " + venta.NroFactura.ToString();
             lblFecha.Content = "Fecha: " + venta.FechaFactura.ToString("dd/MM/yyyy ");
+            lblEstado.Content = "Estado: " + venta.Estado;
 
             //cliente
             Cliente cliente = TrabajarCliente.getByDni(venta.Dni);

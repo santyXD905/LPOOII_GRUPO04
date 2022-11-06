@@ -187,13 +187,15 @@ namespace ClasesBase
 
             cmd.CommandType = CommandType.Text;
             cmd.Connection = cnn;
-            cmd.CommandText = "SELECT * FROM Vendedor WHERE legajo = " + legajo;
+            cmd.CommandText = "SELECT * FROM Vendedor WHERE legajo LIKE '" + legajo + "'";
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             da.Fill(dt);
 
-            Vendedor v = new Vendedor(legajo,dt.Rows[0]["apellido"].ToString(),dt.Rows[0]["nombre"].ToString());
+            Vendedor v = new Vendedor();
+            if(dt.Rows.Count > 0)
+                v = new Vendedor(legajo,dt.Rows[0]["apellido"].ToString(),dt.Rows[0]["nombre"].ToString());
 
             return v;
 
