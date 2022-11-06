@@ -44,7 +44,7 @@ namespace Vistas
             lblEstado.Content = "Estado: " + venta.Estado;
 
             //cliente
-            Cliente cliente = TrabajarCliente.getByDni(venta.Dni);
+            Cliente cliente = TrabajarCliente.getByDni(Int32.Parse(venta.Dni));
             lblDni.Content = "DNI: " + cliente.Dni;
             lblNombre.Content = "Nombre: " + cliente.Nombre;
             lblApellido.Content = "Apellido: " + cliente.Apellido;

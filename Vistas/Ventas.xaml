@@ -43,8 +43,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="40"/>
-                <RowDefinition Height="175"/>
-                <RowDefinition Height="259"/>
+                <RowDefinition Height="231"/>
+                <RowDefinition Height="203"/>
                 <RowDefinition Height="0*" />
                 <RowDefinition Height="35*" />
             </Grid.RowDefinitions>
@@ -97,46 +97,55 @@
                 <Button Grid.Column="0"
                         Style="{StaticResource DangerButton}"
                         Name="btnNuevo" 
-                        Content="Nuevo" Click="btnNuevo_Click" />
+                        Content="Nuevo" Click="btnNuevo_Click"
+                        ToolTip="Crea una nueva venta"/>
                 <Button Grid.Column="1"
                         Style="{StaticResource DangerButton}"
                         Name="btnModificar"
-                        Content="Modificar" Click="btnModificar_Click" />
+                        Content="Modificar" Click="btnModificar_Click"
+                        ToolTip="Modifica una venta existente"/>
                 <Button Grid.Column="2" 
                         Style="{StaticResource DangerButton}"
                         Name="btnEliminar" 
-                        Content="Eliminar" Click="btnEliminar_Click" />
+                        Content="Eliminar" Click="btnEliminar_Click"
+                        ToolTip="Elimina una venta existente"/>
 
                 <Button Grid.Column="4" 
                         Style="{StaticResource PrimaryButton}"
                         Name="btnGuardar"
                         Content="Guardar"
-                        Click="btnGuardar_Click"/>
+                        Click="btnGuardar_Click"
+                        ToolTip="Guarda los cambios actuales"/>
                 <Button Grid.Column="5" 
                         Style="{StaticResource PrimaryButton}"
                         Name="btnCancelar"
-                        Content="Cancelar" Click="btnCancelar_Click" />
+                        Content="Cancelar" Click="btnCancelar_Click"
+                        ToolTip="Cancela la operacion actual"/>
 
                 <Button Grid.Column="7"
                         Style="{StaticResource SuccessButton}"
                         Content="Primero"
-                        Name="btnPrimero" Click="btnPrimero_Click" />
+                        Name="btnPrimero" Click="btnPrimero_Click"
+                        ToolTip="Navega a la primer venta de la tabla"/>
                 <Button Grid.Column="8"
                         Style="{StaticResource SuccessButton}"
                         Content="Anterior" 
-                        Name="btnAnterior" Click="btnAnterior_Click" />
+                        Name="btnAnterior" Click="btnAnterior_Click"
+                        ToolTip="Navega al elemento anterior en la tabla"/>
                 <Button Grid.Column="9" 
                         Style="{StaticResource SuccessButton}"
                         Content="Siguiente"
-                        Name="btnSiguiente" Click="btnSiguiente_Click" />
+                        Name="btnSiguiente" Click="btnSiguiente_Click"
+                        ToolTip="Navega el elemento siguiente en la tabla"/>
                 <Button Grid.Column="10"
                         Style="{StaticResource SuccessButton}"
                         Content="Ultimo"
-                        Name="btnUltimo" Click="btnUltimo_Click" />
+                        Name="btnUltimo" Click="btnUltimo_Click"
+                        ToolTip="Navega a la ultima venta de la tabla"/>
             </Grid>
 
             <Grid Grid.Row="2"
-                  VerticalAlignment="Center" Margin="0,25,0,0">
+                  VerticalAlignment="Center" Margin="0,25,0,26" Height="180">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="400"/>
                     <ColumnDefinition Width="400"/>
@@ -167,16 +176,21 @@
                             VerticalAlignment="Stretch"
                             HorizontalAlignment="Left" Width="282" Height="187" Margin="0,0,0,-37">
                     
-                    <DatePicker Height="25" Name="datePicker1" Width="120" Grid.Column="1" HorizontalAlignment="Left" />
+                    <DatePicker Height="25" Name="datePicker1" Width="120" Grid.Column="1" HorizontalAlignment="Left" DataContext="{StaticResource VENTA_VALIDACION}">
+                        <DatePicker.SelectedDate>
+                            <Binding Path="FechaFactura" UpdateSourceTrigger="PropertyChanged">
+                                
+                            </Binding>
+                        </DatePicker.SelectedDate>
+                    </DatePicker>
                     
                     <WrapPanel>
                         <TextBox x:Name="txtDni"
-                             Style="{StaticResource TextBoxError}" IsEnabled="True" DataContext="{StaticResource VENTA_VALIDACION}">
+                             Style="{StaticResource TextBoxError}" IsEnabled="True" IsReadOnly="True" DataContext="{StaticResource VENTA_VALIDACION}">
                             <TextBox.Text>
-                                <Binding Path="Dni" UpdateSourceTrigger="PropertyChanged" >
-                                    <Binding.ValidationRules>
-                                        <svc:ReglaDni />
-                                    </Binding.ValidationRules>
+                                <Binding Path="Dni" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True">
+                                    
+ 
                                 </Binding>
                             </TextBox.Text>
                         </TextBox>    
@@ -185,7 +199,7 @@
                     
                     <WrapPanel>
                         <TextBox x:Name="txtProd"
-                             Style="{StaticResource TextBoxError}" IsEnabled="True" DataContext="{StaticResource VENTA_VALIDACION}">
+                             Style="{StaticResource TextBoxError}" IsEnabled="True" DataContext="{StaticResource VENTA_VALIDACION}" IsReadOnly="True">
                             <TextBox.Text>
                                 <Binding Path="CodProducto" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True"/>
                             </TextBox.Text>
@@ -208,7 +222,7 @@
                     
                     <WrapPanel>
                         <TextBox x:Name="txtVendedor"
-                             Style="{StaticResource TextBoxError}" IsEnabled="True" DataContext="{StaticResource VENTA_VALIDACION}">
+                             Style="{StaticResource TextBoxError}" IsEnabled="True" IsReadOnly="True" DataContext="{StaticResource VENTA_VALIDACION}">
                             <TextBox.Text>
                                 <Binding Path="Legajo" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True"/>
                             </TextBox.Text>
@@ -217,28 +231,28 @@
                     </WrapPanel>
                     <ComboBox ItemsSource="{Binding Source={StaticResource tipo_estado},XPath=tipo/@name}" Name="cmbEstado" Width="173" Height="21" Margin="10"/>
                 </StackPanel>
-                <Button Content="Vista Previa" Margin="0,64,0,0" Name="btnVistaPrevia" Style="{StaticResource ButtonSalir}" Grid.Column="1" Visibility="Hidden" Click="btnVistaPrevia_Click" />
+                <Button Content="Vista Previa" Margin="0,64,0,0" ToolTip="Muestra el documento respectivo a la venta" Name="btnVistaPrevia" Style="{StaticResource ButtonSalir}" Grid.Column="1" Visibility="Hidden" Click="btnVistaPrevia_Click" />
             </Grid>
             
-            <Grid Grid.Row="3" Margin="1,56,-1,54" Grid.RowSpan="3">
+            <Grid Grid.Row="3" Margin="1,0,-1,54" Grid.RowSpan="3">
                 <ListView Height="213" HorizontalAlignment="Left" Margin="16,65,0,0" Name="listVentas"
                   VerticalAlignment="Top" Width="517" ItemsSource="{Binding Source={StaticResource ResourceKey=VISTA_VENTAS}}" Panel.ZIndex="-1" IsSynchronizedWithCurrentItem="True" SelectionChanged="listVentas_SelectionChanged">
                     <ListView.View>
 
                         <GridView >
 
-                            <GridViewColumn Width="53"  Header="Nro." DisplayMemberBinding="{Binding NroFactura}" />
-                            <GridViewColumn Width="53"  Header="Fecha" DisplayMemberBinding="{Binding FechaFactura}"/>
-                            <GridViewColumn Width="53"  Header="Legajo" DisplayMemberBinding="{Binding Legajo}"/>
-                            <GridViewColumn Width="53"  Header="DNI" DisplayMemberBinding="{Binding Dni}"/>
-                            <GridViewColumn Width="53"  Header="Cod. Prod." DisplayMemberBinding="{Binding CodProducto}"/>
-                            <GridViewColumn Width="53"  Header="Precio" DisplayMemberBinding="{Binding Precio}"/>
-                            <GridViewColumn Width="53" Header="Cantidad" DisplayMemberBinding="{Binding Cantidad}"/>
-                            <GridViewColumn Width="53" Header="Total" DisplayMemberBinding="{Binding Importe}"/>
-                            <GridViewColumn Width="53" Header="Estado" DisplayMemberBinding="{Binding Estado}">
+                            <GridViewColumn   Header="Nro." DisplayMemberBinding="{Binding NroFactura}" />
+                            <GridViewColumn   Header="Fecha" DisplayMemberBinding="{Binding Path=FechaFactura, StringFormat='yyyy/MM/dd HH:mm'}"/>
+                            <GridViewColumn   Header="Legajo" DisplayMemberBinding="{Binding Legajo}"/>
+                            <GridViewColumn   Header="DNI" DisplayMemberBinding="{Binding Dni}"/>
+                            <GridViewColumn   Header="Cod. Prod." DisplayMemberBinding="{Binding CodProducto}"/>
+                            <GridViewColumn   Header="Precio" DisplayMemberBinding="{Binding Precio}"/>
+                            <GridViewColumn   Header="Cantidad" DisplayMemberBinding="{Binding Cantidad}"/>
+                            <GridViewColumn   Header="Total" DisplayMemberBinding="{Binding Importe}"/>
+                            <GridViewColumn   Header="Estado" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Estado}" TextAlignment="Right"/>
+                                        <TextBlock Width="90" Text="{Binding Estado}" Foreground="White" Background="{Binding Estado, Converter={StaticResource textToBrush}}"></TextBlock>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -248,7 +262,7 @@
                     </ListView.View>
                     
                 </ListView>
-                <TextBox Margin="16,6,699,227" Name="txtFiltro" Style="{StaticResource InputForm}" TextChanged="txtFiltro_TextChanged" />
+                <TextBox Margin="16,6,699,227" ToolTip="Buscar por DNI" Name="txtFiltro" Style="{StaticResource InputForm}" TextChanged="txtFiltro_TextChanged" />
                 <Expander Background="White" Header="---------" HorizontalAlignment="Left" IsExpanded="False" Margin="385,38,0,0" Name="expander1" Panel.ZIndex="3" VerticalAlignment="Top" Width="97">
                     <ListBox Height="85" Name="listSort" SelectionChanged="listSort_SelectionChanged">
                         <ListBoxItem Content="Nro" />

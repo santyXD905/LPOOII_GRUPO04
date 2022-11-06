@@ -124,7 +124,7 @@ namespace ClasesBase
                     Int32.Parse(x["nroFactura"].ToString()),
                     (DateTime)x["fechaFactura"],
                     x["legajo"].ToString(),
-                    Int32.Parse(x["dni"].ToString()),
+                    x["dni"].ToString(),
                     x["codProducto"].ToString(),
                     Decimal.Parse(x["precio"].ToString()),
                     Int32.Parse(x["cantidad"].ToString()),

@@ -129,6 +129,7 @@
                           FontWeight="Normal"
                           FontStyle="Normal"
                           Click="ProveedoresItem_Click"
+                          ToolTip="Abrir venta de proveedores"
                           >
                 </MenuItem>
                 <MenuItem Header="Clientes" 
@@ -141,6 +142,7 @@
                           FontWeight="Normal" 
                           FontStyle="Normal" 
                           Click="ClientesItem_Click"
+                          ToolTip="Abrir ventana de clientes"
                           >
                 </MenuItem>
                 <MenuItem Header="Productos" 
@@ -151,7 +153,8 @@
                           Margin="5" 
                           FontStretch="SemiExpanded" 
                           FontWeight="Normal" 
-                          FontStyle="Normal" Click="ProductosItem_Click">
+                          FontStyle="Normal" Click="ProductosItem_Click"
+                          ToolTip="Abrir ventana de productos">
                    
                 </MenuItem>
                 <MenuItem Name="VendedorItem" 
@@ -164,6 +167,7 @@
                           FontWeight="Normal" 
                           FontStyle="Normal"
                           Click="VendedorItem_Click"
+                          ToolTip="Abrir ventana de vendedores"
                           >
                 </MenuItem>
                 <MenuItem Name="VentasItem" 
@@ -174,7 +178,8 @@
                           VerticalAlignment="Center"
                           Margin="5" FontStretch="SemiExpanded" 
                           FontWeight="Normal" 
-                          FontStyle="Normal" Click="VentasItem_Click">
+                          FontStyle="Normal" Click="VentasItem_Click"
+                          ToolTip="Abrir ventana de ventas">
                 </MenuItem>
                 <MenuItem Name="AboutItem" 
                           Header="Acerca De"
@@ -184,7 +189,8 @@
                           VerticalAlignment="Center"
                           Margin="5" FontStretch="SemiExpanded" 
                           FontWeight="Normal" 
-                          FontStyle="Normal" Click="AboutItem_Click">
+                          FontStyle="Normal" Click="AboutItem_Click"
+                          ToolTip="Abrir ventana de acerca de">
                 </MenuItem>
             </Menu>
             
