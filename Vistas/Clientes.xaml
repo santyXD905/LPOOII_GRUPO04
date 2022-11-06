@@ -98,43 +98,52 @@
                         Style="{StaticResource DangerButton}"
                         Name="btnNuevo" 
                         Content="Nuevo"
-                        Click="btnNuevo_Click"/>
+                        Click="btnNuevo_Click"
+                        ToolTip="Crea un nuevo cliente"/>
                 <Button Grid.Column="1"
                         Style="{StaticResource DangerButton}"
                         Name="btnModificar"
-                        Content="Modificar" Click="btnModificar_Click" />
+                        Content="Modificar" Click="btnModificar_Click"
+                        ToolTip="Modifica un cliente seleccionado"/>
                 <Button Grid.Column="2" 
                         Style="{StaticResource DangerButton}"
                         Name="btnEliminar" 
-                        Content="Eliminar" Click="btnEliminar_Click" />
-
+                        Content="Eliminar" Click="btnEliminar_Click"
+                        ToolTip="Elimina un cliente seleccionado"/>
+                <!--guardar, cancelar-->
                 <Button Grid.Column="4" 
                         Style="{StaticResource PrimaryButton}"
                         Name="btnGuardar"
                         Content="Guardar"
-                        Click="btnGuardar_Click"/>
+                        Click="btnGuardar_Click"
+                        ToolTip="Guarda los cambios de la operacion actual"/>
                 <Button Grid.Column="5" 
                         Style="{StaticResource PrimaryButton}"
                         Name="btnCancelar"
                         Content="Cancelar"
-                        Click="btnCancelar_Click"/>
-
+                        Click="btnCancelar_Click"
+                        ToolTip="Cancela la operacion actual"/>
+                <!--primero, anterior, siguiente, ultimo-->
                 <Button Grid.Column="7"
                         Style="{StaticResource SuccessButton}"
                         Content="Primero"
-                        Name="btnPrimero" Click="btnPrimero_Click" />
+                        Name="btnPrimero" Click="btnPrimero_Click"
+                        ToolTip="Navega al primer elemento en la tabla"/>
                 <Button Grid.Column="8"
                         Style="{StaticResource SuccessButton}"
                         Content="Anterior" 
-                        Name="btnAnterior" Click="btnAnterior_Click" />
+                        Name="btnAnterior" Click="btnAnterior_Click"
+                        ToolTip="Navega al elemento anterior en la tabla"/>
                 <Button Grid.Column="9" 
                         Style="{StaticResource SuccessButton}"
                         Content="Siguiente"
-                        Name="btnSiguiente" Click="btnSiguiente_Click" />
+                        Name="btnSiguiente" Click="btnSiguiente_Click" 
+                        ToolTip="Navega al elemento siguiente en la tabla"/>
                 <Button Grid.Column="10"
                         Style="{StaticResource SuccessButton}"
                         Content="Ultimo"
-                        Name="btnUltimo" Click="btnUltimo_Click" />
+                        Name="btnUltimo" Click="btnUltimo_Click"
+                        ToolTip="Navega al ultimo elemento en la tabla"/>
             </Grid>
 
             <Grid Grid.Row="2"
@@ -182,7 +191,7 @@
                         </TextBox.Text>
                     </TextBox>
                 </StackPanel>
-                <Button Content="Seleccionar" x:Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Margin="0,35,87,0" Grid.Column="1" Visibility="Hidden" Click="btnSeleccionar_Click"></Button>
+                <Button Content="Seleccionar" ToolTip="Selecciona un cliente para la venta" x:Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Margin="0,35,87,0" Grid.Column="1" Visibility="Hidden" Click="btnSeleccionar_Click"></Button>
             </Grid>
             <ListView Height="213" HorizontalAlignment="Left" Margin="17,10,0,0" x:Name="listView1" 
                   VerticalAlignment="Top" Width="480" ItemsSource="{Binding Source={StaticResource ResourceKey=VISTA_CLIENTES}}" Grid.Row="3" Grid.RowSpan="2" SelectionChanged="listView1_SelectionChanged" 
@@ -200,7 +209,7 @@
 
                 </ListView.View>
             </ListView>
-            <TextBox Margin="17,180,698,0" Name="txtFiltro" Style="{StaticResource InputForm}" Grid.Row="2" TextChanged="txtFiltro_TextChanged" />
+            <TextBox ToolTip="Buscar por apellido" Margin="17,180,698,0" Name="txtFiltro" Style="{StaticResource InputForm}" Grid.Row="2" TextChanged="txtFiltro_TextChanged" />
             <Label Content="Ordenar Por: " Margin="272,170,0,0" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="2" HorizontalAlignment="Left" />
 
             <Expander Grid.Row="2" Header="---------"  HorizontalAlignment="Left" Margin="397,176,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Grid.RowSpan="3" Panel.ZIndex="3">
@@ -221,13 +230,15 @@
                     Content="Salir"
                     x:Name="btnSalir"
                     Style="{StaticResource ButtonSalir}"
-                    Click="btnSalir_Click" Margin="0,230,6,0" Grid.RowSpan="3">
+                    Click="btnSalir_Click" Margin="0,198,0,0">
             </Button>
             <Button Content="Vista Previa" 
-                    Margin="0,4,718,0" 
+                    Margin="0,13,207,0" 
                     Name="btnImprimir" 
                     Style="{StaticResource ButtonSalir}" 
-                    Grid.Row="5" Click="btnImprimir_Click"/>
+                    Grid.Row="3" Click="btnImprimir_Click"
+                    ToolTip="Muestra un documento de la lista de clientes"
+                    />
         </Grid>
         
         

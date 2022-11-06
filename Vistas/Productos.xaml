@@ -89,44 +89,53 @@
                         Style="{StaticResource DangerButton}"
                         Name="btnNuevo" 
                         Content="Nuevo"
-                        Click="btnNuevo_Click"/>
+                        Click="btnNuevo_Click"
+                        ToolTip="Crea un nuevo producto"/>
                 <Button Grid.Column="1"
                         Style="{StaticResource DangerButton}"
                         Name="btnModificar"
-                        Content="Modificar" Click="btnModificar_Click" />
+                        Content="Modificar" Click="btnModificar_Click"
+                        ToolTip="Modifica un producto seleccionado"/>
                 <Button Grid.Column="2" 
                         Style="{StaticResource DangerButton}"
                         Name="btnEliminar" 
-                        Content="Eliminar" Click="btnEliminar_Click" />
-
+                        Content="Eliminar" Click="btnEliminar_Click"
+                        ToolTip="Elimina un producto seleccionado"/>
+                <!--guardar, cancelar-->
                 <Button Grid.Column="4" 
                         Style="{StaticResource PrimaryButton}"
                         Name="btnGuardar"
                         Content="Guardar"
-                        Click="btnGuardar_Click"/>
+                        Click="btnGuardar_Click"
+                        ToolTip="Guarda los cambios de la operacion actual"/>
                 <Button Grid.Column="5" 
                         Style="{StaticResource PrimaryButton}"
                         Name="btnCancelar"
                         Content="Cancelar"
-                        Click="btnCancelar_Click"/>
-
+                        Click="btnCancelar_Click"
+                        ToolTip="Cancela la operacion actual"/>
+                <!--primero, anterior, siguiente, ultimo-->
                 <Button Grid.Column="7"
                         Style="{StaticResource SuccessButton}"
                         Content="Primero"
-                        Name="btnPrimero" Click="btnPrimero_Click" />
+                        Name="btnPrimero" Click="btnPrimero_Click"
+                        ToolTip="Navega al primer elemento en la tabla"/>
                 <Button Grid.Column="8"
                         Style="{StaticResource SuccessButton}"
                         Content="Anterior" 
-                        Name="btnAnterior" Click="btnAnterior_Click" />
+                        Name="btnAnterior" Click="btnAnterior_Click"
+                        ToolTip="Navega al elemento anterior en la tabla"/>
                 <Button Grid.Column="9" 
                         Style="{StaticResource SuccessButton}"
                         Content="Siguiente"
-                        Name="btnSiguiente" Click="btnSiguiente_Click" />
+                        Name="btnSiguiente" Click="btnSiguiente_Click" 
+                        ToolTip="Navega al elemento siguiente en la tabla"/>
                 <Button Grid.Column="10"
                         Style="{StaticResource SuccessButton}"
                         Content="Ultimo"
-                        Name="btnUltimo" Click="btnUltimo_Click" />
-                
+                        Name="btnUltimo" Click="btnUltimo_Click"
+                        ToolTip="Navega al ultimo elemento en la tabla"/>
+
                 <StackPanel Name="stpPadre" Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.ColumnSpan="3" Margin="48,59,0,-195" Width="118">
                     <TextBox x:Name="txtCodigo" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
                         <TextBox.Text>
@@ -157,22 +166,22 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    <Button Name="btnImage" Content="Cargar imagen" Click="btnImage_Click" />
+                    <Button ToolTip="Subir una imagen para el producto" Name="btnImage" Content="Cargar imagen" Click="btnImage_Click" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3"
-                  VerticalAlignment="Center" Margin="13,20,10,153" Grid.RowSpan="2">
+                  VerticalAlignment="Center" Margin="8,23,15,150" Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="400"/>
                     <ColumnDefinition Width="266"/>
                     <ColumnDefinition Width="134" />
                     <ColumnDefinition Width="238*" />
                 </Grid.ColumnDefinitions>
-                <Button Content="Salir" x:Name="btnSalir" Style="{StaticResource ButtonSalir}" Click="btnSalir_Click" Grid.Column="3" Margin="0,6,13,0"></Button>
-                <Label Content="Ordenar Por: " Margin="259,0,0,2" Name="label1" Style="{StaticResource LabelForm}" HorizontalAlignment="Left" />
+                <Label Content="Ordenar Por: " Margin="260,2,0,0" ToolTip="Buscar por codigo" Name="label1" Style="{StaticResource LabelForm}" HorizontalAlignment="Left" />
+                <TextBox Margin="101,10,179,2" Name="txtFiltro" Style="{StaticResource InputForm}" TextChanged="txtFiltro_TextChanged" />
             </Grid>
-            <ListView Height="129" HorizontalAlignment="Left" Margin="284,39,0,0" x:Name="listView1" 
-                  VerticalAlignment="Top" Width="411" ItemsSource="{Binding Source={StaticResource  ResourceKey=VISTA_PRODUCTOS}}" Grid.Row="4" SelectionChanged="listView1_SelectionChanged">
+            <ListView Height="129" HorizontalAlignment="Left" Margin="109,31,0,0" x:Name="listView1" 
+                  VerticalAlignment="Top" Width="483" ItemsSource="{Binding Source={StaticResource  ResourceKey=VISTA_PRODUCTOS}}" Grid.Row="4" SelectionChanged="listView1_SelectionChanged">
                 <ListView.View>
                     <GridView>
 
@@ -194,11 +203,10 @@
                 <Label Content="Precio: " x:Name="lblPrecio" Style="{StaticResource LabelForm}" />
                 <Label Content="Imagen: " x:Name="lblImagen" Style="{StaticResource LabelForm}" />
             </StackPanel>
-            <Button Content="Seleccionar" Margin="0,67,266,0" Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Visibility="Hidden" Grid.Row="2" Click="btnSeleccionar_Click" />
+            <Button Content="Seleccionar" ToolTip="Selecciona un producto para la venta" Margin="0,85,237,0" Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Visibility="Hidden" Grid.Row="2" Click="btnSeleccionar_Click" />
             <Image Name="imgDynamic" Margin="132,10,727,0" Source="{Binding Imagen}" Height="140" Grid.Row="2" VerticalAlignment="Top" DataContext="{StaticResource PRODUCTO_VALIDACION}" >
                 
             </Image>
-            <TextBox Margin="118,17,807,138" Name="txtFiltro" Style="{StaticResource InputForm}" TextChanged="txtFiltro_TextChanged" Grid.Row="4" />
             <Expander Grid.Row="3" Header="---------"  HorizontalAlignment="Left" Margin="399,25,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Grid.RowSpan="2" Panel.ZIndex="3">
                 <ListBox Height="90" Name="listSort" SelectionChanged="listSort_SelectionChanged">
 
@@ -216,11 +224,12 @@
 
                 </ListBox>
             </Expander>
-            <TextBox Grid.Row="2" Height="39" HorizontalAlignment="Left" Margin="132,0,0,5" Name="txtImagen" VerticalAlignment="Bottom" Width="186" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
+            <TextBox Grid.Row="2" Height="39" HorizontalAlignment="Left" Margin="109,0,0,5" Name="txtImagen" VerticalAlignment="Bottom" Width="186" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
                 <TextBox.Text>
                     <Binding Path="Imagen" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                 </TextBox.Text>
             </TextBox>
+            <Button Content="Salir" x:Name="btnSalir" Style="{StaticResource ButtonSalir}" Click="btnSalir_Click" Margin="0,135,15,0" Grid.Row="4"></Button>
         </Grid>
     </Border>
 </Window>

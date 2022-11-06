@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-
+using System.Diagnostics;
 namespace ClasesBase
 {
     public class Venta: IDataErrorInfo
@@ -29,13 +29,14 @@ namespace ClasesBase
             get { return legajo; }
             set { legajo = value; }
         }
-        private int dni;
+        private string dni;
 
-        public int Dni
+        public string Dni
         {
             get { return dni; }
             set { dni = value; }
         }
+
         private string codProducto;
 
         public string CodProducto
@@ -76,7 +77,7 @@ namespace ClasesBase
 
         public Venta() { }
 
-        public Venta(int nroFactura, DateTime fecha, string legajo, int dni, string cod, decimal precio, int cantidad, decimal importe, string estado)
+        public Venta(int nroFactura, DateTime fecha, string legajo, string dni, string cod, decimal precio, int cantidad, decimal importe, string estado)
         {
             this.nroFactura = nroFactura;
             this.fechaFactura = fecha;
@@ -104,7 +105,7 @@ namespace ClasesBase
                     case "FechaFactura":
                         msg_error = verificarFechaFactura();
                         break;
-                    case "Estado":
+                    case "Dni":
                         msg_error = verificarDNI();
                         break;
                     case "CodProducto":
@@ -122,7 +123,7 @@ namespace ClasesBase
         }
         private string verificarFechaFactura()
         {
-            if (String.IsNullOrEmpty(FechaFactura.ToString()))
+            if (fechaFactura.Equals(DateTime.MinValue))
             {
                 return "La fecha es obligatoria";
             }
@@ -130,9 +131,9 @@ namespace ClasesBase
         }
         private string verificarDNI()
         {
-            if (Dni <= 0)
+            if (String.IsNullOrEmpty(dni) || dni == "No seleccionado")
             {
-                return "La cantidad debe ser mayor que 0";
+                return "El cliente es obligatorio";
             }
             return null;
         }

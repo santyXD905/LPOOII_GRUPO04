@@ -52,14 +52,14 @@ namespace Vistas
             vistaFiltro = this.Resources["VISTA_CLIENTES"] as CollectionViewSource;
 
             txtFiltro.Text = String.Empty;
-            actual = null;
-            listView1.SelectedItem = null;
-            limpiar();
+            //actual = null;
+            //listView1.SelectedItem = null;
+            //limpiar();
 
             if (mode.Equals("venta"))
             {
                 btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
-                btnSeleccionar.IsEnabled = false;
+                btnSeleccionar.IsEnabled = true;
             }
             else {
                 btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;

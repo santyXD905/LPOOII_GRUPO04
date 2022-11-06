@@ -39,6 +39,7 @@ namespace Vistas
         #region Manejo ventana
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            btnVistaPrevia.Visibility = System.Windows.Visibility.Hidden;
             habilitarForm(false);
             habilitarABM(true);
             habilitarGuarCanc(false);
@@ -49,10 +50,10 @@ namespace Vistas
 
             vista = this.Resources["VISTA_VENTAS"] as CollectionViewSource;
 
-            actual = null;
-            listVentas.SelectedItem = null;
+            //actual = null;
+            //listVentas.SelectedItem = null;
             cmbEstado.SelectedValue = "PENDIENTE";
-            limpiar();
+            //limpiar();
         }
         private void btnSalir_Click(object sender, RoutedEventArgs e)
         {
@@ -76,7 +77,7 @@ namespace Vistas
             if (miniValidacion() == true)
             {
                 actual = new Venta();
-                actual.Dni = cliente.Dni;
+                actual.Dni = cliente.Dni.ToString();
                 actual.Estado = cmbEstado.SelectedValue.ToString();
                 actual.Legajo = vendedor.Legajo;
                 actual.CodProducto = producto.CodProducto;
@@ -318,9 +319,9 @@ namespace Vistas
             btnSelProd.IsEnabled = a;
             btnSelVendedor.IsEnabled = a;
             btnGuardar.IsEnabled = a;
-            txtDni.IsEnabled = a;
-            txtProd.IsEnabled = a;
-            txtVendedor.IsEnabled = a;
+            //txtDni.IsEnabled = a;
+            //txtProd.IsEnabled = a;
+            //txtVendedor.IsEnabled = a;
             cmbEstado.IsEnabled = a;
         }
         private bool miniValidacion() {
@@ -360,7 +361,7 @@ namespace Vistas
             {
                 datePicker1.SelectedDate = venta.FechaFactura;
                 txtCantidad.Text = venta.Cantidad.ToString();
-                cliente = TrabajarCliente.getByDni(venta.Dni);
+                cliente = TrabajarCliente.getByDni(Int32.Parse(venta.Dni));
                 producto = TrabajarProducto.getByCod(venta.CodProducto);
                 vendedor = TrabajarVendedor.getByLegajo(venta.Legajo);
 

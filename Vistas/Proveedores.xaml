@@ -102,57 +102,66 @@
                         Style="{StaticResource DangerButton}"
                         Name="btnNuevo" 
                         Content="Nuevo"
-                        Click="btnNuevo_Click"/>
+                        Click="btnNuevo_Click"
+                        ToolTip="Crea un nuevo proveedor"/>
                 <Button Grid.Column="1"
                         Style="{StaticResource DangerButton}"
                         Name="btnModificar"
-                        Content="Modificar" Click="btnModificar_Click" />
+                        Content="Modificar" Click="btnModificar_Click"
+                        ToolTip="Modifica un proveedor seleccionado"/>
                 <Button Grid.Column="2" 
                         Style="{StaticResource DangerButton}"
                         Name="btnEliminar" 
-                        Content="Eliminar" Click="btnEliminar_Click" />
+                        Content="Eliminar" Click="btnEliminar_Click"
+                        ToolTip="Elimina un proveedor seleccionado"/>
                 <!--guardar, cancelar-->
                 <Button Grid.Column="4" 
                         Style="{StaticResource PrimaryButton}"
                         Name="btnGuardar"
                         Content="Guardar"
-                        Click="btnGuardar_Click"/>
+                        Click="btnGuardar_Click"
+                        ToolTip="Guarda los cambios de la operacion actual"/>
                 <Button Grid.Column="5" 
                         Style="{StaticResource PrimaryButton}"
                         Name="btnCancelar"
                         Content="Cancelar"
-                        Click="btnCancelar_Click"/>
+                        Click="btnCancelar_Click"
+                        ToolTip="Cancela la operacion actual"/>
                 <!--primero, anterior, siguiente, ultimo-->
                 <Button Grid.Column="7"
                         Style="{StaticResource SuccessButton}"
                         Content="Primero"
-                        Name="btnPrimero" Click="btnPrimero_Click" />
+                        Name="btnPrimero" Click="btnPrimero_Click"
+                        ToolTip="Navega al primer elemento en la tabla"/>
                 <Button Grid.Column="8"
                         Style="{StaticResource SuccessButton}"
                         Content="Anterior" 
-                        Name="btnAnterior" Click="btnAnterior_Click" />
+                        Name="btnAnterior" Click="btnAnterior_Click"
+                        ToolTip="Navega al elemento anterior en la tabla"/>
                 <Button Grid.Column="9" 
                         Style="{StaticResource SuccessButton}"
                         Content="Siguiente"
-                        Name="btnSiguiente" Click="btnSiguiente_Click" />
+                        Name="btnSiguiente" Click="btnSiguiente_Click" 
+                        ToolTip="Navega al elemento siguiente en la tabla"/>
                 <Button Grid.Column="10"
                         Style="{StaticResource SuccessButton}"
                         Content="Ultimo"
-                        Name="btnUltimo" Click="btnUltimo_Click" />
+                        Name="btnUltimo" Click="btnUltimo_Click"
+                        ToolTip="Navega al ultimo elemento en la tabla"/>
             </Grid>
             <!--boton para salir de la ventana-->
-            <Button Grid.Row="2"
+            <Button Grid.Row="3"
                     Content="Salir"
                     x:Name="btnSalir"
                     Style="{StaticResource ButtonSalir}"
-                    Click="btnSalir_Click" Margin="0,80,117,0">
+                    Click="btnSalir_Click" Margin="0,221,72,0">
             </Button>
             <!--contiene los labels-->
-            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0,40,474,0" Grid.Row="2">
-                <Label Content="CUIT:" x:Name="lblCuit" Style="{StaticResource LabelForm}" />
-                <Label Content="Razon Social: " x:Name="lblRazonSocial" Style="{StaticResource LabelForm}" />
-                <Label Content="Domicilio: " x:Name="lblDomicilio" Style="{StaticResource LabelForm}" />
-                <Label Content="Telefono: " x:Name="lblTelefono" Style="{StaticResource LabelForm}" />
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0,40,474,0" Grid.Row="2" Width="110">
+                <Label Content="CUIT:" x:Name="lblCuit" Style="{StaticResource LabelForm}" Width="112" />
+                <Label Content="Razon Social: " x:Name="lblRazonSocial" Style="{StaticResource LabelForm}" Width="110" />
+                <Label Content="Domicilio: " x:Name="lblDomicilio" Style="{StaticResource LabelForm}" Width="109" />
+                <Label Content="Telefono: " x:Name="lblTelefono" Style="{StaticResource LabelForm}" Width="110" />
             </StackPanel>
             <!--contiene los textbox-->
             <StackPanel Name="stpPadre" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="483,41,0,0" Grid.Row="2">
@@ -195,10 +204,10 @@
                 </ListView.View>
             </ListView>
             <!--elementos para ordenacion y filtrado-->
-            <TextBox Margin="57,16,774,256" Name="txtFiltro" Style="{StaticResource InputForm}" Grid.Row="3" TextChanged="txtFiltro_TextChanged" Background="AliceBlue"/>
-            <Label Content="Ordenar Por: " Margin="306,10,0,257" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="3" HorizontalAlignment="Left" Height="25" Width="99" />
+            <TextBox Margin="20,31,811,241" ToolTip="Buscar por domicilio" Name="txtFiltro" Style="{StaticResource InputForm}" Grid.Row="3" TextChanged="txtFiltro_TextChanged"/>
+            <Label Content="Ordenar Por: " Margin="306,26,0,241" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="3" HorizontalAlignment="Left" Height="25" Width="99" />
 
-            <Expander Grid.Row="3" Header="---------"  HorizontalAlignment="Left" Margin="414,26,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Panel.ZIndex="3">
+            <Expander Grid.Row="3" Header="---------"  HorizontalAlignment="Left" Margin="414,45,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Panel.ZIndex="3">
                 <ListBox Height="85" Name="listSort" SelectionChanged="listSort_SelectionChanged">
 
                     <ListBoxItem Content="CUIT"/>
