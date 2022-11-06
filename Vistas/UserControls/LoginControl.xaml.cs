@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data;
 using ClasesBase;
 namespace Vistas.UserControls
 {
@@ -27,19 +28,22 @@ namespace Vistas.UserControls
 
         private void btnLoguin(object sender, RoutedEventArgs e)
         {
-            Usuario admin = new Usuario(), vendedor = new Usuario();
-            admin.Nombre = "santy";
-            admin.Password = "santy";
-            admin.Rol = "admin";
-            vendedor.Nombre = "mayko";
-            vendedor.Password = "mayko";
-            vendedor.Rol = "vendedor";
-
-            if (txtUser.Text == admin.Nombre && txtPass.Password.ToString() == admin.Password || txtUser.Text == vendedor.Nombre && txtPass.Password.ToString() == vendedor.Password)
+            if (txtUser.Text == "" || txtPass.Password == "")
+            {
+                txtError.Opacity = 100;
+                txtError.Text = "*Ingrese sus credenciales";
+            }
+            else if (TrabajarUsuario.verificarCredenciales(txtUser.Text,txtPass.Password))
             {
                 Main main = new Main();
-                if (txtUser.Text == admin.Nombre) main.logged = admin;
-                else main.logged = vendedor;
+                DataTable dt = TrabajarUsuario.obtenerUsuario(txtUser.Text);
+
+                Usuario user = new Usuario();
+                user.Nombre = dt.Rows[0]["nombreUsuario"].ToString();
+                user.Password = dt.Rows[0]["password"].ToString();
+                user.Rol = dt.Rows[0]["rol"].ToString();
+
+                main.logged = user;
 
                 main.validar();
                 main.Show();
@@ -48,6 +52,7 @@ namespace Vistas.UserControls
             }
             else
             {
+                txtError.Text = "*Usuario y/o Contraseña incorrectos";
                 txtUser.Text = "";
                 txtPass.Password = "";
                 txtError.Opacity = 100;
