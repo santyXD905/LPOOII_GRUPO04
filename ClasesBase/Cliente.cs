@@ -8,9 +8,9 @@ namespace ClasesBase
 {
     public class Cliente : INotifyPropertyChanged , IDataErrorInfo
     {
-       private string dni;
+       private int dni;
 
-      public string Dni
+      public int Dni
         {
             get { return dni; }
             set { dni = value; }
@@ -37,7 +37,7 @@ namespace ClasesBase
           set { direccion = value; }
       }
 
-      public Cliente(string dni, string nombre, string apellido, string direccion)
+      public Cliente(int dni, string nombre, string apellido, string direccion)
       {
           this.Dni = dni;
           this.Direccion = direccion;
@@ -97,10 +97,11 @@ namespace ClasesBase
 
       private string verificarDni()
       {
-          if (String.IsNullOrEmpty(Dni))
-          {
-              return "El DNI es obligatorio";
-          }
+          //if ()
+          //{
+          //    return "El DNI es obligatorio";
+          //}
+          if (dni <= 0) return "El DNI tiene que ser un numero positivo";
           return null;
       }
 

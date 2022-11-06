@@ -14,7 +14,7 @@ namespace ClasesBase
         //Traer proveedor
         public static Cliente TraerCliente()
         {
-            Cliente cli = new Cliente("", "", "", "");
+            Cliente cli = new Cliente();
             return cli;
         }
         public static void GuardarCliente(Cliente cliente)
@@ -98,7 +98,7 @@ namespace ClasesBase
         }
 
 
-        public static void EliminarCliente(string dni)
+        public static void EliminarCliente(int dni)
         {
             // conexion a la base de datos
             SqlConnection cnn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
@@ -145,14 +145,15 @@ namespace ClasesBase
 
             foreach (DataRow x in dt.Rows)
             {
-                lista.Add(new Cliente(x["dni"].ToString(), x["nombre"].ToString(),
+                lista.Add(new Cliente(
+                    Int32.Parse(x["dni"].ToString()), x["nombre"].ToString(),
                     x["apellido"].ToString(), x["direccion"].ToString()));
             }
 
             return lista;
         }
 
-        public static Cliente getByDni(string dni)
+        public static Cliente getByDni(int dni)
         {
             // conexion a la base de datos
             SqlConnection cnn = new SqlConnection(ClasesBase.Properties.Settings.Default.conection);
@@ -162,7 +163,7 @@ namespace ClasesBase
 
             cmd.CommandType = CommandType.Text;
             cmd.Connection = cnn;
-            cmd.CommandText = "SELECT * FROM Cliente WHERE dni LIKE '" + dni + "'";
+            cmd.CommandText = "SELECT * FROM Cliente WHERE dni = " + dni.ToString();
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -170,10 +171,14 @@ namespace ClasesBase
 
             Cliente v = new Cliente();
 
-            v.Nombre = dt.Rows[0]["nombre"].ToString();
-            v.Apellido = dt.Rows[0]["apellido"].ToString();
-            v.Direccion = dt.Rows[0]["direccion"].ToString();
-            v.Dni = dni;
+            if (dt.Rows.Count > 0)
+            {
+                v.Nombre = dt.Rows[0]["nombre"].ToString();
+                v.Apellido = dt.Rows[0]["apellido"].ToString();
+                v.Direccion = dt.Rows[0]["direccion"].ToString();
+                v.Dni = dni;
+            }
+            
 
             return v;
 

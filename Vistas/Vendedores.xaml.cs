@@ -55,6 +55,9 @@ namespace Vistas
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            habilitarABM(true);
+            habilitarGuarCanc(false);
+            habilitarText(false);
             ObjectDataProvider odp = this.Resources["LISTA_VENDEDORES"] as ObjectDataProvider;
             listaVendedores = odp.Data as ObservableCollection<Vendedor>;
 
@@ -108,6 +111,11 @@ namespace Vistas
         {
             if (actual != null)
             {
+                if (TrabajarVentas.BuscarLegajo(actual.Legajo))
+                {
+                    MessageBox.Show("El vendedor tiene ventas asociadas", "Eliminacion Vendedor");
+                    return;
+                }
                 btnSeleccionar.IsEnabled = false;
                 MessageBoxResult result = MessageBox.Show(
                     "Confirme eliminacion",
@@ -361,6 +369,7 @@ namespace Vistas
         {
             Ventas padre = this.Owner as Ventas;
             padre.vendedor =actual;
+            padre.txtVendedor.Text = actual.Legajo + ", " + actual.Apellido + ", " + actual.Nombre;
             padre.btnSelVendedor.Content = "Seleccionado";
             padre.btnSelVendedor.Background = Brushes.Khaki;
             padre.btnSelVendedor.Foreground = Brushes.Black;

@@ -66,14 +66,6 @@ namespace Vistas
             actual.Show();
         }
 
-        private void FacturaItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (actual != null) actual.Close();
-            listaDeEstados = new ListaDeEstados();
-            actual = listaDeEstados;
-            actual.Show();
-        }
-
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             App.Current.Shutdown();

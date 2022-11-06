@@ -223,8 +223,8 @@
                     Style="{StaticResource ButtonSalir}"
                     Click="btnSalir_Click" Margin="0,230,6,0" Grid.RowSpan="3">
             </Button>
-            <Button Content="Imprimir" 
-                    Margin="0,0,686,0" 
+            <Button Content="Vista Previa" 
+                    Margin="0,4,718,0" 
                     Name="btnImprimir" 
                     Style="{StaticResource ButtonSalir}" 
                     Grid.Row="5" Click="btnImprimir_Click"/>
