@@ -10,7 +10,7 @@
         xmlns:svc="clr-namespace:ClasesBase;assembly=ClasesBase" Loaded="Window_Loaded"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         >
-    <Border CornerRadius="10" BorderThickness="0">
+    <Border CornerRadius="10" BorderThickness="0" Height="565">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
                 <GradientStop Color="#17141F" Offset="0"></GradientStop>
@@ -55,10 +55,10 @@
                 </Button>
             </Grid>
 
-            <Button>
+            <Button Grid.Row="1">
                 <!-- -->
-                <PageContent>
-                    <FixedDocument Grid.Row="1">
+                <FixedDocument Grid.Row="1">
+                    <PageContent>
                         <FixedPage> 
                             <Grid Background="White" Width="506" Height="501" Grid.Row="1">
                                 <Grid.RowDefinitions>
@@ -97,10 +97,10 @@
                                     <Label Name="lblTotal" Content="TOTAL" Canvas.Left="9" Canvas.Top="354" FontFamily="Eras ITC" FontSize="16" ></Label>
                                 </Canvas>
                             </Grid>
-                            <!-- -->
-                        </FixedPage>
-                    </FixedDocument> 
+                <!-- -->
+                </FixedPage>
                 </PageContent>
+                </FixedDocument>
             </Button>
         </Grid>
     </Border>

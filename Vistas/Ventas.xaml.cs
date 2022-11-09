@@ -76,16 +76,6 @@ namespace Vistas
             // Ultimos cambios validacion
             if (miniValidacion() == true)
             {
-                actual = new Venta();
-                actual.Dni = cliente.Dni.ToString();
-                actual.Estado = cmbEstado.SelectedValue.ToString();
-                actual.Legajo = vendedor.Legajo;
-                actual.CodProducto = producto.CodProducto;
-                actual.Precio = (decimal)producto.Precio;
-                actual.Cantidad = Int32.Parse(txtCantidad.Text);
-                actual.Importe = actual.Precio * actual.Cantidad;
-                if (datePicker1.SelectedDate != null) actual.FechaFactura = datePicker1.SelectedDate.Value;
-
 
                 MessageBoxResult result = MessageBox.Show(
                    option == 'n' ? "Guardar la venta?" : "Modificar la venta?",
@@ -94,15 +84,25 @@ namespace Vistas
 
                 if (result == MessageBoxResult.Yes)
                 {
+                    Venta venta = new Venta();
+                    venta.Dni = cliente.Dni.ToString();
+                    venta.Estado = cmbEstado.SelectedValue.ToString();
+                    venta.Legajo = vendedor.Legajo;
+                    venta.CodProducto = producto.CodProducto;
+                    venta.Precio = (decimal)producto.Precio;
+                    venta.Cantidad = Int32.Parse(txtCantidad.Text);
+                    venta.Importe = venta.Precio * venta.Cantidad;
+                    if (datePicker1.SelectedDate != null) venta.FechaFactura = datePicker1.SelectedDate.Value;
                     if (option == 'n')
                     {
-                        TrabajarVentas.GuardarVenta(actual);
-                        actual.NroFactura = TrabajarVentas.GetCurrentIndex();
-                        lista.Add(actual);
+                        TrabajarVentas.GuardarVenta(venta);
+                        venta.NroFactura = TrabajarVentas.GetCurrentIndex();
+                        lista.Add(venta);
                     }
                     else
                     {
-                        TrabajarVentas.ModificarVenta(actual);
+                        venta.NroFactura = actual.NroFactura;
+                        TrabajarVentas.ModificarVenta(venta);
                         lista = TrabajarVentas.TraerVentas();
                         vista.Source = lista;
                     }
@@ -111,7 +111,6 @@ namespace Vistas
                     habilitarForm(false);
                     habilitarGuarCanc(false);
                     abrirVistaPrevia();
-                    actual = null;
                     limpiar();
                 }
 
@@ -131,6 +130,7 @@ namespace Vistas
         {
             if (actual != null)
             {
+                option = 'u';
                 habilitarABM(false);
                 habilitarForm(true);
                 habilitarGuarCanc(true);
@@ -173,7 +173,7 @@ namespace Vistas
         private void btnNuevo_Click(object sender, RoutedEventArgs e)
         {
             limpiar();
-
+            option = 'n';
             //defaultColors();
 
             btnVistaPrevia.Visibility = System.Windows.Visibility.Hidden;
@@ -326,9 +326,8 @@ namespace Vistas
         }
         private bool miniValidacion() {
 
-            string a = "Seleccionar";
-            if (txtCantidad.Text != string.Empty && (string)btnSelCliente.Content != a && datePicker1.SelectedDate != null && btnSelCliente.Content.ToString() != a &&
-            btnSelProd.Content.ToString() != a && btnSelVendedor.Content.ToString() != a) {
+            if (txtCantidad.Text != string.Empty && txtDni.Text != "No seleccionado" && datePicker1.SelectedDate != null && 
+                txtProd.Text != "No seleccionado" && txtVendedor.Text != "No seleccionado") {
                 return true;
             }
             return false;

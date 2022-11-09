@@ -102,7 +102,6 @@ namespace Vistas
 
                 if (result == MessageBoxResult.OK)
                 {
-                    MessageBox.Show(txtCuit.Text);
                     TrabajarProveedor.EliminarProveedor(txtCuit.Text.ToString());
                     listaProveedores.Remove(actual);
                 }

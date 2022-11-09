@@ -25,6 +25,7 @@
             x:Key="VISTA_VENTAS"
             Source="{StaticResource ResourceKey=LISTA_VENTAS}"
             Filter="filtroEventHandler"/>
+        
     </Window.Resources>
    
     <Border CornerRadius="10" BorderThickness="0">
@@ -376,10 +377,11 @@
                             </GridViewColumn.CellTemplate>
                                 
                             </GridViewColumn>
-
                         </GridView>
+                        
 
                     </ListView.View>
+                    
 
                 </ListView>
             </WrapPanel>
