@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:svc="clr-namespace:ClasesBase;assembly=ClasesBase"
-        Title="Productos" Height="600" Width="1065"
+        Title="Productos" Height="630" Width="860"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
@@ -26,20 +26,21 @@
         ></CollectionViewSource>
 
     </Window.Resources>
-    <Border CornerRadius="10" BorderThickness="0" Height="514" Width="1047">
+    <Border CornerRadius="10" BorderThickness="0">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
                 <GradientStop Color="#17141F" Offset="0"></GradientStop>
                 <GradientStop Color="#171531" Offset="0.55"></GradientStop>
             </LinearGradientBrush>
         </Border.Background>
-        <Grid Height="475" Width="1045">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="200"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="235*" />
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -73,163 +74,289 @@
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="95"/>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="10"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
+                <!--nuevo, modificar, eliminar -->
                 <Button Grid.Column="0"
-                        Style="{StaticResource DangerButton}"
-                        Name="btnNuevo" 
-                        Content="Nuevo"
+                        Style="{StaticResource SuccessButton}"
+                        Name="btnNuevo"
                         Click="btnNuevo_Click"
-                        ToolTip="Crea un nuevo producto"/>
+                        ToolTip="Crea un nuevo proveedor">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Recursos/add.png" Width="20"/>
+                        <Label Content="Nuevo" Foreground="White"/>
+                    </StackPanel>
+                </Button>
                 <Button Grid.Column="1"
-                        Style="{StaticResource DangerButton}"
+                        Style="{StaticResource PrimaryButton}"
                         Name="btnModificar"
-                        Content="Modificar" Click="btnModificar_Click"
-                        ToolTip="Modifica un producto seleccionado"/>
+                        Click="btnModificar_Click"
+                        ToolTip="Modifica un proveedor seleccionado">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Recursos/edit.png" Width="20"/>
+                        <Label Content="Modificar" Foreground="White"/>
+                    </StackPanel>
+                </Button>
                 <Button Grid.Column="2" 
                         Style="{StaticResource DangerButton}"
                         Name="btnEliminar" 
-                        Content="Eliminar" Click="btnEliminar_Click"
-                        ToolTip="Elimina un producto seleccionado"/>
-                <!--guardar, cancelar-->
-                <Button Grid.Column="4" 
-                        Style="{StaticResource PrimaryButton}"
-                        Name="btnGuardar"
-                        Content="Guardar"
-                        Click="btnGuardar_Click"
-                        ToolTip="Guarda los cambios de la operacion actual"/>
-                <Button Grid.Column="5" 
-                        Style="{StaticResource PrimaryButton}"
-                        Name="btnCancelar"
-                        Content="Cancelar"
-                        Click="btnCancelar_Click"
-                        ToolTip="Cancela la operacion actual"/>
+                        Click="btnEliminar_Click"
+                        ToolTip="Elimina un proveedor seleccionado">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Recursos/delete.png" Width="20"/>
+                        <Label Content="Eliminar" Foreground="White"/>
+                    </StackPanel>
+                </Button>
                 <!--primero, anterior, siguiente, ultimo-->
                 <Button Grid.Column="7"
                         Style="{StaticResource SuccessButton}"
-                        Content="Primero"
                         Name="btnPrimero" Click="btnPrimero_Click"
-                        ToolTip="Navega al primer elemento en la tabla"/>
+                        ToolTip="Navega al primer elemento en la tabla">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Recursos/primero.png" Width="20"/>
+                        <Label Content="Primero" Foreground="White"/>
+                    </StackPanel>
+                </Button>
                 <Button Grid.Column="8"
                         Style="{StaticResource SuccessButton}"
-                        Content="Anterior" 
                         Name="btnAnterior" Click="btnAnterior_Click"
-                        ToolTip="Navega al elemento anterior en la tabla"/>
+                        ToolTip="Navega al elemento anterior en la tabla">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Recursos/anterior.png" Width="20"/>
+                        <Label Content="Anterior" Foreground="White"/>
+                    </StackPanel>
+                </Button>
                 <Button Grid.Column="9" 
                         Style="{StaticResource SuccessButton}"
-                        Content="Siguiente"
                         Name="btnSiguiente" Click="btnSiguiente_Click" 
-                        ToolTip="Navega al elemento siguiente en la tabla"/>
+                        ToolTip="Navega al elemento siguiente en la tabla">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Siguiente" Foreground="White"/>
+                        <Image Source="/Recursos/siguiente.png" Width="20"/>
+                    </StackPanel>
+                </Button>
                 <Button Grid.Column="10"
                         Style="{StaticResource SuccessButton}"
-                        Content="Ultimo"
                         Name="btnUltimo" Click="btnUltimo_Click"
-                        ToolTip="Navega al ultimo elemento en la tabla"/>
-
-                <StackPanel Name="stpPadre" Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.ColumnSpan="3" Margin="48,59,0,-195" Width="118">
-                    <TextBox x:Name="txtCodigo" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
+                        ToolTip="Navega al ultimo elemento en la tabla">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Ultimo" Foreground="White"/>
+                        <Image Source="/Recursos/ultimo.png" Width="20"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="2"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="260" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0"
+                            VerticalAlignment="Bottom" 
+                            HorizontalAlignment="Center">
+                    <Image Name="imgDynamic"
+                           Source="{Binding Imagen}"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"
+                           Margin="10"
+                           DataContext="{StaticResource PRODUCTO_VALIDACION}" />
+                    <TextBox Height="40" 
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Bottom"
+                             Name="txtImagen"
+                             Width="250"
+                             Style="{StaticResource TextBoxError}"
+                             DataContext="{StaticResource PRODUCTO_VALIDACION}"
+                             IsReadOnly="True"
+                             HorizontalScrollBarVisibility="Auto">
                         <TextBox.Text>
-                            <Binding Path="CodProducto" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                            <Binding Path="Imagen" 
+                                     UpdateSourceTrigger="PropertyChanged"
+                                     ValidatesOnExceptions="True"
+                                     ValidatesOnDataErrors="True" />
                         </TextBox.Text>
                     </TextBox>
-                    <TextBox x:Name="txtCategoria" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
-                        <TextBox.Text>
-                            <Binding Path="Categoria" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
-                        </TextBox.Text>
-                    </TextBox>
-                    <TextBox x:Name="txtColor" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
-                        <TextBox.Text>
-                            <Binding Path="Color" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
-                        </TextBox.Text>
-                    </TextBox>
-                    <TextBox x:Name="txtDescripcion" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
-                        <TextBox.Text>
-                            <Binding Path="Descripcion" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
-                        </TextBox.Text>
-                    </TextBox>
-                    <TextBox x:Name="txtPrecio" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
-                        <TextBox.Text>
-                            <Binding Path="Precio" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <svc:ReglaPrecio />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                    <Button ToolTip="Subir una imagen para el producto" Name="btnImage" Content="Cargar imagen" Click="btnImage_Click" />
+                </StackPanel>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" HorizontalAlignment="Right">
+                        <Label Content="Codigo: " x:Name="lblCodigo" Style="{StaticResource LabelForm}" />
+                        <Label Content="Categoria:" x:Name="lblCategoria" Style="{StaticResource LabelForm}" />
+                        <Label Content="Color: " x:Name="lblColor" Style="{StaticResource LabelForm}" />
+                        <Label Content="Descripcion: " x:Name="lblDescripcion" Style="{StaticResource LabelForm}" />
+                        <Label Content="Precio: " x:Name="lblPrecio" Style="{StaticResource LabelForm}" />
+                        <Label Content="Imagen: " x:Name="lblImagen" Style="{StaticResource LabelForm}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Name="stpPadre" VerticalAlignment="Stretch" HorizontalAlignment="Left" >
+                        <TextBox x:Name="txtCodigo" 
+                                 Style="{StaticResource TextBoxError}" 
+                                 DataContext="{StaticResource PRODUCTO_VALIDACION}">
+                            <TextBox.Text>
+                                <Binding Path="CodProducto" 
+                                         UpdateSourceTrigger="PropertyChanged" 
+                                         ValidatesOnExceptions="True" 
+                                         ValidatesOnDataErrors="True" />
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox x:Name="txtCategoria" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
+                            <TextBox.Text>
+                                <Binding Path="Categoria" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox x:Name="txtColor" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
+                            <TextBox.Text>
+                                <Binding Path="Color" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox x:Name="txtDescripcion" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
+                            <TextBox.Text>
+                                <Binding Path="Descripcion" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox x:Name="txtPrecio" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
+                            <TextBox.Text>
+                                <Binding Path="Precio" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <svc:ReglaPrecio />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <Button ToolTip="Subir una imagen para el producto"
+                                Name="btnImage"
+                                Content="Cargar imagen"
+                                Style="{StaticResource PrimaryButton}"
+                                Click="btnImage_Click" />
+                    </StackPanel>
+                </Grid>
+                <StackPanel Grid.Column="2"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                    <Button Content="Seleccionar" 
+                            ToolTip="Selecciona un producto para la venta"
+                            Name="btnSeleccionar" Style="{StaticResource VistaPrevia}"
+                            Visibility="Hidden"
+                            Click="btnSeleccionar_Click" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="3"
-                  VerticalAlignment="Center" Margin="8,23,15,150" Grid.RowSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="400"/>
-                    <ColumnDefinition Width="266"/>
-                    <ColumnDefinition Width="134" />
-                    <ColumnDefinition Width="238*" />
-                </Grid.ColumnDefinitions>
-                <Label Content="Ordenar Por: " Margin="260,2,0,0" ToolTip="Buscar por codigo" Name="label1" Style="{StaticResource LabelForm}" HorizontalAlignment="Left" />
-                <TextBox Margin="101,10,179,2" Name="txtFiltro" Style="{StaticResource InputForm}" TextChanged="txtFiltro_TextChanged" />
+            <WrapPanel Grid.Row="3"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <!--guardar, cancelar-->
+                <Button Style="{StaticResource SuccessButton}"
+                        Name="btnGuardar"
+                        Click="btnGuardar_Click"
+                        ToolTip="Guarda los cambios de la operacion actual">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Guardar" Foreground="White"/>
+                        <Image Source="/Recursos/ok.png" Width="20"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource DangerButton}"
+                        Name="btnCancelar"
+                        Click="btnCancelar_Click"
+                        ToolTip="Cancela la operacion actual">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Cancelar" Foreground="White"/>
+                        <Image Source="/Recursos/cancelar.png" Width="20"/>
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+            <WrapPanel Grid.Row="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" Height="40" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="380"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0"
+                                 Name="txtFiltro"
+                                 ToolTip="Buscar por DNI"
+                                 Style="{StaticResource SearchInputForm}"
+                                 TextChanged="txtFiltro_TextChanged"/>
+                        <Label Grid.Column="1"
+                               Content="Ordenar Por: "
+                               ToolTip="Buscar por codigo" 
+                               Name="label1"
+                               Style="{StaticResource SearchLabelForm}" />
+                    </Grid>
+                </Grid>
+                <ListView x:Name="listView1" 
+                          IsSynchronizedWithCurrentItem="True"
+                          ItemsSource="{Binding Source={StaticResource  ResourceKey=VISTA_PRODUCTOS}}"
+                          SelectionChanged="listView1_SelectionChanged"
+                          Style="{StaticResource listView}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="60"
+                                            Header="Codigo"
+                                            HeaderContainerStyle="{StaticResource ColumnHeader}"
+                                            DisplayMemberBinding="{Binding Path=CodProducto}"/>
+                            <GridViewColumn Width="80"
+                                            Header="Categoria"
+                                            HeaderContainerStyle="{StaticResource ColumnHeader}"
+                                            DisplayMemberBinding="{Binding Path=Categoria}"/>
+                            <GridViewColumn Width="60"
+                                            Header="Color"
+                                            HeaderContainerStyle="{StaticResource ColumnHeader}"
+                                            DisplayMemberBinding="{Binding Path=Color}"/>
+                            <GridViewColumn Width="90"
+                                            Header="Descripcion"
+                                            HeaderContainerStyle="{StaticResource ColumnHeader}"
+                                            DisplayMemberBinding="{Binding Path=Descripcion}"/>
+                            <GridViewColumn Width="60"
+                                            Header="Precio"
+                                            HeaderContainerStyle="{StaticResource ColumnHeader}"
+                                            DisplayMemberBinding="{Binding Path=Precio}"/>
+                            <GridViewColumn Width="314"
+                                            Header="Imagen"
+                                            HeaderContainerStyle="{StaticResource ColumnHeader}"
+                                            DisplayMemberBinding="{Binding Path=Imagen}"/>
+                        </GridView>
+
+                    </ListView.View>
+                </ListView>
+            </WrapPanel>
+            <Grid Grid.Row="4">
+                <Expander Header="---------"
+                          Name="expander1"
+                          Style="{StaticResource Expander}">
+                    <ListBox Style="{StaticResource ExpanderListBox}" Name="listSort" SelectionChanged="listSort_SelectionChanged">
+                        <ListBoxItem Style="{StaticResource ExpanderListBoxItem}" Content="Codigo"/>
+                        <ListBoxItem Style="{StaticResource ExpanderListBoxItem}" Content="Categoria" />
+                        <ListBoxItem Style="{StaticResource ExpanderListBoxItem}" Content="Color" />
+                        <ListBoxItem Style="{StaticResource ExpanderListBoxItem}" Content="Descripcion" />
+                        <ListBoxItem Style="{StaticResource ExpanderListBoxItem}" Content="Precio" />
+                        <ListBoxItem Style="{StaticResource ExpanderListBoxItem}" Content="Imagen" />
+                    </ListBox>
+                </Expander>
             </Grid>
-            <ListView Height="129" HorizontalAlignment="Left" Margin="109,31,0,0" x:Name="listView1" 
-                  VerticalAlignment="Top" Width="483" ItemsSource="{Binding Source={StaticResource  ResourceKey=VISTA_PRODUCTOS}}" Grid.Row="4" SelectionChanged="listView1_SelectionChanged">
-                <ListView.View>
-                    <GridView>
-
-                        <GridViewColumn Header="Codigo" DisplayMemberBinding="{Binding Path=CodProducto}"/>
-                        <GridViewColumn Header="Categoria" DisplayMemberBinding="{Binding Path=Categoria}"/>
-                        <GridViewColumn Header="Color" DisplayMemberBinding="{Binding Path=Color}"/>
-                        <GridViewColumn Header="Descripcion" DisplayMemberBinding="{Binding Path=Descripcion}"/>
-                        <GridViewColumn Header="Precio" DisplayMemberBinding="{Binding Path=Precio}"/>
-                        <GridViewColumn Header="Imagen" DisplayMemberBinding="{Binding Path=Imagen}"/>
-                    </GridView>
-
-                </ListView.View>
-            </ListView>
-            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0,20,532,4" Grid.Row="2" Width="100">
-                <Label Content="Codigo: " x:Name="lblCodigo" Style="{StaticResource LabelForm}" />
-                <Label Content="Categoria:" x:Name="lblCategoria" Style="{StaticResource LabelForm}" />
-                <Label Content="Color: " x:Name="lblColor" Style="{StaticResource LabelForm}" />
-                <Label Content="Descripcion: " x:Name="lblDescripcion" Style="{StaticResource LabelForm}" />
-                <Label Content="Precio: " x:Name="lblPrecio" Style="{StaticResource LabelForm}" />
-                <Label Content="Imagen: " x:Name="lblImagen" Style="{StaticResource LabelForm}" />
-            </StackPanel>
-            <Button Content="Seleccionar" ToolTip="Selecciona un producto para la venta" Margin="0,85,237,0" Name="btnSeleccionar" Style="{StaticResource ButtonSalir}" Visibility="Hidden" Grid.Row="2" Click="btnSeleccionar_Click" />
-            <Image Name="imgDynamic" Margin="132,10,727,0" Source="{Binding Imagen}" Height="140" Grid.Row="2" VerticalAlignment="Top" DataContext="{StaticResource PRODUCTO_VALIDACION}" >
-                
-            </Image>
-            <Expander Grid.Row="3" Header="---------"  HorizontalAlignment="Left" Margin="399,25,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Grid.RowSpan="2" Panel.ZIndex="3">
-                <ListBox Height="90" Name="listSort" SelectionChanged="listSort_SelectionChanged">
-
-                    <ListBoxItem Content="Codigo"/>
-
-                    <ListBoxItem Content="Categoria" />
-
-                    <ListBoxItem Content="Color" />
-
-                    <ListBoxItem Content="Descripcion" />
-
-                    <ListBoxItem Content="Precio" />
-                    
-                    <ListBoxItem Content="Imagen" />
-
-                </ListBox>
-            </Expander>
-            <TextBox Grid.Row="2" Height="39" HorizontalAlignment="Left" Margin="109,0,0,5" Name="txtImagen" VerticalAlignment="Bottom" Width="186" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
-                <TextBox.Text>
-                    <Binding Path="Imagen" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
-                </TextBox.Text>
-            </TextBox>
-            <Button Content="Salir" x:Name="btnSalir" Style="{StaticResource ButtonSalir}" Click="btnSalir_Click" Margin="0,135,15,0" Grid.Row="4"></Button>
+            
+            
+            <Button Grid.Row="5" 
+                    Content="Salir"
+                    x:Name="btnSalir" 
+                    Style="{StaticResource ButtonSalir}"
+                    Click="btnSalir_Click"/>
         </Grid>
     </Border>
 </Window>

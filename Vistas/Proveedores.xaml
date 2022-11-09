@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:svc="clr-namespace:ClasesBase;assembly=ClasesBase"
         
-        Title="Proveedores" Height="563" Width="975"
+        Title="Proveedores" Height="630" Width="860"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
@@ -15,26 +15,21 @@
         <ObjectDataProvider
             x:Key="PROVEEDOR_VALIDACION"
             ObjectType="{x:Type svc:TrabajarProveedor}"
-            MethodName="TraerProveedor"
-        ></ObjectDataProvider>
+            MethodName="TraerProveedor"/>
         <!--Arreglo que usamos para crear una vista-->        
         <ObjectDataProvider
             x:Key="LISTA_PROVEEDORES"
             ObjectType="{x:Type svc:TrabajarProveedor}"
-            MethodName="TraerProveedores"
-        ></ObjectDataProvider>
+            MethodName="TraerProveedores"/>
         
         <!--vista que usamos para manjerar los filtros-->
         <CollectionViewSource
             x:Key="VISTA_PROVEEDORES"
             Source="{StaticResource LISTA_PROVEEDORES}"
-            Filter="filtroEventHandler"
-            ></CollectionViewSource>
+            Filter="filtroEventHandler"/>
         
 
     </Window.Resources>
-
-
 
     <Border CornerRadius="10" BorderThickness="0">
         <Border.Background>
@@ -48,22 +43,23 @@
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="160"/>
-                <RowDefinition Height="260*" />
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="200*"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <!-- contien el titulo y los botones de manejo de la ventana-->
-            <Grid> 
+            <Grid Grid.Row="0"> 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="30"/>
                     <ColumnDefinition Width="27"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0"
+                <TextBlock Grid.Column="0"
                         Text="ABM de Proveedores"
                         Foreground="DarkGray"
                         FontSize="20"
                         FontFamily="Montserrat"
-                        Grid.Column="0"
                         VerticalAlignment="Center"
                         Margin="20,0,0,0"/> <!--titulo-->
 
@@ -85,142 +81,246 @@
             <!--contiene todos los botones para el manejo de los objetos-->
             <Grid Grid.Row="1"> 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="95"/>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="10"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
                 <!--nuevo, modificar, eliminar -->
                 <Button Grid.Column="0"
-                        Style="{StaticResource DangerButton}"
-                        Name="btnNuevo" 
-                        Content="Nuevo"
+                        Style="{StaticResource SuccessButton}"
+                        Name="btnNuevo"
                         Click="btnNuevo_Click"
-                        ToolTip="Crea un nuevo proveedor"/>
+                        ToolTip="Crea un nuevo proveedor">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Recursos/add.png" Width="20"/>
+                        <Label Content="Nuevo" Foreground="White"/>
+                    </StackPanel>
+                </Button>
                 <Button Grid.Column="1"
-                        Style="{StaticResource DangerButton}"
+                        Style="{StaticResource PrimaryButton}"
                         Name="btnModificar"
-                        Content="Modificar" Click="btnModificar_Click"
-                        ToolTip="Modifica un proveedor seleccionado"/>
+                        Click="btnModificar_Click"
+                        ToolTip="Modifica un proveedor seleccionado">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Recursos/edit.png" Width="20"/>
+                        <Label Content="Modificar" Foreground="White"/>
+                    </StackPanel>
+                </Button>
                 <Button Grid.Column="2" 
                         Style="{StaticResource DangerButton}"
                         Name="btnEliminar" 
-                        Content="Eliminar" Click="btnEliminar_Click"
-                        ToolTip="Elimina un proveedor seleccionado"/>
-                <!--guardar, cancelar-->
-                <Button Grid.Column="4" 
-                        Style="{StaticResource PrimaryButton}"
-                        Name="btnGuardar"
-                        Content="Guardar"
-                        Click="btnGuardar_Click"
-                        ToolTip="Guarda los cambios de la operacion actual"/>
-                <Button Grid.Column="5" 
-                        Style="{StaticResource PrimaryButton}"
-                        Name="btnCancelar"
-                        Content="Cancelar"
-                        Click="btnCancelar_Click"
-                        ToolTip="Cancela la operacion actual"/>
+                        Click="btnEliminar_Click"
+                        ToolTip="Elimina un proveedor seleccionado">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Recursos/delete.png" Width="20"/>
+                        <Label Content="Eliminar" Foreground="White"/>
+                    </StackPanel>
+                </Button>
                 <!--primero, anterior, siguiente, ultimo-->
                 <Button Grid.Column="7"
                         Style="{StaticResource SuccessButton}"
-                        Content="Primero"
                         Name="btnPrimero" Click="btnPrimero_Click"
-                        ToolTip="Navega al primer elemento en la tabla"/>
+                        ToolTip="Navega al primer elemento en la tabla">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Recursos/primero.png" Width="20"/>
+                        <Label Content="Primero" Foreground="White"/>
+                    </StackPanel>
+                </Button>
                 <Button Grid.Column="8"
                         Style="{StaticResource SuccessButton}"
-                        Content="Anterior" 
                         Name="btnAnterior" Click="btnAnterior_Click"
-                        ToolTip="Navega al elemento anterior en la tabla"/>
+                        ToolTip="Navega al elemento anterior en la tabla">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Recursos/anterior.png" Width="20"/>
+                        <Label Content="Anterior" Foreground="White"/>
+                    </StackPanel>
+                </Button>
                 <Button Grid.Column="9" 
                         Style="{StaticResource SuccessButton}"
-                        Content="Siguiente"
                         Name="btnSiguiente" Click="btnSiguiente_Click" 
-                        ToolTip="Navega al elemento siguiente en la tabla"/>
+                        ToolTip="Navega al elemento siguiente en la tabla">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Siguiente" Foreground="White"/>
+                        <Image Source="/Recursos/siguiente.png" Width="20"/>
+                    </StackPanel>
+                </Button>
                 <Button Grid.Column="10"
                         Style="{StaticResource SuccessButton}"
-                        Content="Ultimo"
                         Name="btnUltimo" Click="btnUltimo_Click"
-                        ToolTip="Navega al ultimo elemento en la tabla"/>
+                        ToolTip="Navega al ultimo elemento en la tabla">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Ultimo" Foreground="White"/>
+                        <Image Source="/Recursos/ultimo.png" Width="20"/>
+                    </StackPanel>
+                </Button>
             </Grid>
+            <WrapPanel Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                <!--contiene los labels-->
+                <StackPanel VerticalAlignment="Center">
+                    <Label Content="CUIT:"
+                           x:Name="lblCuit" 
+                           Style="{StaticResource LabelForm}"
+                           Width="112" />
+                    <Label Content="Razon Social: " 
+                           x:Name="lblRazonSocial" 
+                           Style="{StaticResource LabelForm}" 
+                           Width="110" />
+                    <Label Content="Domicilio: "
+                           x:Name="lblDomicilio" 
+                           Style="{StaticResource LabelForm}"
+                           Width="109" />
+                    <Label Content="Telefono: " 
+                           x:Name="lblTelefono" 
+                           Style="{StaticResource LabelForm}" 
+                           Width="110" />
+                </StackPanel>
+                <!--contiene los textbox-->
+                <StackPanel Name="stpPadre">
+                    <TextBox x:Name="txtCuit"
+                             Style="{StaticResource TextBoxError}" 
+                             DataContext="{StaticResource PROVEEDOR_VALIDACION}">
+                        <TextBox.Text>
+                            <Binding Path="CUIT"
+                                     UpdateSourceTrigger="PropertyChanged" 
+                                     ValidatesOnExceptions="True" 
+                                     ValidatesOnDataErrors="True" />
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox x:Name="txtRazon"
+                             Style="{StaticResource TextBoxError}"
+                             DataContext="{StaticResource PROVEEDOR_VALIDACION}">
+                        <TextBox.Text>
+                            <Binding Path="RazonSocial" 
+                                     UpdateSourceTrigger="PropertyChanged"
+                                     ValidatesOnExceptions="True" 
+                                     ValidatesOnDataErrors="True" />
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox x:Name="txtDomicilio"
+                             Style="{StaticResource TextBoxError}"
+                             DataContext="{StaticResource PROVEEDOR_VALIDACION}">
+                        <TextBox.Text>
+                            <Binding Path="Domicilio"
+                                     UpdateSourceTrigger="PropertyChanged"
+                                     ValidatesOnExceptions="True"
+                                     ValidatesOnDataErrors="True" />
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox x:Name="txtTelefono"
+                             Style="{StaticResource TextBoxError}"
+                             DataContext="{StaticResource PROVEEDOR_VALIDACION}">
+                        <TextBox.Text>
+                            <Binding Path="Telefono"
+                                     UpdateSourceTrigger="PropertyChanged"
+                                     ValidatesOnExceptions="True"
+                                     ValidatesOnDataErrors="True" />
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+            </WrapPanel>
+            <WrapPanel Grid.Row="3"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <!--guardar, cancelar-->
+                <Button Style="{StaticResource SuccessButton}"
+                        Name="btnGuardar"
+                        Click="btnGuardar_Click"
+                        ToolTip="Guarda los cambios de la operacion actual">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Guardar" Foreground="White"/>
+                        <Image Source="/Recursos/ok.png" Width="20"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource DangerButton}"
+                        Name="btnCancelar"
+                        Click="btnCancelar_Click"
+                        ToolTip="Cancela la operacion actual">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Cancelar" Foreground="White"/>
+                        <Image Source="/Recursos/cancelar.png" Width="20"/>
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+            <!--elementos para ordenacion y filtrado-->
+            <WrapPanel Grid.Row="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" Height="40" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="380"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0"
+                                 ToolTip="Buscar por domicilio"
+                                 Name="txtFiltro" 
+                                 Style="{StaticResource SearchInputForm}"
+                                 TextChanged="txtFiltro_TextChanged"/>
+                        <Label Grid.Column="1"
+                               Content="Ordenar Por: " 
+                               Name="label1" 
+                               Style="{StaticResource SearchLabelForm}"/>
+                    </Grid>
+                </Grid>
+                <!--muestra los objetos-->
+                <ListView x:Name="listView1" 
+                          IsSynchronizedWithCurrentItem="True"
+                          ItemsSource="{Binding Source={StaticResource VISTA_PROVEEDORES}}"
+                          SelectionChanged="listView1_SelectionChanged"
+                          Style="{StaticResource listView}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="120"
+                                            Header="CUIT" 
+                                            HeaderContainerStyle="{StaticResource ColumnHeader}"
+                                            DisplayMemberBinding="{Binding CUIT}"/>
+                            <GridViewColumn Width="120" 
+                                            Header="Razon Social"
+                                            HeaderContainerStyle="{StaticResource ColumnHeader}"
+                                            DisplayMemberBinding="{Binding RazonSocial}"/>
+                            <GridViewColumn Width="304"
+                                            Header="Domicilio"
+                                            HeaderContainerStyle="{StaticResource ColumnHeader}"
+                                            DisplayMemberBinding="{Binding Domicilio}"/>
+                            <GridViewColumn Width="120"
+                                            Header="Telefono"
+                                            HeaderContainerStyle="{StaticResource ColumnHeader}"
+                                            DisplayMemberBinding="{Binding Telefono}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </WrapPanel>
+            <Grid Grid.Row="4">
+                <Expander Header="------------------" 
+                          Name="expander1"
+                          Style="{StaticResource Expander}">
+                    <ListBox Style="{StaticResource ExpanderListBox}" Name="listSort" SelectionChanged="listSort_SelectionChanged">
+                        <ListBoxItem Style="{StaticResource ExpanderListBoxItem}" Content="CUIT"/>
+                        <ListBoxItem Style="{StaticResource ExpanderListBoxItem}" Content="RazonSocial" />
+                        <ListBoxItem Style="{StaticResource ExpanderListBoxItem}" Content="Domicilio" />
+                        <ListBoxItem Style="{StaticResource ExpanderListBoxItem}" Content="Telefono" />
+                    </ListBox>
+                </Expander>
+            </Grid>
+
+
             <!--boton para salir de la ventana-->
-            <Button Grid.Row="3"
+            <Button Grid.Row="5"
                     Content="Salir"
                     x:Name="btnSalir"
                     Style="{StaticResource ButtonSalir}"
-                    Click="btnSalir_Click" Margin="0,221,72,0">
+                    Click="btnSalir_Click">
             </Button>
-            <!--contiene los labels-->
-            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0,40,474,0" Grid.Row="2" Width="110">
-                <Label Content="CUIT:" x:Name="lblCuit" Style="{StaticResource LabelForm}" Width="112" />
-                <Label Content="Razon Social: " x:Name="lblRazonSocial" Style="{StaticResource LabelForm}" Width="110" />
-                <Label Content="Domicilio: " x:Name="lblDomicilio" Style="{StaticResource LabelForm}" Width="109" />
-                <Label Content="Telefono: " x:Name="lblTelefono" Style="{StaticResource LabelForm}" Width="110" />
-            </StackPanel>
-            <!--contiene los textbox-->
-            <StackPanel Name="stpPadre" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="483,41,0,0" Grid.Row="2">
-                <TextBox x:Name="txtCuit" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PROVEEDOR_VALIDACION}">
-                    <TextBox.Text>
-                        <Binding Path="CUIT" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
-                    </TextBox.Text>
-                </TextBox>
-                <TextBox x:Name="txtRazon" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PROVEEDOR_VALIDACION}">
-                    <TextBox.Text>
-                        <Binding Path="RazonSocial" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
-                    </TextBox.Text>
-                </TextBox>
-                <TextBox x:Name="txtDomicilio" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PROVEEDOR_VALIDACION}">
-                    <TextBox.Text>
-                        <Binding Path="Domicilio" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
-                    </TextBox.Text>
-                </TextBox>
-                <TextBox x:Name="txtTelefono" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PROVEEDOR_VALIDACION}">
-                    <TextBox.Text>
-                        <Binding Path="Telefono" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
-                    </TextBox.Text>
-                </TextBox>
-            </StackPanel>
-
-            <!--muestra los objetos-->
-            <ListView Height="168" HorizontalAlignment="Left" Margin="20,78,0,0" x:Name="listView1" 
-                  VerticalAlignment="Top" Width="491" ItemsSource="{Binding Source={StaticResource VISTA_PROVEEDORES}}" Grid.Row="3" Panel.ZIndex="-1" SelectionChanged="listView1_SelectionChanged">
-                <ListView.View>
-
-                    <GridView>
-
-                        <GridViewColumn Width="118" Header="CUIT" DisplayMemberBinding="{Binding CUIT}"/>
-                        <GridViewColumn Width="118" Header="Razon Social" DisplayMemberBinding="{Binding RazonSocial}"/>
-                        <GridViewColumn Width="118" Header="Domicilio" DisplayMemberBinding="{Binding Domicilio}"/>
-                        <GridViewColumn Width="118" Header="Telefono" DisplayMemberBinding="{Binding Telefono}"/>
-
-                    </GridView>
-
-                </ListView.View>
-            </ListView>
-            <!--elementos para ordenacion y filtrado-->
-            <TextBox Margin="20,31,811,241" ToolTip="Buscar por domicilio" Name="txtFiltro" Style="{StaticResource InputForm}" Grid.Row="3" TextChanged="txtFiltro_TextChanged"/>
-            <Label Content="Ordenar Por: " Margin="306,26,0,241" Name="label1" Style="{StaticResource LabelForm}" Grid.Row="3" HorizontalAlignment="Left" Height="25" Width="99" />
-
-            <Expander Grid.Row="3" Header="---------"  HorizontalAlignment="Left" Margin="414,45,0,0" Name="expander1" VerticalAlignment="Top" Background="White" Width="97" IsExpanded="False" Panel.ZIndex="3">
-                <ListBox Height="85" Name="listSort" SelectionChanged="listSort_SelectionChanged">
-
-                    <ListBoxItem Content="CUIT"/>
-
-                    <ListBoxItem Content="RazonSocial" />
-
-                    <ListBoxItem Content="Domicilio" />
-
-                    <ListBoxItem Content="Telefono" />
-
-                </ListBox>
-            </Expander>
-
         </Grid>
     </Border>
 </Window>

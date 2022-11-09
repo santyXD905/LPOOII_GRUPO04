@@ -49,6 +49,8 @@ namespace Vistas
             btnStop.IsEnabled = true;
             btnMoveBack.IsEnabled = true;
             btnMoveForw.IsEnabled = true;
+            btnPlay.Visibility = Visibility.Hidden;
+            btnStop.Visibility = Visibility.Visible;
             if (duration == progre.Value)
             {
                 progre.Value = 0;
@@ -62,6 +64,8 @@ namespace Vistas
             bgvideo.Pause();
             btnPlay.IsEnabled = true;
             btnPlay.Content = "Continue";
+            btnPlay.Visibility = Visibility.Visible;
+            btnStop.Visibility = Visibility.Hidden;
         }
 
         private void btnMoveBack_Click(object sender, RoutedEventArgs e)
@@ -92,6 +96,16 @@ namespace Vistas
         {
             if (bgvideo.Volume == 1) return;
             bgvideo.Volume += 0.1;
+        }
+
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            App.Current.Shutdown();
         }
     }
 }

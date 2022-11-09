@@ -16,7 +16,7 @@
                 <GradientStop Color="#171531" Offset="0.55"></GradientStop>
             </LinearGradientBrush>
         </Border.Background>
-        <Grid Height="480" Width="760">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="450"/>
@@ -53,34 +53,36 @@
 
             </Grid>
 
-            <Grid Grid.Row="1" Margin="0,0,90,0">
-                <FlowDocumentReader Margin="58,6,-58,-6">
-                    <FlowDocument Name="DocMain">
-                        <Paragraph FontFamily="Montserrat" FontSize="15" Foreground="DarkGray" >Listado de clientes</Paragraph>
+            <Grid Grid.Row="1">
+                <FlowDocumentReader Foreground="White" FontSize="16" HorizontalAlignment="Center">
+                    <FlowDocument Name="DocMain" Background="White">
+                        <Paragraph FontFamily="Montserrat" FontSize="15" Foreground="Black" >Listado de clientes</Paragraph>
                         <BlockUIContainer>
-                            <ListView Height="213" HorizontalAlignment="Center" Name="listView1" 
-                  VerticalAlignment="Center" Width="500" Panel.ZIndex="-1"  FontFamily="Montserrat" >
+                            <DockPanel HorizontalAlignment="Center">
+                                <ListView Name="listView1" Height="150">
                                 <ListView.View>
                                     <GridView>
 
-                                        <GridViewColumn Width="118" Header="DNI" DisplayMemberBinding="{Binding Dni}"/>
-                                        <GridViewColumn Width="118" Header="Nombre" DisplayMemberBinding="{Binding Nombre}"/>
-                                        <GridViewColumn Width="118" Header="Apellido" DisplayMemberBinding="{Binding Apellido}"/>
-                                        <GridViewColumn Width="118" Header="Direccion" DisplayMemberBinding="{Binding Direccion}"/>
+                                        <GridViewColumn Width="80" Header="DNI" DisplayMemberBinding="{Binding Dni}"/>
+                                        <GridViewColumn Width="80" Header="Nombre" DisplayMemberBinding="{Binding Nombre}"/>
+                                        <GridViewColumn Width="80" Header="Apellido" DisplayMemberBinding="{Binding Apellido}"/>
+                                        <GridViewColumn Width="120" Header="Direccion" DisplayMemberBinding="{Binding Direccion}"/>
 
                                     </GridView>
 
                                 </ListView.View>
                             </ListView>
-
+                            </DockPanel>
                         </BlockUIContainer>
                         <BlockUIContainer>
                             <Button
-                                Content="Imprimir"
                                 x:Name="btnImprimir"
-                                Style="{StaticResource ButtonSalir}"
-                                Click="btnImprimir_Click"
-                                Margin="0,10,48, -4">
+                                Style="{StaticResource PrintButton}"
+                                Click="btnImprimir_Click">
+                                <WrapPanel>
+                                    <Image Source="/Recursos/printer.png" Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Center" Width="20" />
+                                    <TextBlock>Imprimir</TextBlock>
+                                </WrapPanel>
                             </Button>
                         </BlockUIContainer>
                     </FlowDocument>

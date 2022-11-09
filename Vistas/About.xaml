@@ -1,18 +1,105 @@
 ﻿<Window x:Class="Vistas.About"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="About" Height="450" Width="700">
-    <Grid>
-        <MediaElement LoadedBehavior="Manual" Name="bgvideo" Source="Media\te-mentiria.mp4"  Stretch="Fill" Margin="0,0,0,78" MediaOpened="bgvideo_MediaOpened"></MediaElement>
-        <ProgressBar Name="progre" Margin="0,339,0,64" Foreground="#FFDB0303"></ProgressBar>
-        <WrapPanel Margin="124,364,91,0" HorizontalAlignment="Center" Width="463">
-            <Button Content="PLAY" Height="30" Name="btnPlay" Width="75" Click="btnPlay_Click" />
-            <Button Content="STOP" Height="30" Name="btnStop" Width="75" Click="btnStop_Click" />
-            <Button Content="Move Back" Height="30" Name="btnMoveBack" Width="75" Click="btnMoveBack_Click" />
-            <Button Content="Move Forward" Height="30" Name="btnMoveForw" Width="88" Click="btnMoveForw_Click" />
-            <Button Content="Volume--" Height="30" Name="btnVoumeDown" Width="75" Click="btnVoumeDown_Click" />
-            <Button Content="Volume++" Height="30" Name="btnVolumeUp" Width="75" Click="btnVolumeUp_Click" />
-        </WrapPanel>
+        Title="About" Height="450" Width="700"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True">
+    <Border CornerRadius="10" BorderThickness="0">
+        <Border CornerRadius="10" BorderThickness="0">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#17141F" Offset="0"></GradientStop>
+                    <GradientStop Color="#171531" Offset="0.55"></GradientStop>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition />
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="27"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Acerca de"
+                               Foreground="DarkGray"
+                               FontSize="20"
+                               FontFamily="Montserrat"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Margin="20,0,0,0"/>
+
+                    <Button x:Name="btnMinimize"
+                            Style="{StaticResource MinimizeButton}"
+                            Grid.Column="1"
+                            Content="-"
+                            Click="btnMinimize_Click">
+                    </Button>
+
+                    <Button x:Name="btnClose"
+                            Style="{StaticResource CloseButton}"
+                            Grid.Column="2"
+                            Content="x"
+                            Click="btnClose_Click">
+                    </Button>
+
+                </Grid>
+                <MediaElement Grid.Row="1"
+                              LoadedBehavior="Manual" 
+                              Name="bgvideo"
+                              Source="Media\te-mentiria.mp4" 
+                              Stretch="Fill"
+                              MediaOpened="bgvideo_MediaOpened"></MediaElement>
+                <ProgressBar Name="progre"
+                             Grid.Row="2"
+                             Foreground="#278BEF"></ProgressBar>
+                <Grid Grid.Row="3" HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="360"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0"
+                            Style="{StaticResource BackButton}"
+                            Name="btnMoveBack"
+                            Click="btnMoveBack_Click" />
+                    <Button Grid.Column="1"
+                            Visibility="Visible"
+                            Style="{StaticResource PlayButton}"
+                            Name="btnPlay"
+                            Click="btnPlay_Click" />
+                    <Button Grid.Column="1"
+                            Visibility="Hidden"
+                            Style="{StaticResource StopButton}"
+                            Name="btnStop"
+                            Click="btnStop_Click" />
+                    <Button Grid.Column="2"
+                            Style="{StaticResource FowardButton}"
+                            Name="btnMoveForw"
+                            Click="btnMoveForw_Click" />
+                    <Button Grid.Column="4"
+                            Style="{StaticResource VolumeLessButton}"
+                            Name="btnVoumeDown"
+                            Click="btnVoumeDown_Click" />
+                    <Button Grid.Column="5"
+                            Style="{StaticResource VolumePlusButton}"
+                            Name="btnVolumeUp"
+                            Click="btnVolumeUp_Click" />
+                </Grid>
        
-    </Grid>
+            </Grid>
+        </Border>
+    </Border>
 </Window>

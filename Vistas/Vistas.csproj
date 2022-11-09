@@ -181,6 +181,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -212,8 +213,26 @@
     <Content Include="Media\te-mentiria.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Recursos\cancelar.png" />
+    <Resource Include="Recursos\ok.png" />
+    <Resource Include="Recursos\anterior.png" />
+    <Resource Include="Recursos\primero.png" />
+    <Resource Include="Recursos\siguiente.png" />
+    <Resource Include="Recursos\ultimo.png" />
+    <Resource Include="Recursos\add.png" />
+    <Resource Include="Recursos\new-user.png" />
+    <Resource Include="Recursos\delete.png" />
+    <Resource Include="Recursos\edit.png" />
+    <Resource Include="Recursos\printer.png" />
+    <Resource Include="Recursos\decrease-volume.png" />
+    <Resource Include="Recursos\fast-foward.png" />
+    <Resource Include="Recursos\increase-volume.png" />
+    <Resource Include="Recursos\pause-button.png" />
+    <Resource Include="Recursos\play.png" />
+    <Resource Include="Recursos\rewind.png" />
     <Resource Include="Recursos\no-image.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
