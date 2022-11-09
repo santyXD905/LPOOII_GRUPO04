@@ -39,12 +39,12 @@ namespace ClasesBase
             param.Value = nueva.CodProducto;
             cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@dni", SqlDbType.VarChar);
+            param = new SqlParameter("@dni", SqlDbType.Int);
             param.Direction = ParameterDirection.Input;
             param.Value = nueva.Dni;
             cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@fecha", SqlDbType.Date);
+            param = new SqlParameter("@fecha", SqlDbType.DateTime);
             param.Direction = ParameterDirection.Input;
             param.Value = nueva.FechaFactura;
             cmd.Parameters.Add(param);
@@ -155,7 +155,7 @@ namespace ClasesBase
             #region Parametros
             SqlParameter param = new SqlParameter("@nro", SqlDbType.Int);
             param.Direction = ParameterDirection.Input;
-            param.Value = venta.Cantidad;
+            param.Value = venta.NroFactura;
             cmd.Parameters.Add(param);
 
             param = new SqlParameter("@cantidad", SqlDbType.Int);
@@ -168,12 +168,12 @@ namespace ClasesBase
             param.Value = venta.CodProducto;
             cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@dni", SqlDbType.VarChar);
+            param = new SqlParameter("@dni", SqlDbType.Int);
             param.Direction = ParameterDirection.Input;
             param.Value = venta.Dni;
             cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@fecha", SqlDbType.Date);
+            param = new SqlParameter("@fecha", SqlDbType.DateTime);
             param.Direction = ParameterDirection.Input;
             param.Value = venta.FechaFactura;
             cmd.Parameters.Add(param);
@@ -191,6 +191,11 @@ namespace ClasesBase
             param = new SqlParameter("@legajo", SqlDbType.VarChar);
             param.Direction = ParameterDirection.Input;
             param.Value = venta.Legajo;
+            cmd.Parameters.Add(param);
+
+            param = new SqlParameter("@estado", SqlDbType.VarChar);
+            param.Direction = ParameterDirection.Input;
+            param.Value = venta.Estado;
             cmd.Parameters.Add(param);
             #endregion 
 

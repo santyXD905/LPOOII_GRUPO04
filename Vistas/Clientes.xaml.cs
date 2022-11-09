@@ -156,23 +156,22 @@ namespace Vistas
                     option == 'n' ? "Alta Cliente" : "Modificacion Cliente",
                     MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-
                 if (result == MessageBoxResult.Yes)
                 {
-                    if (actual == null) actual = new Cliente();
-                    actual.Dni = Int32.Parse(txtDni.Text);
-                    actual.Nombre = txtNombre.Text;
-                    actual.Apellido = txtApellido.Text;
-                    actual.Direccion = txtDireccion.Text;
-
+                    Cliente cli = new Cliente();
+                    cli.Dni = Int32.Parse(txtDni.Text);
+                    cli.Nombre = txtNombre.Text;
+                    cli.Apellido = txtApellido.Text;
+                    cli.Direccion = txtDireccion.Text;
                     if (option == 'n')
                     {
-                        TrabajarCliente.GuardarCliente(actual);
-                        listaClientes.Add(actual);
+                        TrabajarCliente.GuardarCliente(cli);
+                        listaClientes.Add(cli);
+                        //foreach (Cliente x in listaClientes) MessageBox.Show(x.Dni.ToString());
                     }
                     else
                     {
-                        TrabajarCliente.ModificarCliente(actual);
+                        TrabajarCliente.ModificarCliente(cli);
                         listaClientes = TrabajarCliente.TraerClientes();
                         vistaFiltro.Source = listaClientes;
                     }
@@ -180,7 +179,6 @@ namespace Vistas
                     habilitarText(false);
                     habilitarGuarCanc(false);
                     habilitarABM(true);
-                    actual = null;
                     limpiar();
 
                 }
