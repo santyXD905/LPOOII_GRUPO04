@@ -228,12 +228,6 @@
                 <StackPanel Grid.Column="2"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
-                    <Button Content="Vista Previa" 
-                        Name="btnImprimir" 
-                        Style="{StaticResource VistaPrevia}" 
-                        Grid.Row="2"
-                        Click="btnImprimir_Click"
-                        ToolTip="Muestra un documento de la lista de clientes"/>
                     <Button Content="Seleccionar"
                             ToolTip="Selecciona un cliente para la venta"
                             x:Name="btnSeleccionar" 
@@ -328,6 +322,17 @@
                         <ListBoxItem Style="{StaticResource ExpanderListBoxItem}" Content="Direccion" />
                     </ListBox>
                 </Expander>
+                <StackPanel Grid.Column="2"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Margin="0,60,25,0">
+                    <Button Content="Vista Previa" 
+                        Name="btnImprimir" 
+                        Style="{StaticResource VistaPrevia}" 
+                        Grid.Row="2"
+                        Click="btnImprimir_Click"
+                        ToolTip="Muestra un documento de la lista de clientes"/>
+                </StackPanel>
             </Grid>
             
             <Button Grid.Row="5"
