@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Vistas.VistaPreviaVenta"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="VistaPreviaVenta" Height="636" Width="862"
+        Title="VistaPreviaVenta" Height="530" Width="860"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"

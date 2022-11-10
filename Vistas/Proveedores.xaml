@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:svc="clr-namespace:ClasesBase;assembly=ClasesBase"
         
-        Title="Proveedores" Height="630" Width="860"
+        Title="Proveedores" Height="530" Width="860"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
