@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Vistas.Ventas"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Ventas"  Width="860" Height="630"
+        Title="Ventas" Height="530" Width="860"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"

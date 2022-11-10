@@ -105,7 +105,7 @@ namespace Vistas
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            App.Current.Shutdown();
+            this.Close();
         }
     }
 }

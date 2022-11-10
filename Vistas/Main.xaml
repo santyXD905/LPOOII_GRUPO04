@@ -187,9 +187,9 @@
                           FontSize="12"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
-                          Margin="5" FontStretch="SemiExpanded" 
-                          FontWeight="Normal" 
-                          FontStyle="Normal" Click="AboutItem_Click"
+                          Margin="5"
+                          FontStretch="SemiExpanded"
+                          Click="AboutItem_Click"
                           ToolTip="Abrir ventana de acerca de">
                 </MenuItem>
             </Menu>
