@@ -41,7 +41,7 @@
                 <RowDefinition Height="40"/><!--1-->
                 <RowDefinition Height="200"/><!--2-->
                 <RowDefinition Height="40"/><!--3-->
-                <RowDefinition Height="280" /><!--4-->
+                <RowDefinition Height="150" /><!--4-->
                 <RowDefinition Height="40" /><!--5-->
             </Grid.RowDefinitions>
             <Grid>
@@ -163,7 +163,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="300"/>
                     <ColumnDefinition Width="300"/>
-                    <ColumnDefinition Width="260" />
+                    <ColumnDefinition Width="230" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0"
                             VerticalAlignment="Center"
@@ -235,7 +235,7 @@
                     <TextBox x:Name="txtCantidad"
                              Style="{StaticResource TextBoxError}"
                              HorizontalAlignment="Left"
-                             DataContext="{StaticResource VENTA_VALIDACION}">
+                             DataContext="{StaticResource VENTA_VALIDACION}" PreviewTextInput="txtCantidad_PreviewTextInput">
                         <TextBox.Text>
                             <Binding Path="Cantidad" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True">
                                 <Binding.ValidationRules>

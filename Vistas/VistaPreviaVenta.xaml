@@ -10,18 +10,19 @@
         xmlns:svc="clr-namespace:ClasesBase;assembly=ClasesBase" Loaded="Window_Loaded"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         >
-    <Border CornerRadius="10" BorderThickness="0" Height="565">
+    <Border CornerRadius="10" BorderThickness="0">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
                 <GradientStop Color="#17141F" Offset="0"></GradientStop>
                 <GradientStop Color="#171531" Offset="0.55"></GradientStop>
             </LinearGradientBrush>
         </Border.Background>
-        <Grid Height="563" Width="844">
+        <Grid>
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
-                <RowDefinition Height="507"/>
+                <RowDefinition Height="480"/>
+                <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
 
             <Grid>
@@ -55,12 +56,12 @@
                 </Button>
             </Grid>
 
-            <Button Grid.Row="1">
+            <Button Grid.Row="1" Margin="10,0">
                 <!-- -->
-                <FixedDocument Grid.Row="1">
+                <FixedDocument>
                     <PageContent>
-                        <FixedPage> 
-                            <Grid Background="White" Width="506" Height="501" Grid.Row="1">
+                        <FixedPage>
+                            <Grid Width="506" Height="501" Grid.Row="1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="491*" />
                                     <RowDefinition Height="10*" />
@@ -68,7 +69,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="248"/>
                                     <ColumnDefinition Width="248"/>
-                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="4*" />
                                 </Grid.ColumnDefinitions>
                                 <Canvas Grid.RowSpan="2">
                                     <Label Name="lblCompany" Content="Company" FontFamily="Eras ITC" FontSize="18" Canvas.Left="10" Canvas.Top="6"></Label>
@@ -77,10 +78,12 @@
                                     <Label Name="lblCuit" Content="CUIT" Canvas.Left="139" Canvas.Top="61"></Label>
                                     <Label Name="lblCiudad" Content="Ciudad" Canvas.Left="14" Canvas.Top="93"></Label>
                                     <Label Name="lblIBB" Content="IIBB" Canvas.Left="144" Canvas.Top="93"></Label>
+
                                     <Label Content="CLIENTE" Canvas.Left="95" Canvas.Top="160" FontFamily="Eras ITC" FontSize="16"></Label>
                                     <Label Name="lblDni" Content="DNI" Canvas.Left="21" Canvas.Top="261"></Label>
                                     <Label Name="lblApellido" Content="Apellido" Canvas.Left="21" Canvas.Top="229"></Label>
                                     <Label Name="lblNombre" Content="Nombre" Canvas.Left="21" Canvas.Top="197"></Label>
+
                                     <Label Content="VENDEDOR" Canvas.Left="95" Canvas.Top="300" FontFamily="Eras ITC" FontSize="16" ></Label>
                                     <Label Name="lblVendedor" Content="Vendedor" Canvas.Left="21" Canvas.Top="354"></Label>
                                 </Canvas>
@@ -89,19 +92,25 @@
                                     <Label Name="lblNroVenta" Content="Numero" Canvas.Left="14" Canvas.Top="61"></Label>
                                     <Label Name="lblFecha" Content="Fecha y Hora" Canvas.Left="14" Canvas.Top="93"></Label>
                                     <Label Name="lblEstado" Content="Estado" Canvas.Left="14" Canvas.Top="125"></Label>
+
                                     <Label Content="PRODUCTO" Canvas.Left="89" Canvas.Top="147" FontFamily="Eras ITC" FontSize="16" ></Label>
                                     <Label Name="lblDesc" Content="Descripcion" Canvas.Left="14" Canvas.Top="293"></Label>
                                     <Label Name="lblPrecio" Content="Precio" Canvas.Left="14" Canvas.Top="197"></Label>
                                     <Label Name="lblCant" Content="Cantidad" Canvas.Left="14" Canvas.Top="229"></Label>
                                     <Label Name="lblColor" Content="Color" Canvas.Left="14" Canvas.Top="261"></Label>
+
+
                                     <Label Name="lblTotal" Content="TOTAL" Canvas.Left="9" Canvas.Top="354" FontFamily="Eras ITC" FontSize="16" ></Label>
                                 </Canvas>
                             </Grid>
-                <!-- -->
-                </FixedPage>
-                </PageContent>
+
+                            <!-- -->
+                        </FixedPage>
+                    </PageContent>
                 </FixedDocument>
             </Button>
         </Grid>
+
+
     </Border>
 </Window>

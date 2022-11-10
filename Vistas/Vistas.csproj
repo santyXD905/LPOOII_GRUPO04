@@ -207,6 +207,9 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Media\ElevatorPeach.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Media\intro.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

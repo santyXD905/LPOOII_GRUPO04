@@ -13,6 +13,8 @@ using System.Windows.Shapes;
 using ClasesBase;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
+
 namespace Vistas
 {
     /// <summary>
@@ -110,7 +112,7 @@ namespace Vistas
                     habilitarABM(true);
                     habilitarForm(false);
                     habilitarGuarCanc(false);
-                    abrirVistaPrevia();
+                    abrirVistaPrevia(venta);
                     limpiar();
                 }
 
@@ -375,11 +377,11 @@ namespace Vistas
 
 
         #region Impresion y vista previa
-        private void abrirVistaPrevia()
+        private void abrirVistaPrevia(Venta venta)
         {
             VistaPreviaVenta ventana = new VistaPreviaVenta();
             ventana.Owner = this;
-            ventana.venta = actual;
+            ventana.venta = venta;
             ventana.Show();
         }
         private void listVentas_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -397,7 +399,7 @@ namespace Vistas
         }
         private void btnVistaPrevia_Click(object sender, RoutedEventArgs e)
         {
-            abrirVistaPrevia();
+            abrirVistaPrevia(actual);
         }
         #endregion
 
@@ -438,6 +440,12 @@ namespace Vistas
             }
         }
         #endregion
+
+        private void txtCantidad_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
 
 
 
