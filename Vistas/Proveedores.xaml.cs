@@ -138,17 +138,16 @@ namespace Vistas
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    actual = new Proveedor(txtCuit.Text, txtRazon.Text, txtDomicilio.Text, txtTelefono.Text);
+                    Proveedor prov = new Proveedor(txtCuit.Text, txtRazon.Text, txtDomicilio.Text, txtTelefono.Text);
                     if (option == 'n')
                     {
 
-                        TrabajarProveedor.GuardarProveedor(actual);
-                        listaProveedores.Add(actual);
+                        TrabajarProveedor.GuardarProveedor(prov);
+                        listaProveedores.Add(prov);
                     }
                     else
                     {
-                        MessageBox.Show(txtRazon.Text);
-                        TrabajarProveedor.ModificarProveedor(actual);
+                        TrabajarProveedor.ModificarProveedor(prov);
                         //actualizamos la UI
                         listaProveedores = TrabajarProveedor.TraerProveedores();
                         vistaFiltro.Source = listaProveedores;
@@ -157,7 +156,6 @@ namespace Vistas
                     habilitarText(false);
                     habilitarGuarCanc(false);
                     habilitarABM(true);
-                    actual = null;
                     limpiar();
 
                 }

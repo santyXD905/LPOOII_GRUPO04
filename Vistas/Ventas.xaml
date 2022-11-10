@@ -332,6 +332,7 @@
                           ItemsSource="{Binding Source={StaticResource ResourceKey=VISTA_VENTAS}}"
                           SelectionChanged="listVentas_SelectionChanged"
                           Style="{StaticResource listView}">
+
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="40"
@@ -369,20 +370,20 @@
                             <GridViewColumn Width="120" 
                                             HeaderContainerStyle="{StaticResource ColumnHeader}"
                                             Header="Estado" >
-                                
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
+
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
                                         <TextBlock Text="{Binding Estado}" FontFamily="Montserrat" FontWeight="Medium" Width="110" Padding="2" Background="{Binding Estado, Converter={StaticResource textToBrush}}"></TextBlock>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                                
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+
                             </GridViewColumn>
                         </GridView>
                         
 
+
                     </ListView.View>
                     
-
                 </ListView>
             </WrapPanel>
             

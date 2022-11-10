@@ -158,16 +158,16 @@ namespace Vistas
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    actual = new Vendedor(txtLegajo.Text, txtApellido.Text, txtNombre.Text);
+                    Vendedor vend = new Vendedor(txtLegajo.Text, txtApellido.Text, txtNombre.Text);
 
                     if (option == 'n')
                     {
-                        TrabajarVendedor.AgregarVendedor(actual);
-                        listaVendedores.Add(actual);
+                        TrabajarVendedor.AgregarVendedor(vend);
+                        listaVendedores.Add(vend);
                     }
                     else
                     {
-                        TrabajarVendedor.ModificarVendedor(actual);
+                        TrabajarVendedor.ModificarVendedor(vend);
                         listaVendedores = TrabajarVendedor.TraerVendedores();
                         vistaFiltro.Source = listaVendedores;
                     }
@@ -175,7 +175,6 @@ namespace Vistas
                     habilitarText(false);
                     habilitarGuarCanc(false);
                     habilitarABM(true);
-                    actual = null;
                     limpiar();
 
                 }

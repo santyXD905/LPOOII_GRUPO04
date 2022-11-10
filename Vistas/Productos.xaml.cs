@@ -162,16 +162,16 @@ namespace Vistas
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    actual = new Producto(txtCodigo.Text, txtCategoria.Text, txtColor.Text, txtDescripcion.Text, Convert.ToDecimal(txtPrecio.Text), imgDynamic.Source.ToString());
+                    Producto prod = new Producto(txtCodigo.Text, txtCategoria.Text, txtColor.Text, txtDescripcion.Text, Convert.ToDecimal(txtPrecio.Text), imgDynamic.Source.ToString());
                     //se realiza la accion y se actualiza las vistas
                     if (option == 'n')
                     {
-                        TrabajarProducto.AgregarProducto(actual);
-                        listaProductos.Add(actual);
+                        TrabajarProducto.AgregarProducto(prod);
+                        listaProductos.Add(prod);
                     }
                     else
                     {
-                        TrabajarProducto.ModificarProducto(actual);
+                        TrabajarProducto.ModificarProducto(prod);
                         listaProductos = TrabajarProducto.TraerProductos();
                         vistaFiltro.Source = listaProductos;
                     }
@@ -179,7 +179,6 @@ namespace Vistas
                     habilitarText(false);
                     habilitarGuarCanc(false);
                     habilitarABM(true);
-                    actual = null;
                     limpiar();
 
                 }
