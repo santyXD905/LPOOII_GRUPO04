@@ -26,9 +26,8 @@ namespace Vistas.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Users\\Samas\\Desktop\\New folder (2)\\" +
-            "LPOOII_GRUPO04\\DB\\muebleria.mdf\";Integrated Security=True;Connect Timeout=30;Use" +
-            "r Instance=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=C:\\LPOOII_GRUPO11\\muebleria.mdf;Integra" +
+            "ted Security=True;Connect Timeout=30;User Instance=True")]
         public string Setting {
             get {
                 return ((string)(this["Setting"]));
