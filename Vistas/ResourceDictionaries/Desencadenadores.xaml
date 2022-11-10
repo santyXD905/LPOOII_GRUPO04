@@ -3,6 +3,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Estilos.xaml"/>
+        <ResourceDictionary Source="Plantillas.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 
@@ -37,6 +38,14 @@
                 <Setter Property="Height" Value="28"/>
                 <Setter Property="Padding" Value="5,0,5,0"/>
                 <Setter Property="FontWeight" Value="Bold"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerWarningButton" BasedOn="{StaticResource EstiloWariningButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#ffc107"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -89,7 +98,18 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
+    <!-- Input Form -->
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerSelectButton" BasedOn="{StaticResource EstiloSelectButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#278BEF"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <!-- TextBox Error -->
     
     <Style TargetType="{x:Type TextBox}" x:Key="TriggerTextBoxError" BasedOn="{StaticResource EstiloTextBoxError}">
@@ -105,4 +125,70 @@
         </Style.Triggers>
     </Style>
     
+    <!-- About -->
+    <Style TargetType="{x:Type Button}" x:Key="TriggerPlayButton" BasedOn="{StaticResource EstiloPlayButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Width" Value="50"/>
+                <Setter Property="Height" Value="50"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerStopButton" BasedOn="{StaticResource EstiloStopButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Width" Value="50"/>
+                <Setter Property="Height" Value="50"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerBackButton" BasedOn="{StaticResource EstiloBackButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Width" Value="50"/>
+                <Setter Property="Height" Value="50"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerFowardButton" BasedOn="{StaticResource EstiloFowardButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Width" Value="50"/>
+                <Setter Property="Height" Value="50"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerVolumeLessButton" BasedOn="{StaticResource EstiloVolumeLessButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Width" Value="50"/>
+                <Setter Property="Height" Value="50"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="TriggerVolumePlusButton" BasedOn="{StaticResource EstiloVolumePlusButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Width" Value="50"/>
+                <Setter Property="Height" Value="50"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!-- About -->
+    <Style TargetType="{x:Type Button}" x:Key="TriggerPrintButton" BasedOn="{StaticResource EstiloPrintButton}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#044CD0"/>
+                <Setter Property="FontWeight" Value="Medium"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

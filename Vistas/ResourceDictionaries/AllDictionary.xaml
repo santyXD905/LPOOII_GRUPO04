@@ -20,6 +20,10 @@
         <Setter Property="Template" Value="{StaticResource PlantillaBtnSuccess}"/>
     </Style>
 
+    <Style TargetType="{x:Type Button}" x:Key="WarningButton" BasedOn="{StaticResource TriggerWarningButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaBtnWarning}"/>
+    </Style>
+
     <Style TargetType="{x:Type Button}" x:Key="ButtonSalir" BasedOn="{StaticResource TriggerButtonSalir}">
         <Setter Property="Template" Value="{StaticResource PlantillaButtonSalir}"/>
     </Style>
@@ -38,9 +42,46 @@
     <!-- Input Form -->
 
     <Style TargetType="{x:Type TextBox}" x:Key="InputForm" BasedOn="{StaticResource EstiloInputForm}"/>
-    
+
     <Style TargetType="{x:Type Label}" x:Key="LabelForm" BasedOn="{StaticResource EstiloLabelForm}"/>
 
+    <Style TargetType="{x:Type TextBox}" x:Key="SearchInputForm" BasedOn="{StaticResource EstiloSearchInputForm}"/>
+
+    <Style TargetType="{x:Type Label}" x:Key="SearchLabelForm" BasedOn="{StaticResource EstiloSearchLabelForm}"/>
+
+    <Style TargetType="{x:Type ComboBox}" x:Key="CmbForm" BasedOn="{StaticResource EstiloCmbForm}">
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="VistaPrevia" BasedOn="{StaticResource TriggerWarningButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaBtnWarning}"></Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="SelectButton"  BasedOn="{StaticResource TriggerSelectButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaBtnPrimary}"/>
+    </Style>
+    
+    <!-- List View -->
+    
+    <Style TargetType="{x:Type ListView}" x:Key="listView" BasedOn="{StaticResource EstiloListView}"/>
+    
+    <Style TargetType="{x:Type GridViewColumnHeader}" x:Key="ColumnHeader">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontFamily" Value="Montserrat"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0,0,0,0"/>
+        <Setter Property="Margin" Value="0"/>
+    </Style>
+    
+    
+    <!-- Expander -->
+    <Style TargetType="{x:Type Expander}" x:Key="Expander" BasedOn="{StaticResource EstiloExpander}"/>
+    
+    <Style TargetType="{x:Type ListBox}" x:Key="ExpanderListBox" BasedOn="{StaticResource EstiloExpanderListBox}"/>
+    
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="ExpanderListBoxItem" BasedOn="{StaticResource EstiloExpanderListBoxItem}"/>
     
     <!-- Login Form -->
 
@@ -64,6 +105,35 @@
     
     <Style TargetType="{x:Type TextBox}" x:Key="TextBoxError" BasedOn="{StaticResource TriggerTextBoxError}">
         <Setter Property="Validation.ErrorTemplate" Value="{StaticResource PlantillaTextBoxError}"/>
-    </Style>    
+    </Style>
     
+    <!-- About -->
+    <Style TargetType="{x:Type Button}" x:Key="PlayButton" BasedOn="{StaticResource TriggerPlayButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaButtonMedia}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="StopButton" BasedOn="{StaticResource TriggerStopButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaButtonMedia}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="BackButton" BasedOn="{StaticResource TriggerBackButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaButtonMedia}"/>
+    </Style>
+    <Style TargetType="{x:Type Button}" x:Key="FowardButton" BasedOn="{StaticResource TriggerFowardButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaButtonMedia}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="VolumeLessButton" BasedOn="{StaticResource TriggerVolumeLessButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaButtonMedia}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="VolumePlusButton" BasedOn="{StaticResource TriggerVolumePlusButton}">
+        <Setter Property="Template" Value="{StaticResource PlantillaButtonMedia}"/>
+    </Style>
+    
+    <!-- Block UI Container-->
+    <Style TargetType="{x:Type Button}" x:Key="PrintButton" BasedOn="{StaticResource TriggerPrintButton}"></Style>
+    <Style TargetType="{x:Type BlockUIContainer}" x:Key="BlockUIContainer">
+    </Style>
+
 </ResourceDictionary>
