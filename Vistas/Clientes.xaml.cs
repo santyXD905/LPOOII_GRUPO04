@@ -59,7 +59,7 @@ namespace Vistas
             if (mode.Equals("venta"))
             {
                 btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
-                btnSeleccionar.IsEnabled = true;
+                btnSeleccionar.IsEnabled = listaClientes.Count > 0;
             }
             else {
                 btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;

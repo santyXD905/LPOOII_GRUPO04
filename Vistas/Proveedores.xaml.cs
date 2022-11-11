@@ -104,6 +104,7 @@ namespace Vistas
                 {
                     TrabajarProveedor.EliminarProveedor(txtCuit.Text.ToString());
                     listaProveedores.Remove(actual);
+                    if (listaProveedores.Count == 0) limpiar();
                 }
             }
             else MessageBox.Show("Seleccione un Proveedor primero");

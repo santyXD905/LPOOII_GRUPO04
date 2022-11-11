@@ -52,13 +52,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_66DFC0B17CFBEB6ECD128D3374B02FDB"
+        "OwnerKey" = "8:_71211E768F3A4E33ABDA46BB9DF8CCD7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_71211E768F3A4E33ABDA46BB9DF8CCD7"
+        "OwnerKey" = "8:_66DFC0B17CFBEB6ECD128D3374B02FDB"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -79,6 +79,27 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -95,6 +116,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -301,9 +330,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:InstaladorSGI"
+        "ProductName" = "8:Sistema Gestion Muebleria"
         "ProductCode" = "8:{55BB25CA-2C6A-4135-B535-D8C69D2CABA2}"
-        "PackageCode" = "8:{35472515-FABC-4860-8A52-7A5726DD43D4}"
+        "PackageCode" = "8:{3116AA26-4E24-4F5A-892A-0ADB7AB2A108}"
         "UpgradeCode" = "8:{4ACF2DC5-54DA-41EF-A0FD-68D3123FD99D}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"

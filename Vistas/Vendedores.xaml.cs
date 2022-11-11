@@ -70,13 +70,13 @@ namespace Vistas
             if (mode.Equals("venta"))
             {
                 btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
-                btnSeleccionar.IsEnabled = false;
+                btnSeleccionar.IsEnabled = listaVendedores.Count > 0;
             }
             else
             {
                 btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;
             }
-            limpiar();
+            //limpiar();
         }
 
         #endregion
@@ -125,6 +125,7 @@ namespace Vistas
                 {
                     TrabajarVendedor.EliminarVendedor(actual.Legajo);
                     listaVendedores.Remove(actual);
+                    if(listaVendedores.Count == 0) limpiar();
                 }
             }
             else MessageBox.Show("Seleccione un Vendedor primero");

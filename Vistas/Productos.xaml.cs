@@ -68,13 +68,13 @@ namespace Vistas
             if (mode.Equals("venta"))
             {
                 btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
-                btnSeleccionar.IsEnabled = false;
+                btnSeleccionar.IsEnabled = listaProductos.Count > 0;
             }
             else
             {
                 btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;
             }
-            limpiar();
+            //limpiar();
         }
 
 
@@ -126,6 +126,7 @@ namespace Vistas
                 {
                    TrabajarProducto.EliminarProducto(actual.CodProducto);
                     listaProductos.Remove(actual);
+                    if(listaProductos.Count == 0) limpiar();
                 }
             }
             else MessageBox.Show("Seleccione un Producto primero");
