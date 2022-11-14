@@ -113,9 +113,9 @@ namespace ClasesBase
             param.Direction = ParameterDirection.Input;
             cmd.Parameters.Add(param);
 
-            param = new SqlParameter("@precio", SqlDbType.Decimal, 16)
+            param = new SqlParameter("@precio", SqlDbType.Decimal, 18)
             {
-                Precision = 16,
+                Precision = 18,
                 Scale = 2
             };
             param.Value = producto.Precio;

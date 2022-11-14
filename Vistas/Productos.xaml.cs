@@ -16,7 +16,7 @@ using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Data;
 using Microsoft.Win32;
-
+using System.Text.RegularExpressions;
 namespace Vistas
 {
     /// <summary>
@@ -163,6 +163,7 @@ namespace Vistas
 
                 if (result == MessageBoxResult.Yes)
                 {
+                    
                     Producto prod = new Producto(txtCodigo.Text, txtCategoria.Text, txtColor.Text, txtDescripcion.Text, Convert.ToDecimal(txtPrecio.Text), imgDynamic.Source.ToString());
                     //se realiza la accion y se actualiza las vistas
                     if (option == 'n')
@@ -426,6 +427,14 @@ namespace Vistas
                 imgDynamic.Source = new ImageSourceConverter().ConvertFromString(pathImg) as ImageSource;
                 txtImagen.Text = imgDynamic.Source.ToString();
             }
+        }
+
+        private void txtPrecio_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            
+            
+            Regex reg = new Regex("[^0-9,-]+");
+            e.Handled = reg.IsMatch(e.Text);
         }
         
        

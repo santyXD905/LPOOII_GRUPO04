@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls;
-
+using System.Diagnostics;
 namespace ClasesBase
 {
     public class ReglaPrecio: ValidationRule
@@ -22,7 +22,8 @@ namespace ClasesBase
             {
                 result = new ValidationResult(false, "El precio es obligatorio");
             }
-            else if (!Decimal.TryParse(value.ToString(),out number)){
+            else if (!Decimal.TryParse(value.ToString(), out number))
+            {
                 result = new ValidationResult(false, "Debe ser un decimal");
             }
             return result;

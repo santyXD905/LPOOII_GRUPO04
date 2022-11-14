@@ -15,7 +15,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Data;
-
+using System.Text.RegularExpressions;
 namespace Vistas
 {
     /// <summary>
@@ -414,6 +414,12 @@ namespace Vistas
             padre.cliente = actual;
             
             this.Close();
+        }
+
+        private void txtDni_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
 
         

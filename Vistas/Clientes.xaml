@@ -186,7 +186,7 @@
                             HorizontalAlignment="Left">
                     <TextBox x:Name="txtDni"
                              Style="{StaticResource TextBoxError}" 
-                             DataContext="{StaticResource CLIENTE_VALIDACION}">
+                             DataContext="{StaticResource CLIENTE_VALIDACION}" PreviewTextInput="txtDni_PreviewTextInput">
                         <TextBox.Text>
                             <Binding Path="Dni"
                                      UpdateSourceTrigger="PropertyChanged" 

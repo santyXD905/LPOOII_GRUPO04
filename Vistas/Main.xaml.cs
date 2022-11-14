@@ -36,6 +36,7 @@ namespace Vistas
         }
         public void validar()
         {
+            Application.Current.Properties.Add("user", logged);
            if (logged != null && logged.Rol == "vendedor")
                VendedorItem.Visibility = Visibility.Collapsed;
         }
