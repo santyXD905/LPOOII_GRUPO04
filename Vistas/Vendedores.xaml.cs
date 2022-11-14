@@ -69,14 +69,17 @@ namespace Vistas
 
             if (mode.Equals("venta"))
             {
+                Usuario logged = Application.Current.Properties["user"] as Usuario;
+                if (logged.Rol == "vendedor") btnNuevo.IsEnabled = btnModificar.IsEnabled = btnEliminar.IsEnabled = false;
+
                 btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
-                btnSeleccionar.IsEnabled = false;
+                btnSeleccionar.IsEnabled = listaVendedores.Count > 0;
             }
             else
             {
                 btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;
             }
-            limpiar();
+            //limpiar();
         }
 
         #endregion
@@ -125,6 +128,7 @@ namespace Vistas
                 {
                     TrabajarVendedor.EliminarVendedor(actual.Legajo);
                     listaVendedores.Remove(actual);
+                    if(listaVendedores.Count == 0) limpiar();
                 }
             }
             else MessageBox.Show("Seleccione un Vendedor primero");
@@ -288,10 +292,13 @@ namespace Vistas
 
         public void setTextBoxes(Vendedor v1)
         {
-            txtLegajo.Text = v1.Legajo;
-            txtNombre.Text = v1.Nombre;
-            txtApellido.Text = v1.Apellido;
-            actual = v1;
+            if (v1 != null)
+            {
+                txtLegajo.Text = v1.Legajo;
+                txtNombre.Text = v1.Nombre;
+                txtApellido.Text = v1.Apellido;
+                actual = v1;
+            }
         }
 
         public void limpiar()

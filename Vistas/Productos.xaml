@@ -24,7 +24,6 @@
             Source="{StaticResource ResourceKey=LISTA_PRODUCTOS}"
             Filter="filtroEventHandler"
         ></CollectionViewSource>
-
     </Window.Resources>
     <Border CornerRadius="10" BorderThickness="0">
         <Border.Background>
@@ -228,9 +227,9 @@
                                 <Binding Path="Descripcion" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" />
                             </TextBox.Text>
                         </TextBox>
-                        <TextBox x:Name="txtPrecio" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}">
+                        <TextBox x:Name="txtPrecio" Style="{StaticResource TextBoxError}" DataContext="{StaticResource PRODUCTO_VALIDACION}" PreviewTextInput="txtPrecio_PreviewTextInput">
                             <TextBox.Text>
-                                <Binding Path="Precio" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True">
+                                <Binding Path="Precio" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" StringFormat="{}{0:#,0.0}}" >
                                     <Binding.ValidationRules>
                                         <svc:ReglaPrecio />
                                     </Binding.ValidationRules>

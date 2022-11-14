@@ -49,6 +49,7 @@
     <Compile Include="Cliente.cs" />
     <Compile Include="ConversorDni.cs" />
     <Compile Include="ConversorEstados.cs" />
+    <Compile Include="ConversorPrecio.cs" />
     <Compile Include="Producto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

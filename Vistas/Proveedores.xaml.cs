@@ -15,7 +15,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Data;
-
+using System.Text.RegularExpressions;
 namespace Vistas
 {
     /// <summary>
@@ -104,6 +104,7 @@ namespace Vistas
                 {
                     TrabajarProveedor.EliminarProveedor(txtCuit.Text.ToString());
                     listaProveedores.Remove(actual);
+                    if (listaProveedores.Count == 0) limpiar();
                 }
             }
             else MessageBox.Show("Seleccione un Proveedor primero");
@@ -336,6 +337,12 @@ namespace Vistas
             }
 
             return true;
+        }
+
+        private void txtCuit_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

@@ -186,7 +186,7 @@
                 <StackPanel Name="stpPadre">
                     <TextBox x:Name="txtCuit"
                              Style="{StaticResource TextBoxError}" 
-                             DataContext="{StaticResource PROVEEDOR_VALIDACION}">
+                             DataContext="{StaticResource PROVEEDOR_VALIDACION}" PreviewTextInput="txtCuit_PreviewTextInput">
                         <TextBox.Text>
                             <Binding Path="CUIT"
                                      UpdateSourceTrigger="PropertyChanged" 

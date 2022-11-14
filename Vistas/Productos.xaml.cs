@@ -16,7 +16,7 @@ using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Data;
 using Microsoft.Win32;
-
+using System.Text.RegularExpressions;
 namespace Vistas
 {
     /// <summary>
@@ -68,13 +68,13 @@ namespace Vistas
             if (mode.Equals("venta"))
             {
                 btnSeleccionar.Visibility = System.Windows.Visibility.Visible;
-                btnSeleccionar.IsEnabled = false;
+                btnSeleccionar.IsEnabled = listaProductos.Count > 0;
             }
             else
             {
                 btnSeleccionar.Visibility = System.Windows.Visibility.Hidden;
             }
-            limpiar();
+            //limpiar();
         }
 
 
@@ -126,6 +126,7 @@ namespace Vistas
                 {
                    TrabajarProducto.EliminarProducto(actual.CodProducto);
                     listaProductos.Remove(actual);
+                    if(listaProductos.Count == 0) limpiar();
                 }
             }
             else MessageBox.Show("Seleccione un Producto primero");
@@ -162,6 +163,7 @@ namespace Vistas
 
                 if (result == MessageBoxResult.Yes)
                 {
+                    
                     Producto prod = new Producto(txtCodigo.Text, txtCategoria.Text, txtColor.Text, txtDescripcion.Text, Convert.ToDecimal(txtPrecio.Text), imgDynamic.Source.ToString());
                     //se realiza la accion y se actualiza las vistas
                     if (option == 'n')
@@ -425,6 +427,14 @@ namespace Vistas
                 imgDynamic.Source = new ImageSourceConverter().ConvertFromString(pathImg) as ImageSource;
                 txtImagen.Text = imgDynamic.Source.ToString();
             }
+        }
+
+        private void txtPrecio_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            
+            
+            Regex reg = new Regex("[^0-9,-]+");
+            e.Handled = reg.IsMatch(e.Text);
         }
         
        

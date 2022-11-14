@@ -344,7 +344,7 @@ namespace Vistas
             vendedor = null;
 
             txtCantidad.Text = string.Empty;
-            datePicker1.SelectedDate = null;
+            datePicker1.SelectedDate = DateTime.Now;
             btnSelCliente.Content = "Seleccionar";
             btnSelProd.Content = "Seleccionar";
             btnSelVendedor.Content = "Seleccionar";
@@ -352,7 +352,8 @@ namespace Vistas
             txtProd.Text = "No seleccionado";
             txtVendedor.Text = "No seleccionado";
 
-           
+            btnSelCliente.Background = btnSelProd.Background = btnSelVendedor.Background = Brushes.Transparent;
+            btnSelCliente.Foreground = btnSelProd.Foreground = btnSelVendedor.Foreground = Brushes.White;
 
         }
 
